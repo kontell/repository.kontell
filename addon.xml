@@ -9,9 +9,9 @@
   <extension point="xbmc.addon.repository"
              name="Kontell Repository">
     <dir>
-      <info compressed="false">https://kontell.github.io/repository.kontell/%OS%/addons.xml</info>
-      <checksum>https://kontell.github.io/repository.kontell/%OS%/addons.xml.md5</checksum>
-      <datadir zip="true">https://kontell.github.io/repository.kontell/%OS%</datadir>
+      <info compressed="false">https://kontell.github.io/repository.kontell/addons.xml</info>
+      <checksum>https://kontell.github.io/repository.kontell/addons.xml.md5</checksum>
+      <datadir zip="true">https://kontell.github.io/repository.kontell</datadir>
     </dir>
   </extension>
   <extension point="xbmc.addon.metadata">

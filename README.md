@@ -20,6 +20,25 @@ The repository provides the correct build for your platform automatically.
 | Android ARM32 | Kodi 22 (Piers) |
 | Android ARM64 | Kodi 22 (Piers) |
 
+## How it works
+
+A single `addons.xml` contains one entry per platform, each with a `<platform>` tag. Kodi filters entries automatically based on the current platform and only shows compatible builds.
+
+Addon zips are stored in `addon+platform` directories following the Kodi convention:
+```
+pvr.kofin+linux-x86_64/pvr.kofin-0.2.1.zip
+pvr.kofin+android-armv7/pvr.kofin-0.2.1.zip
+pvr.kofin+android-aarch64/pvr.kofin-0.2.1.zip
+```
+
 ## Updating
 
 Once the repository is installed, Kodi will check for updates automatically. New versions of Kofin PVR will appear as available updates in the addon browser.
+
+## Regenerating
+
+After adding or updating addon zips, run:
+```bash
+python3 generate_repo.py
+```
+This regenerates `addons.xml`, `addons.xml.md5`, and `repository.kontell-1.0.0.zip`.
