@@ -3,14 +3,22 @@
 Generate addons.xml and addons.xml.md5 for the Kontell repository.
 Also creates the repository addon zip.
 
-Directory layout uses the Kodi convention of addon+platform directories:
-  pvr.kofin+linux-x86_64/pvr.kofin-0.2.1.zip
-  pvr.kofin+android-armv7/pvr.kofin-0.2.1.zip
-  pvr.kofin+android-aarch64/pvr.kofin-0.2.1.zip
+Directory layout:
+  omega/                           (Kodi 21)
+    pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
+    pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
+    ...
+    addons.xml
+    addons.xml.md5
+  piers/                           (Kodi 22)
+    pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
+    ...
+    addons.xml
+    addons.xml.md5
 
-A single addons.xml at the root contains one <addon> entry per platform,
-each with a <platform> tag and <path> element. Kodi filters by platform
-automatically.
+Each version directory gets its own addons.xml with per-platform entries.
+The repository addon.xml uses <dir> elements with minversion/maxversion
+to route each Kodi version to the correct addons.xml.
 
 Usage: python3 generate_repo.py
 Run from the repository root directory.
@@ -22,15 +30,7 @@ import re
 import zipfile
 
 REPO_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-def find_addon_dirs():
-    """Find all addon+platform directories."""
-    dirs = []
-    for name in sorted(os.listdir(REPO_DIR)):
-        if "+" in name and os.path.isdir(os.path.join(REPO_DIR, name)):
-            dirs.append(name)
-    return dirs
+VERSION_DIRS = ["omega", "piers"]
 
 
 def get_addon_xml_from_zip(zip_path, platform_dir_name):
@@ -47,8 +47,10 @@ def get_addon_xml_from_zip(zip_path, platform_dir_name):
                     zip_filename = os.path.basename(zip_path)
                     path_element = f"<path>{platform_dir_name}/{zip_filename}</path>"
                     if "<path>" not in xml:
-                        xml = xml.replace("</extension>\n</addon>", f"    {path_element}\n  </extension>\n</addon>")
-                        # Try alternate formatting
+                        xml = xml.replace(
+                            "</extension>\n</addon>",
+                            f"    {path_element}\n  </extension>\n</addon>",
+                        )
                         if path_element not in xml:
                             xml = re.sub(
                                 r'(</assets>\s*)',
@@ -62,31 +64,37 @@ def get_addon_xml_from_zip(zip_path, platform_dir_name):
     return None
 
 
-def generate_addons_xml():
-    """Generate a single addons.xml with all platform entries."""
-    addon_dirs = find_addon_dirs()
+def generate_addons_xml(version_dir):
+    """Generate addons.xml for a version directory (omega or piers)."""
+    base_dir = os.path.join(REPO_DIR, version_dir)
+    if not os.path.isdir(base_dir):
+        return
+
+    addon_dirs = sorted(
+        name for name in os.listdir(base_dir)
+        if "+" in name and os.path.isdir(os.path.join(base_dir, name))
+    )
+
     if not addon_dirs:
-        print("  No addon+platform directories found")
+        print(f"  {version_dir}: no addon+platform directories found")
         return
 
     addon_xmls = []
     for dir_name in addon_dirs:
-        dir_path = os.path.join(REPO_DIR, dir_name)
+        dir_path = os.path.join(base_dir, dir_name)
         zips = sorted(
             [f for f in os.listdir(dir_path) if f.endswith(".zip")],
             reverse=True,
         )
         if not zips:
-            print(f"  Skipping {dir_name} (no zips)")
             continue
 
         xml = get_addon_xml_from_zip(os.path.join(dir_path, zips[0]), dir_name)
         if xml:
             addon_xmls.append(xml)
-            print(f"  {dir_name}: {zips[0]}")
 
     if not addon_xmls:
-        print("  No addon entries found")
+        print(f"  {version_dir}: no addon entries found")
         return
 
     content = '<?xml version="1.0" encoding="UTF-8"?>\n<addons>\n'
@@ -94,7 +102,7 @@ def generate_addons_xml():
         content += xml + "\n"
     content += "</addons>\n"
 
-    xml_path = os.path.join(REPO_DIR, "addons.xml")
+    xml_path = os.path.join(base_dir, "addons.xml")
     with open(xml_path, "w") as f:
         f.write(content)
 
@@ -102,7 +110,7 @@ def generate_addons_xml():
     with open(xml_path + ".md5", "w") as f:
         f.write(md5)
 
-    print(f"  addons.xml: {len(addon_xmls)} entry/entries, md5={md5}")
+    print(f"  {version_dir}: {len(addon_xmls)} entry/entries, md5={md5}")
 
 
 def generate_repo_zip():
@@ -112,15 +120,23 @@ def generate_repo_zip():
         print("  Warning: addon.xml not found, skipping repo zip")
         return
 
-    zip_path = os.path.join(REPO_DIR, "repository.kontell-1.0.0.zip")
+    # Read version from addon.xml
+    with open(addon_xml, "r") as f:
+        content = f.read()
+    match = re.search(r'<addon[^>]+version="([^"]+)"', content)
+    version = match.group(1) if match else "1.0.0"
+
+    zip_name = f"repository.kontell-{version}.zip"
+    zip_path = os.path.join(REPO_DIR, zip_name)
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(addon_xml, "repository.kontell/addon.xml")
 
-    print(f"  Repository zip: {zip_path}")
+    print(f"  Repository zip: {zip_name}")
 
 
 if __name__ == "__main__":
     print("Generating Kontell repository...")
-    generate_addons_xml()
+    for version_dir in VERSION_DIRS:
+        generate_addons_xml(version_dir)
     generate_repo_zip()
     print("Done.")

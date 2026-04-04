@@ -4,41 +4,44 @@ Kodi addon repository for [Kofin PVR](https://github.com/kontell/pvr.kofin) — 
 
 ## Installation
 
-1. Download the repository installer: [repository.kontell-1.0.0.zip](https://github.com/kontell/repository.kontell/raw/main/repository.kontell-1.0.0.zip)
+1. Download the repository installer: [repository.kontell-1.0.1.zip](https://github.com/kontell/repository.kontell/raw/main/repository.kontell-1.0.1.zip)
 2. In Kodi, go to **Settings → Add-ons → Install from zip file**
 3. Browse to the downloaded zip and install it
 4. Go to **Settings → Add-ons → Install from repository → Kontell Repository**
 5. Select **PVR clients → Kofin PVR for Jellyfin** and install
 
-The repository provides the correct build for your platform automatically.
+The repository provides the correct build for your platform and Kodi version automatically.
 
 ## Supported platforms
 
-| Platform | Kodi version |
-|----------|-------------|
-| Linux x86_64 | Kodi 21 (Omega) |
-| Android ARM32 | Kodi 22 (Piers) |
-| Android ARM64 | Kodi 22 (Piers) |
+| Platform | Kodi 21 (Omega) | Kodi 22 (Piers) |
+|----------|----------------|-----------------|
+| Linux x86_64 | yes | yes |
+| Linux armv7 (Pi 2+) | yes | yes |
+| Linux aarch64 (Pi 3+) | yes | yes |
+| Android ARM32 | yes | yes |
+| Android ARM64 | yes | yes |
 
 ## How it works
 
-A single `addons.xml` contains one entry per platform, each with a `<platform>` tag. Kodi filters entries automatically based on the current platform and only shows compatible builds.
+Separate `addons.xml` files are served for each Kodi version (Omega/Piers) using `<dir>` elements with `minversion`/`maxversion`. Within each version, platform filtering is automatic based on the `<platform>` tag.
 
-Addon zips are stored in `addon+platform` directories following the Kodi convention:
 ```
-pvr.kofin+linux-x86_64/pvr.kofin-0.2.1.zip
-pvr.kofin+android-armv7/pvr.kofin-0.2.1.zip
-pvr.kofin+android-aarch64/pvr.kofin-0.2.1.zip
+omega/pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
+omega/pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
+piers/pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
+piers/pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
+...
 ```
+
+## Updating the repository
+
+After publishing a pvr.kofin release on GitHub:
+```bash
+./scripts/update-repo.sh
+```
+This downloads the latest release zips automatically (requires `gh` CLI). Then commit and push.
 
 ## Updating
 
-Once the repository is installed, Kodi will check for updates automatically. New versions of Kofin PVR will appear as available updates in the addon browser.
-
-## Regenerating
-
-After adding or updating addon zips, run:
-```bash
-python3 generate_repo.py
-```
-This regenerates `addons.xml`, `addons.xml.md5`, and `repository.kontell-1.0.0.zip`.
+Once the repository is installed, Kodi will check for updates automatically.
