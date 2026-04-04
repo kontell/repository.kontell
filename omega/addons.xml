@@ -83,7 +83,7 @@
     library_linux="pvr.kofin.so.0.2.3"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <platform>linux</platform>
+    <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
       <icon>icon.png</icon>
@@ -114,7 +114,7 @@
     library_linux="pvr.kofin.so.0.2.3"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <platform>linux</platform>
+    <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
       <icon>icon.png</icon>
@@ -145,7 +145,7 @@
     library_linux="pvr.kofin.so.0.2.3"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <platform>linux</platform>
+    <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
       <icon>icon.png</icon>

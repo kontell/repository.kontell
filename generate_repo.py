@@ -33,8 +33,23 @@ REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 VERSION_DIRS = ["omega", "piers"]
 
 
+def platform_from_dir_name(dir_name):
+    """Derive the Kodi platform tag from an addon+platform directory name.
+
+    E.g. 'pvr.kofin+linux-x86_64' -> 'linux-x86_64'
+         'pvr.kofin+android-armv7' -> 'android-armv7'
+
+    Kodi needs arch-specific tags (linux-x86_64, linux-aarch64) to
+    distinguish binaries. The cmake build system only sets 'linux' or
+    'android', so we override based on the directory name.
+    """
+    if "+" in dir_name:
+        return dir_name.split("+", 1)[1]
+    return None
+
+
 def get_addon_xml_from_zip(zip_path, platform_dir_name):
-    """Extract addon.xml from a zip, inject <path> element."""
+    """Extract addon.xml from a zip, inject <path> and fix <platform>."""
     try:
         with zipfile.ZipFile(zip_path, "r") as z:
             for name in z.namelist():
@@ -42,6 +57,15 @@ def get_addon_xml_from_zip(zip_path, platform_dir_name):
                     xml = z.read(name).decode("utf-8")
                     xml = re.sub(r'<\?xml[^>]+\?>\s*', '', xml)
                     xml = xml.strip()
+
+                    # Fix <platform> tag to be arch-specific
+                    target_platform = platform_from_dir_name(platform_dir_name)
+                    if target_platform:
+                        xml = re.sub(
+                            r'<platform>[^<]+</platform>',
+                            f'<platform>{target_platform}</platform>',
+                            xml,
+                        )
 
                     # Inject <path> element if not already present
                     zip_filename = os.path.basename(zip_path)
