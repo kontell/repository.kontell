@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="pvr.kofin"
-  version="0.2.4"
+  version="0.2.5"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -28,12 +28,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-0.2.4.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-0.2.5.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.2.4"
+  version="0.2.5"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -59,12 +59,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-0.2.4.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-0.2.5.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.2.4"
+  version="0.2.5"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -80,7 +80,7 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.2.4"/>
+    library_linux="pvr.kofin.so.0.2.5"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-aarch64</platform>
@@ -90,12 +90,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-0.2.4.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-0.2.5.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.2.4"
+  version="0.2.5"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -111,7 +111,7 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.2.4"/>
+    library_linux="pvr.kofin.so.0.2.5"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-armv7</platform>
@@ -121,12 +121,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-0.2.4.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-0.2.5.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.2.4"
+  version="0.2.5"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -142,7 +142,7 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.2.4"/>
+    library_linux="pvr.kofin.so.0.2.5"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-x86_64</platform>
@@ -152,7 +152,7 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-0.2.4.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-0.2.5.zip</path>
   </extension>
 </addon>
 </addons>
