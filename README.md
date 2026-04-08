@@ -22,26 +22,3 @@ The repository provides the correct build for your platform and Kodi version aut
 | Android ARM32 | yes | yes |
 | Android ARM64 | yes | yes |
 
-## How it works
-
-Separate `addons.xml` files are served for each Kodi version (Omega/Piers) using `<dir>` elements with `minversion`/`maxversion`. Within each version, platform filtering is automatic based on the `<platform>` tag.
-
-```
-omega/pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
-omega/pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
-piers/pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
-piers/pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
-...
-```
-
-## Updating the repository
-
-After publishing a pvr.kofin release on GitHub:
-```bash
-./scripts/update-repo.sh
-```
-This downloads the latest release zips automatically (requires `gh` CLI). Then commit and push.
-
-## Updating
-
-Once the repository is installed, Kodi will check for updates automatically.
