@@ -96,11 +96,11 @@ def generate_addons_xml(version_dir):
 
     addon_dirs = sorted(
         name for name in os.listdir(base_dir)
-        if "+" in name and os.path.isdir(os.path.join(base_dir, name))
+        if os.path.isdir(os.path.join(base_dir, name))
     )
 
     if not addon_dirs:
-        print(f"  {version_dir}: no addon+platform directories found")
+        print(f"  {version_dir}: no addon directories found")
         return
 
     addon_xmls = []
