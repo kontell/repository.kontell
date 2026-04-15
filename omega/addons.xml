@@ -140,6 +140,30 @@
       <path>inputstream.tempo+linux-x86_64/inputstream.tempo-0.2.24.zip</path>
   </extension>
 </addon>
+<addon id="plugin.audio.koshelf"
+       name="KoShelf"
+       version="0.10.5"
+       provider-name="konell">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.31.0"/>
+    <import addon="inputstream.tempo" minversion="0.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>audio</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py" start="login"/>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">AudioBookShelf client for Kodi</summary>
+    <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
+    <license>MIT</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.10.5.zip</path>
+  </extension>
+</addon>
 <addon
   id="pvr.kofin"
   version="0.3.0"
