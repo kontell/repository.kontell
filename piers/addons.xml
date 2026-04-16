@@ -25,6 +25,7 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
+      <news>v0.3.0 PgUp/PgDn speed keys. Fast stream open. OSD shows source audio info and accurate duration. Tempo PTS tracking fixed. DemuxAbort for timeshift close. Cross-compile for all 10 platform targets.</news>
       <path>inputstream.tempo+android-aarch64/inputstream.tempo-0.3.0.zip</path>
   </extension>
 </addon>
@@ -53,6 +54,7 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
+      <news>v0.3.0 PgUp/PgDn speed keys. Fast stream open. OSD shows source audio info and accurate duration. Tempo PTS tracking fixed. DemuxAbort for timeshift close. Cross-compile for all 10 platform targets.</news>
       <path>inputstream.tempo+android-armv7/inputstream.tempo-0.3.0.zip</path>
   </extension>
 </addon>
@@ -81,6 +83,7 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
+      <news>v0.3.0 PgUp/PgDn speed keys. Fast stream open. OSD shows source audio info and accurate duration. Tempo PTS tracking fixed. DemuxAbort for timeshift close. Cross-compile for all 10 platform targets.</news>
       <path>inputstream.tempo+linux-aarch64/inputstream.tempo-0.3.0.zip</path>
   </extension>
 </addon>
@@ -109,6 +112,7 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
+      <news>v0.3.0 PgUp/PgDn speed keys. Fast stream open. OSD shows source audio info and accurate duration. Tempo PTS tracking fixed. DemuxAbort for timeshift close. Cross-compile for all 10 platform targets.</news>
       <path>inputstream.tempo+linux-armv7/inputstream.tempo-0.3.0.zip</path>
   </extension>
 </addon>
@@ -137,6 +141,7 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
+      <news>v0.3.0 PgUp/PgDn speed keys. Fast stream open. OSD shows source audio info and accurate duration. Tempo PTS tracking fixed. DemuxAbort for timeshift close. Cross-compile for all 10 platform targets.</news>
       <path>inputstream.tempo+linux-x86_64/inputstream.tempo-0.3.0.zip</path>
   </extension>
 </addon>
@@ -158,6 +163,7 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
+    <news>v0.12.3 Resume uses PAPlayer's native audiobook bookmark. Rename to Koshelf. Configurable items per page. Episode title and description on OSD. PgUp/PgDn speed keys. Max speed lower bound 1.0x.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
