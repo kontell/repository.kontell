@@ -325,7 +325,7 @@
       <path>pvr.kofin+linux-x86_64/pvr.kofin-0.3.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="1.4.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="1.5.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
 	</requires>
@@ -349,7 +349,7 @@
 			<fanart>resources/fanart.jpg</fanart>
 			<screenshot>Screenshot.png</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-1.4.0.zip</path>
+	    <path>skin.contuary/skin.contuary-1.5.0.zip</path>
   </extension>
 </addon>
 </addons>
