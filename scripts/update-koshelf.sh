@@ -73,11 +73,13 @@ ver="${BASH_REMATCH[1]}"
 echo "Adding KoShelf $ver to Kontell repository"
 echo ""
 
-# Copy to both omega and piers (pure Python — same zip works everywhere)
+# Copy to both omega and piers (pure Python — same zip works everywhere).
+# Older versions are kept in place so users who pin to a specific version
+# can still install from the repo; generate_repo.py picks the newest by
+# sort order for the current addons.xml.
 for version_dir in omega piers; do
     dest_dir="$REPO_DIR/$version_dir/$ADDON_ID"
     mkdir -p "$dest_dir"
-    rm -f "$dest_dir"/${ADDON_ID}-*.zip
     cp "$ZIP_PATH" "$dest_dir/$filename"
     echo "  -> $version_dir/$ADDON_ID/$filename"
 done

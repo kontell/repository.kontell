@@ -95,9 +95,9 @@ for zip in "$ZIPS_DIR"/${ADDON_ID}-*-kodi*.zip; do
 
     mkdir -p "$dest_dir"
 
-    # Remove old zips in this directory
-    rm -f "$dest_dir"/${ADDON_ID}-*.zip
-
+    # Keep older versions in place — lets users pin to a specific release
+    # and keeps the bucket idempotent if this script is run twice. The
+    # latest version is picked automatically by generate_repo.py.
     cp "$zip" "$dest_file"
     echo "  $filename -> $version_dir/$plat_dir/${ADDON_ID}-${ver}.zip"
     found=$((found + 1))
