@@ -147,7 +147,7 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.17.0"
+       version="0.17.2"
        provider-name="konell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -163,11 +163,11 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
-    <news>v0.17.0 Books and podcast episodes in library browsing show a resume percentage like Continue Listening.</news>
+    <news>v0.17.2 If playback fails to start, don't sync position=0 back to AudioBookShelf — previously a failed replay from Continue Listening could clobber the user's resume bookmark and drop the book from the list.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.17.0.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.17.2.zip</path>
   </extension>
 </addon>
 <addon
