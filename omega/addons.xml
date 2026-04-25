@@ -325,19 +325,38 @@
       <path>pvr.kofin+linux-x86_64/pvr.kofin-0.4.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="1.5.1" name="Contuary" provider-name="Kontell">
+<addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+	</requires>
+	<extension point="xbmc.python.script" library="default.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en_GB">Helper script for the Contuary skin</summary>
+		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options. Prompts for a Kodi restart, which is required for the change to take effect.</description>
+		<platform>all</platform>
+		<license>GPL-2.0-or-later</license>
+	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
+  </extension>
+</addon>
+<addon id="skin.contuary" version="2.0.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
 	</requires>
 	<extension point="xbmc.gui.skin" debugging="false">
+		<!--
 		<res width="1920" height="1440" aspect="4:3" default="false" folder="xml" />
 		<res width="1920" height="1280" aspect="3:2" default="false" folder="xml" />
 		<res width="1920" height="1200" aspect="16:10" default="false" folder="xml" />
 		<res width="2040" height="1080" aspect="17:9" default="false" folder="xml" />
+		-->
 		<res width="1920" height="1080" aspect="16:9" default="true" folder="xml" />
+		<!--
 		<res width="2560" height="1080" aspect="21:9" default="false" folder="xml" />
 		<res width="2338" height="1080" aspect="19.5:9" default="false" folder="xml" />
 		<res width="2160" height="1080" aspect="18:9" default="false" folder="xml" />
+		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Omega</summary>
@@ -349,7 +368,7 @@
 			<fanart>resources/fanart.jpg</fanart>
 			<screenshot>Screenshot.png</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-1.5.1.zip</path>
+	    <path>skin.contuary/skin.contuary-2.0.0.zip</path>
   </extension>
 </addon>
 </addons>
