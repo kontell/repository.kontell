@@ -33,6 +33,19 @@ REPO_DIR = os.path.dirname(os.path.abspath(__file__))
 VERSION_DIRS = ["omega", "piers"]
 
 
+def _version_key(filename):
+    """Sort key for addon zip filenames: tuple of int parts of the version.
+
+    Ensures `0.3.10 > 0.3.8`, where lexicographic sort would put `0.3.8`
+    higher because `"0.3.10"` starts with `"0.3.1"` and `"1" < "8"`.
+    Files that don't match the expected name fall to the bottom.
+    """
+    m = re.search(r'-([0-9][0-9.]*)\.zip$', filename)
+    if not m:
+        return ()
+    return tuple(int(x) for x in m.group(1).split('.'))
+
+
 def platform_from_dir_name(dir_name):
     """Derive the Kodi platform tag from an addon+platform directory name.
 
@@ -108,6 +121,7 @@ def generate_addons_xml(version_dir):
         dir_path = os.path.join(base_dir, dir_name)
         zips = sorted(
             [f for f in os.listdir(dir_path) if f.endswith(".zip")],
+            key=_version_key,
             reverse=True,
         )
         if not zips:
