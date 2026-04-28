@@ -147,15 +147,15 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.17.2"
+       version="0.18.0"
        provider-name="konell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.31.0"/>
-    <import addon="inputstream.tempo" minversion="0.3.6"/>
+    <import addon="inputstream.tempo" minversion="0.3.10"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="main.py">
-    <provides>audio</provides>
+    <provides>audio video</provides>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
@@ -163,11 +163,11 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
-    <news>v0.17.2 If playback fails to start, don't sync position=0 back to AudioBookShelf — previously a failed replay from Continue Listening could clobber the user's resume bookmark and drop the book from the list.</news>
+    <news>v0.18.0 Video player is the default again — its OSD now tracks content time at non-1× tempo (via inputstream.tempo 0.3.10's dynamic ptsStart) and shows the richer "now playing" UI with cover-art and visualisation fanart. Music player remains available as an opt-in under Playback settings. Resume works the same in both modes.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.17.2.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.18.0.zip</path>
   </extension>
 </addon>
 <addon
