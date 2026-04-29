@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="inputstream.tempo"
-  version="0.3.10"
+  version="0.3.11"
   name="Inputstream Tempo"
   provider-name="konell">
   <requires>
@@ -25,13 +25,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
-    <news>v0.3.10 Fix startup crash on Kodi builds bundling FFmpeg 6 (e.g. ENABLE_INTERNAL_FFMPEG=ON) for Opus/webm sources: matroska demuxer leaves the codec context's sample_rate / ch_layout / sample_fmt unset until the first packet decodes, so InitTempoProcessing now backfills from codecpar before BuildFilterGraph builds the abuffer. Also includes v0.3.9's VideoPlayer-OSD content-time tracking (dynamic ptsStart from popped packet pts/dispTime).</news>
-      <path>inputstream.tempo+android-aarch64/inputstream.tempo-0.3.10.zip</path>
+    <news>v0.3.11 Fix VideoPlayer hang on audiobook files with embedded cover art. m4b/mp3 sources expose the cover as an attached_pic mjpeg stream; VideoPlayer was spinning up its video pipeline for that stream, failing OpenStream, and wedging in caching state 2 with the audio thread paused. AddStream now discards attached_pic streams so GetStreamIds is audio-only and VideoPlayer never starts the video pipeline.</news>
+      <path>inputstream.tempo+android-aarch64/inputstream.tempo-0.3.11.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="0.3.10"
+  version="0.3.11"
   name="Inputstream Tempo"
   provider-name="konell">
   <requires>
@@ -54,13 +54,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
-    <news>v0.3.10 Fix startup crash on Kodi builds bundling FFmpeg 6 (e.g. ENABLE_INTERNAL_FFMPEG=ON) for Opus/webm sources: matroska demuxer leaves the codec context's sample_rate / ch_layout / sample_fmt unset until the first packet decodes, so InitTempoProcessing now backfills from codecpar before BuildFilterGraph builds the abuffer. Also includes v0.3.9's VideoPlayer-OSD content-time tracking (dynamic ptsStart from popped packet pts/dispTime).</news>
-      <path>inputstream.tempo+android-armv7/inputstream.tempo-0.3.10.zip</path>
+    <news>v0.3.11 Fix VideoPlayer hang on audiobook files with embedded cover art. m4b/mp3 sources expose the cover as an attached_pic mjpeg stream; VideoPlayer was spinning up its video pipeline for that stream, failing OpenStream, and wedging in caching state 2 with the audio thread paused. AddStream now discards attached_pic streams so GetStreamIds is audio-only and VideoPlayer never starts the video pipeline.</news>
+      <path>inputstream.tempo+android-armv7/inputstream.tempo-0.3.11.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="0.3.10"
+  version="0.3.11"
   name="Inputstream Tempo"
   provider-name="konell">
   <requires>
@@ -76,20 +76,20 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time"
-    library_linux="inputstream.tempo.so.0.3.10" />
+    library_linux="inputstream.tempo.so.0.3.11" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
-    <news>v0.3.10 Fix startup crash on Kodi builds bundling FFmpeg 6 (e.g. ENABLE_INTERNAL_FFMPEG=ON) for Opus/webm sources: matroska demuxer leaves the codec context's sample_rate / ch_layout / sample_fmt unset until the first packet decodes, so InitTempoProcessing now backfills from codecpar before BuildFilterGraph builds the abuffer. Also includes v0.3.9's VideoPlayer-OSD content-time tracking (dynamic ptsStart from popped packet pts/dispTime).</news>
-      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-0.3.10.zip</path>
+    <news>v0.3.11 Fix VideoPlayer hang on audiobook files with embedded cover art. m4b/mp3 sources expose the cover as an attached_pic mjpeg stream; VideoPlayer was spinning up its video pipeline for that stream, failing OpenStream, and wedging in caching state 2 with the audio thread paused. AddStream now discards attached_pic streams so GetStreamIds is audio-only and VideoPlayer never starts the video pipeline.</news>
+      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-0.3.11.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="0.3.10"
+  version="0.3.11"
   name="Inputstream Tempo"
   provider-name="konell">
   <requires>
@@ -105,20 +105,20 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time"
-    library_linux="inputstream.tempo.so.0.3.10" />
+    library_linux="inputstream.tempo.so.0.3.11" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
-    <news>v0.3.10 Fix startup crash on Kodi builds bundling FFmpeg 6 (e.g. ENABLE_INTERNAL_FFMPEG=ON) for Opus/webm sources: matroska demuxer leaves the codec context's sample_rate / ch_layout / sample_fmt unset until the first packet decodes, so InitTempoProcessing now backfills from codecpar before BuildFilterGraph builds the abuffer. Also includes v0.3.9's VideoPlayer-OSD content-time tracking (dynamic ptsStart from popped packet pts/dispTime).</news>
-      <path>inputstream.tempo+linux-armv7/inputstream.tempo-0.3.10.zip</path>
+    <news>v0.3.11 Fix VideoPlayer hang on audiobook files with embedded cover art. m4b/mp3 sources expose the cover as an attached_pic mjpeg stream; VideoPlayer was spinning up its video pipeline for that stream, failing OpenStream, and wedging in caching state 2 with the audio thread paused. AddStream now discards attached_pic streams so GetStreamIds is audio-only and VideoPlayer never starts the video pipeline.</news>
+      <path>inputstream.tempo+linux-armv7/inputstream.tempo-0.3.11.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="0.3.10"
+  version="0.3.11"
   name="Inputstream Tempo"
   provider-name="konell">
   <requires>
@@ -134,15 +134,15 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time"
-    library_linux="inputstream.tempo.so.0.3.10" />
+    library_linux="inputstream.tempo.so.0.3.11" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with audio tempo control (pitch-corrected playback speed)</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in audio tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts. Based on inputstream.ffmpegdirect.</description>
-    <news>v0.3.10 Fix startup crash on Kodi builds bundling FFmpeg 6 (e.g. ENABLE_INTERNAL_FFMPEG=ON) for Opus/webm sources: matroska demuxer leaves the codec context's sample_rate / ch_layout / sample_fmt unset until the first packet decodes, so InitTempoProcessing now backfills from codecpar before BuildFilterGraph builds the abuffer. Also includes v0.3.9's VideoPlayer-OSD content-time tracking (dynamic ptsStart from popped packet pts/dispTime).</news>
-      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-0.3.10.zip</path>
+    <news>v0.3.11 Fix VideoPlayer hang on audiobook files with embedded cover art. m4b/mp3 sources expose the cover as an attached_pic mjpeg stream; VideoPlayer was spinning up its video pipeline for that stream, failing OpenStream, and wedging in caching state 2 with the audio thread paused. AddStream now discards attached_pic streams so GetStreamIds is audio-only and VideoPlayer never starts the video pipeline.</news>
+      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-0.3.11.zip</path>
   </extension>
 </addon>
 <addon id="plugin.audio.koshelf"
