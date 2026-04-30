@@ -340,7 +340,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.0.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.0.1" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.18.0"/>
 	</requires>
@@ -368,7 +368,7 @@
 			<fanart>resources/fanart.jpg</fanart>
 			<screenshot>Screenshot.png</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.0.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.0.1.zip</path>
   </extension>
 </addon>
 </addons>
