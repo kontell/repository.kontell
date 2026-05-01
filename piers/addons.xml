@@ -147,15 +147,15 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.18.0"
-       provider-name="konell">
+       version="0.18.1"
+       provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.31.0"/>
     <import addon="inputstream.tempo" minversion="0.3.10"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="main.py">
-    <provides>audio video</provides>
+    <provides>audio</provides>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
@@ -163,11 +163,11 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
-    <news>v0.18.0 Video player is the default again — its OSD now tracks content time at non-1× tempo (via inputstream.tempo 0.3.10's dynamic ptsStart) and shows the richer "now playing" UI with cover-art and visualisation fanart. Music player remains available as an opt-in under Playback settings. Resume works the same in both modes.</news>
+    <news>v0.18.1 Restore audio-only categorisation. The addon shows under Music add-ons only; the v0.18.0 video-too categorisation made the i (info) button no-op when launched from Video add-ons. VideoPlayer playback is still the default — player selection is driven by the ListItem's VideoInfoTag, not by the addon's category.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.18.0.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.18.1.zip</path>
   </extension>
 </addon>
 <addon
