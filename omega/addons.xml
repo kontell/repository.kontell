@@ -147,7 +147,7 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.18.1"
+       version="0.19.0"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -163,11 +163,11 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
-    <news>v0.18.1 Restore audio-only categorisation. The addon shows under Music add-ons only; the v0.18.0 video-too categorisation made the i (info) button no-op when launched from Video add-ons. VideoPlayer playback is still the default — player selection is driven by the ListItem's VideoInfoTag, not by the addon's category.</news>
+    <news>v0.19.0 Sleep timer with screen dimming and volume ramp-down. Set a duration (5/10/15/30/45/60/90 min, end-of-chapter, or custom) from the new "Sleep timer" entry in the root menu while playing. While the timer is active, Kodi's screensaver is swapped for a black/dim mode that kicks in after a shorter idle window; volume fades to zero in the last N seconds (default 30); on expiry, playback stops and (optionally, CEC only) the display is sent to standby.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.18.1.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.19.0.zip</path>
   </extension>
 </addon>
 <addon
