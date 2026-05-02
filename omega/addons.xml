@@ -147,7 +147,7 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.19.0"
+       version="0.20.0"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -163,11 +163,11 @@
     <summary lang="en">AudioBookShelf client for Kodi</summary>
     <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
     <license>MIT</license>
-    <news>v0.19.0 Sleep timer with screen dimming and volume ramp-down. Set a duration (5/10/15/30/45/60/90 min, end-of-chapter, or custom) from the new "Sleep timer" entry in the root menu while playing. While the timer is active, Kodi's screensaver is swapped for a black/dim mode that kicks in after a shorter idle window; volume fades to zero in the last N seconds (default 30); on expiry, playback stops and (optionally, CEC only) the display is sent to standby.</news>
+    <news>v0.20.0 Sleep timer: fix pulsating screensaver; add Screen off (CEC) and Screen off (Android/Google TV) options alongside screensaver modes; numeric keypad for custom duration; last-used custom value shown in presets. Widget URLs with trailing slash now resolve correctly. Remove Comment label from book/episode info dialogs. Podcast and Author items now show info on the i button.</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.19.0.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.0.zip</path>
   </extension>
 </addon>
 <addon
