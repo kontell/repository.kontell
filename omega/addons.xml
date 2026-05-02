@@ -147,7 +147,7 @@
 </addon>
 <addon id="plugin.audio.koshelf"
        name="Koshelf"
-       version="0.20.0"
+       version="0.20.1"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
@@ -167,7 +167,7 @@
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.0.zip</path>
+      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
 <addon
