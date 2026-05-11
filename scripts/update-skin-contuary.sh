@@ -1,75 +1,106 @@
 #!/bin/bash
 set -euo pipefail
 
-# Update the Kontell repository with fresh skin.contuary zips built from a
-# local git checkout.
+# Update the Kontell repository with the latest skin.contuary zips.
 #
 # Usage:
-#   ./scripts/update-skin-contuary.sh [skin-repo-path]
+#   ./scripts/update-skin-contuary.sh [zip-or-directory]
 #
-# If no path is given, defaults to
-#   /media/minipie/bluecon/docs/IT/devel/skins/skin.contuary
+# If no argument is given, downloads from the latest GitHub releases
+# (one per branch: omega/v* and piers/v*).
+# Pass a zip file or directory to use a local build instead.
+# Requires: gh (GitHub CLI) for downloading from GitHub.
 #
-# This will:
-#   1. For each branch (omega, piers): read addon.xml at the branch tip to
-#      get the version, then `git archive` the branch into
-#      <repo>/<branch>/skin.contuary/skin.contuary-<version>.zip.
-#   2. Regenerate addons.xml + addons.xml.md5 for each branch dir.
-#   3. Regenerate the repository installer zip.
-#
-# Older zips are left in place so users pinned to a specific version can
-# still install; generate_repo.py picks the newest for addons.xml.
-#
-# Each branch's .gitattributes drives export-ignore — that is the only
-# mechanism keeping CLAUDE.md / Screenshot.png / build scripts out of
-# the released zip. Update both branches' .gitattributes if a new dev
-# file needs excluding.
+# skin.contuary releases are per-branch (omega vs piers), using tags
+# like omega/v2.0.3 and piers/v2.0.3.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 ADDON_ID="skin.contuary"
-DEFAULT_SKIN_REPO="/media/minipie/bluecon/docs/IT/devel/skins/skin.contuary"
+ADDON_REPO="kontell/skin.contuary"
 
-if [[ $# -ge 1 ]]; then
-    SKIN_REPO="$(cd "$1" && pwd)"
-else
-    SKIN_REPO="$DEFAULT_SKIN_REPO"
-fi
+cleanup_tmp=""
+trap '[[ -n "$cleanup_tmp" ]] && rm -rf "$cleanup_tmp"' EXIT
 
-if [[ ! -d "$SKIN_REPO/.git" ]]; then
-    echo "Error: $SKIN_REPO is not a git repository."
-    exit 1
-fi
+place_zip() {
+    local zip_path="$1" branch="$2"
+    local filename
+    filename="$(basename "$zip_path")"
 
-extract_version() {
-    # Read version="..." from <addon ...> in the given addon.xml content
-    sed -n 's/.*<addon[^>]* version="\([^"]*\)".*/\1/p' | head -1
+    if [[ ! "$filename" =~ ^${ADDON_ID}-([0-9][0-9.]*)-[a-z]+\.zip$ ]]; then
+        echo "Error: $filename doesn't match expected pattern ${ADDON_ID}-<version>-<branch>.zip"
+        exit 1
+    fi
+    local ver="${BASH_REMATCH[1]}"
+
+    local dest_dir="$REPO_DIR/$branch/$ADDON_ID"
+    local dest_file="${ADDON_ID}-${ver}.zip"
+    mkdir -p "$dest_dir"
+    cp "$zip_path" "$dest_dir/$dest_file"
+    echo "  -> $branch/$ADDON_ID/$dest_file"
 }
 
-for branch in omega piers; do
-    if ! git -C "$SKIN_REPO" rev-parse --verify --quiet "$branch" >/dev/null; then
-        echo "Error: branch '$branch' not found in $SKIN_REPO"
+if [[ $# -ge 1 ]]; then
+    arg="$1"
+    if [[ -f "$arg" ]]; then
+        ZIP_PATH="$(realpath "$arg")"
+        echo "Using local zip: $ZIP_PATH"
+        echo ""
+        for branch in omega piers; do
+            place_zip "$ZIP_PATH" "$branch"
+        done
+    elif [[ -d "$arg" ]]; then
+        ZIP_PATH="$(ls -t "$arg"/${ADDON_ID}-*.zip 2>/dev/null | head -1 || true)"
+        [[ -z "$ZIP_PATH" ]] && { echo "Error: no ${ADDON_ID}-*.zip in $arg"; exit 1; }
+        ZIP_PATH="$(realpath "$ZIP_PATH")"
+        echo "Using local zip: $ZIP_PATH"
+        echo ""
+        for branch in omega piers; do
+            place_zip "$ZIP_PATH" "$branch"
+        done
+    else
+        echo "Error: $arg is neither a file nor a directory"
+        exit 1
+    fi
+else
+    if ! command -v gh &>/dev/null; then
+        echo "Error: gh (GitHub CLI) is required, or pass a zip path/directory."
         exit 1
     fi
 
-    version="$(git -C "$SKIN_REPO" show "$branch:addon.xml" | extract_version)"
-    if [[ -z "$version" ]]; then
-        echo "Error: could not read version from $branch:addon.xml"
-        exit 1
-    fi
+    cleanup_tmp="$(mktemp -d)"
 
-    dest_dir="$REPO_DIR/$branch/$ADDON_ID"
-    mkdir -p "$dest_dir"
-    zip_path="$dest_dir/${ADDON_ID}-${version}.zip"
+    for branch in omega piers; do
+        echo "Fetching latest $branch release from $ADDON_REPO..."
 
-    echo "Building $branch -> ${ADDON_ID}-${version}.zip"
-    git -C "$SKIN_REPO" archive \
-        --format=zip \
-        --prefix="${ADDON_ID}/" \
-        -o "$zip_path" \
-        "$branch"
-    echo "  -> $branch/$ADDON_ID/${ADDON_ID}-${version}.zip"
-done
+        release_tag=$(gh release list --repo "$ADDON_REPO" --limit 20 \
+            --json tagName,isDraft \
+            --jq ".[] | select(.isDraft == false) | select(.tagName | startswith(\"${branch}/\")) | .tagName" \
+            | head -1)
+
+        if [[ -z "$release_tag" ]]; then
+            echo "  No published release found for $branch. Trying latest draft..."
+            release_tag=$(gh release list --repo "$ADDON_REPO" --limit 20 \
+                --json tagName,isDraft \
+                --jq ".[] | select(.tagName | startswith(\"${branch}/\")) | .tagName" \
+                | head -1)
+        fi
+
+        if [[ -z "$release_tag" ]]; then
+            echo "  Warning: no releases found for $branch, skipping"
+            continue
+        fi
+
+        echo "  Downloading from release $release_tag..."
+        dl_dir="$cleanup_tmp/$branch"
+        mkdir -p "$dl_dir"
+        gh release download "$release_tag" --repo "$ADDON_REPO" \
+            --pattern "${ADDON_ID}-*.zip" --dir "$dl_dir"
+
+        zip_path="$(ls "$dl_dir"/${ADDON_ID}-*.zip | head -1)"
+        place_zip "$zip_path" "$branch"
+    done
+fi
 
 echo ""
 echo "Regenerating repository metadata..."
