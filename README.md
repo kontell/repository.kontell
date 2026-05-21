@@ -10,11 +10,20 @@ Kodi addon repository for:
 
 ## Installation
 
+### Option 1: Add as a file source
+
 1.  In Kodi, go to **Settings → File Manager → Add source**
 2.  Enter the URL: `https://kontell.github.io/repository.kontell/`
 3.  Name it (e.g. `Kontell`) and click **OK**
 4.  Go to **Add-ons → Install from zip file → Kontell**
 5.  Select `repository.kontell-1.0.1.zip` and install it
 6.  Go to **Add-ons → Install from repository → Kontell Repository**
+
+### Option 2: Manual download
+
+1.  Download the repository installer: [repository.kontell-1.0.1.zip](https://github.com/kontell/repository.kontell/raw/main/repository.kontell-1.0.1.zip)
+2.  In Kodi, go to **Add-ons → Install from zip file**
+3.  Browse to the downloaded zip and install it
+4.  Go to **Add-ons → Install from repository → Kontell Repository**
 
 The repository provides the correct build for your platform and Kodi version automatically.
