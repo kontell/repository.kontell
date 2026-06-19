@@ -1,0 +1,9 @@
+# The served site lives on the gh-pages branch, checked out here as a worktree.
+/_site/
+
+# Generated artifacts — now produced into the gh-pages worktree, not main.
+/repository.kontell-*.zip
+/index.html
+
+# Python bytecode cache.
+__pycache__/

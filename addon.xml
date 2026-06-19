@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.kontell"
+       name="Kontell Repository"
+       version="1.0.1"
+       provider-name="kontell">
+  <requires>
+    <import addon="xbmc.addon" version="12.0.0"/>
+  </requires>
+  <extension point="xbmc.addon.repository"
+             name="Kontell Repository">
+    <dir minversion="21.0.0" maxversion="21.9.9">
+      <info compressed="false">https://kontell.github.io/repository.kontell/omega/addons.xml</info>
+      <checksum>https://kontell.github.io/repository.kontell/omega/addons.xml.md5</checksum>
+      <datadir zip="true">https://kontell.github.io/repository.kontell/omega</datadir>
+    </dir>
+    <dir minversion="21.90.0" maxversion="22.9.9">
+      <info compressed="false">https://kontell.github.io/repository.kontell/piers/addons.xml</info>
+      <checksum>https://kontell.github.io/repository.kontell/piers/addons.xml.md5</checksum>
+      <datadir zip="true">https://kontell.github.io/repository.kontell/piers</datadir>
+    </dir>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Kontell Kodi Addon Repository</summary>
+    <description>Repository for Kofin PVR and other addons by Kontell.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
