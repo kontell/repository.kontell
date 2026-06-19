@@ -96,9 +96,8 @@ for zip in "$ZIPS_DIR"/pvr.kofin-*-kodi*.zip; do
 
     mkdir -p "$dest_dir"
 
-    # Keep older versions in place — lets users pin to a specific release
-    # and keeps the bucket idempotent if this script is run twice. The
-    # latest version is picked automatically by generate_repo.py.
+    # Copy in the new build; generate_repo.py --prune (below) then removes any
+    # older versions, keeping only the latest that addons.xml advertises.
     cp "$zip" "$dest_file"
     echo "  $filename -> $version_dir/$plat_dir/pvr.kofin-${ver}.zip"
     found=$((found + 1))
@@ -113,7 +112,7 @@ echo ""
 echo "Placed $found zips. Regenerating repository metadata..."
 echo ""
 
-python3 "$REPO_DIR/generate_repo.py" --pages-dir "$PAGES_DIR"
+python3 "$REPO_DIR/generate_repo.py" --pages-dir "$PAGES_DIR" --prune
 
 echo ""
 echo "Done. Review with 'git -C _site status', then publish with:"

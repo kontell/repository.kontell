@@ -110,7 +110,7 @@ echo ""
 echo "Regenerating repository metadata..."
 echo ""
 
-python3 "$REPO_DIR/generate_repo.py" --pages-dir "$PAGES_DIR"
+python3 "$REPO_DIR/generate_repo.py" --pages-dir "$PAGES_DIR" --prune
 
 echo ""
 echo "Done. Review with 'git -C _site status', then publish with:"

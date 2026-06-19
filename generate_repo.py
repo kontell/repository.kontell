@@ -224,8 +224,12 @@ def process_addon_zip(zip_path, dest_dir, platform_dir_name):
     return None
 
 
-def generate_addons_xml(version_dir, pages_dir):
-    """Generate addons.xml for a version directory (omega or piers)."""
+def generate_addons_xml(version_dir, pages_dir, prune=False):
+    """Generate addons.xml for a version directory (omega or piers).
+
+    With prune=True, deletes all but the newest build of each addon so the
+    served branch keeps only the latest (which is all addons.xml advertises).
+    """
     base_dir = os.path.join(pages_dir, version_dir)
     if not os.path.isdir(base_dir):
         return
@@ -249,6 +253,12 @@ def generate_addons_xml(version_dir, pages_dir):
         )
         if not zips:
             continue
+
+        if prune and len(zips) > 1:
+            for old in zips[1:]:
+                os.remove(os.path.join(dir_path, old))
+                print(f"    {dir_name}: pruned {old}")
+            zips = zips[:1]
 
         xml = process_addon_zip(os.path.join(dir_path, zips[0]), dir_path, dir_name)
         if xml:
@@ -328,12 +338,18 @@ if __name__ == "__main__":
              "installer zip, index.html). Defaults to ./_site when present, "
              "else the script's own directory.",
     )
+    parser.add_argument(
+        "--prune",
+        action="store_true",
+        help="Delete all but the newest build of each addon (keeps the served "
+             "branch lean; old versions remain on the upstream Releases).",
+    )
     args = parser.parse_args()
     pages_dir = resolve_pages_dir(args.pages_dir)
 
     print(f"Generating Kontell repository into {pages_dir} ...")
     for version_dir in VERSION_DIRS:
-        generate_addons_xml(version_dir, pages_dir)
+        generate_addons_xml(version_dir, pages_dir, prune=args.prune)
 
     if os.path.exists(os.path.join(SOURCE_DIR, "addon.xml")):
         version = read_repo_version()
