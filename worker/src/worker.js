@@ -17,6 +17,8 @@ export default {
 
     if (env.REPO_ANALYTICS) {
       const { dir, addon, platform, version } = classify(path);
+      const kind = path.endsWith(".zip") ? "zip"
+                 : path.endsWith(".md5") ? "md5" : "meta";
       env.REPO_ANALYTICS.writeDataPoint({
         blobs: [
           dir,                                          // blob1: omega | piers | root
@@ -24,8 +26,9 @@ export default {
           platform,                                     // blob3: linux-x86_64
           version,                                      // blob4: 0.10.1
           request.headers.get("cf-ipcountry") || "",    // blob5: country
-          path.endsWith(".zip") ? "zip" : "meta",       // blob6: request kind
+          kind,                                         // blob6: zip | md5 | meta
           request.method,                               // blob7: GET | HEAD | ...
+          await clientId(request, env),                 // blob8: monthly client id
         ],
         doubles: [response.status],                     // double1: HTTP status
         indexes: [addon || dir || "other"],             // sampling key (<=96B)
@@ -53,4 +56,23 @@ function classify(path) {
   const [addon, platform = ""] = (parts[1] || "").split("+");
   const vm = (parts.at(-1) || "").match(/-([0-9][0-9.]*)\.zip$/);
   return { dir, addon: addon || "", platform, version: vm ? vm[1] : "" };
+}
+
+// Pseudonymous per-install id for distinct-client (active-install) counts:
+// SHA-256(secret + current month + client IP + User-Agent), first 128 bits as
+// hex. The month rotates the id every calendar month, so a client is only
+// linkable within a month; the secret pepper (Worker secret ANALYTICS_SALT)
+// stops anyone holding the dataset brute-forcing the low-entropy IP+UA back
+// out. The raw IP is never stored.
+async function clientId(request, env) {
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  const ua = request.headers.get("User-Agent") || "";
+  const month = new Date().toISOString().slice(0, 7); // 2026-06
+  const data = new TextEncoder().encode(
+    `${env.ANALYTICS_SALT || ""}|${month}|${ip}|${ua}`,
+  );
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", data));
+  return [...digest.slice(0, 16)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }

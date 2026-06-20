@@ -5,6 +5,8 @@ workers_dev = true
 
 # Per-request analytics. Query with the Analytics Engine SQL API
 # (SELECT ... FROM repo_kontell). Dashboard shows requests/geo/status for free.
+# blob8 (pseudonymous client id) needs a secret pepper; set it once with:
+#   openssl rand -hex 32 | npx wrangler secret put ANALYTICS_SALT
 [[analytics_engine_datasets]]
 binding = "REPO_ANALYTICS"
 dataset = "repo_kontell"
