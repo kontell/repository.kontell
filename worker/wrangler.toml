@@ -1,0 +1,10 @@
+name = "repository"
+main = "src/worker.js"
+compatibility_date = "2026-06-20"
+workers_dev = true
+
+# Per-request analytics. Query with the Analytics Engine SQL API
+# (SELECT ... FROM repo_kontell). Dashboard shows requests/geo/status for free.
+[[analytics_engine_datasets]]
+binding = "REPO_ANALYTICS"
+dataset = "repo_kontell"

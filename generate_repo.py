@@ -292,14 +292,29 @@ def read_repo_version():
     return match.group(1) if match else "1.0.0"
 
 
-def generate_repo_zip(pages_dir, version):
-    """Create the repository addon installer zip in the published site."""
+def _write_repo_zip(zip_path):
+    """Write the repository addon zip (it contains only addon.xml) to zip_path."""
     addon_xml = os.path.join(SOURCE_DIR, "addon.xml")
-    zip_name = f"repository.kontell-{version}.zip"
-    zip_path = os.path.join(pages_dir, zip_name)
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(addon_xml, "repository.kontell/addon.xml")
 
+
+def stage_repo_addon(pages_dir, version):
+    """Place the repository addon zip under each version dir as a normal addon,
+    so it is listed in that dir's addons.xml and Kodi can self-update the repo
+    addon -- which is how existing installs pick up new <datadir> URLs."""
+    zip_name = f"repository.kontell-{version}.zip"
+    for version_dir in VERSION_DIRS:
+        dest_dir = os.path.join(pages_dir, version_dir, "repository.kontell")
+        os.makedirs(dest_dir, exist_ok=True)
+        _write_repo_zip(os.path.join(dest_dir, zip_name))
+        print(f"  {version_dir}: staged repository.kontell {version} (self-update)")
+
+
+def generate_repo_zip(pages_dir, version):
+    """Create the repository addon installer zip in the published site root."""
+    zip_name = f"repository.kontell-{version}.zip"
+    _write_repo_zip(os.path.join(pages_dir, zip_name))
     print(f"  Repository zip: {zip_name}")
 
 
@@ -348,11 +363,19 @@ if __name__ == "__main__":
     pages_dir = resolve_pages_dir(args.pages_dir)
 
     print(f"Generating Kontell repository into {pages_dir} ...")
+
+    has_addon_xml = os.path.exists(os.path.join(SOURCE_DIR, "addon.xml"))
+    version = read_repo_version() if has_addon_xml else None
+
+    # Stage the repository addon into each version dir BEFORE building addons.xml
+    # so it is listed there and Kodi can self-update it onto the new URLs.
+    if has_addon_xml:
+        stage_repo_addon(pages_dir, version)
+
     for version_dir in VERSION_DIRS:
         generate_addons_xml(version_dir, pages_dir, prune=args.prune)
 
-    if os.path.exists(os.path.join(SOURCE_DIR, "addon.xml")):
-        version = read_repo_version()
+    if has_addon_xml:
         generate_repo_zip(pages_dir, version)
         generate_index_html(pages_dir, version)
     else:

@@ -1,0 +1,14 @@
+{
+  "name": "kontell-repo-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker that reverse-proxies the Kontell Kodi repository (GitHub Pages) and logs per-request analytics to Workers Analytics Engine.",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.103.0"
+  }
+}

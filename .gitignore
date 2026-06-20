@@ -7,3 +7,7 @@
 
 # Python bytecode cache.
 __pycache__/
+
+# Cloudflare Worker local artifacts.
+worker/node_modules/
+worker/.wrangler/
