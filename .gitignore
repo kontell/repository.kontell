@@ -11,3 +11,6 @@ __pycache__/
 # Cloudflare Worker local artifacts.
 worker/node_modules/
 worker/.wrangler/
+
+# Local analytics report -- holds Cloudflare credentials, keep out of git.
+/scripts/analytics.sh

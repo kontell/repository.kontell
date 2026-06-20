@@ -19,12 +19,13 @@ export default {
       const { dir, addon, platform, version } = classify(path);
       env.REPO_ANALYTICS.writeDataPoint({
         blobs: [
-          dir,                                          // blob1: omega | piers
+          dir,                                          // blob1: omega | piers | root
           addon,                                        // blob2: pvr.kofin, ...
           platform,                                     // blob3: linux-x86_64
           version,                                      // blob4: 0.10.1
           request.headers.get("cf-ipcountry") || "",    // blob5: country
           path.endsWith(".zip") ? "zip" : "meta",       // blob6: request kind
+          request.method,                               // blob7: GET | HEAD | ...
         ],
         doubles: [response.status],                     // double1: HTTP status
         indexes: [addon || dir || "other"],             // sampling key (<=96B)
@@ -47,7 +48,9 @@ export default {
 // "omega/pvr.kofin+linux-x86_64/pvr.kofin-0.10.1.zip" -> structured fields.
 function classify(path) {
   const parts = path.split("/");
+  // Root-level files (the installer zip, index.html) have no version dir.
+  const dir = parts.length > 1 ? parts[0] : "root";
   const [addon, platform = ""] = (parts[1] || "").split("+");
   const vm = (parts.at(-1) || "").match(/-([0-9][0-9.]*)\.zip$/);
-  return { dir: parts[0] || "", addon: addon || "", platform, version: vm ? vm[1] : "" };
+  return { dir, addon: addon || "", platform, version: vm ? vm[1] : "" };
 }
