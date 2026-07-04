@@ -192,7 +192,7 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -211,9 +211,11 @@
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -221,12 +223,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-0.11.0.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -245,9 +247,11 @@
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -255,12 +259,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-0.11.0.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -276,12 +280,14 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.11.0"/>
+    library_linux="pvr.kofin.so.0.12.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -289,12 +295,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-0.11.0.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -310,12 +316,14 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.11.0"/>
+    library_linux="pvr.kofin.so.0.12.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -323,12 +331,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-0.11.0.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -344,12 +352,14 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.0.11.0"/>
+    library_linux="pvr.kofin.so.0.12.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -357,12 +367,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-0.11.0.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="0.11.0"
+  version="0.12.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -381,15 +391,17 @@
     library_windows="pvr.kofin.dll"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- Add UI translations for 26 languages (machine-translated, pending native review): French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Swedish, Danish, Norwegian, Finnish, Greek, Hungarian, Czech, Slovak, Ukrainian, Catalan, Romanian, Japanese, Korean, and Simplified &amp; Traditional Chinese
-- Add a translation toolchain (scripts/i18n) to regenerate the language files from the English source</news>
+    <news>v0.12.0
+- Security hardening: access tokens are redacted from logs, login credentials are JSON-escaped, logging out now revokes the server session, and a warning is shown when connecting over plain HTTP
+- More robust reconnects: continuous connection health checks, with no crash or spurious logout when the server briefly drops
+- Reliability fixes: guarded JSON parsing, safer background timer/thread handling, and correct guide icons for back-to-back programmes that share the same title
+- Removed a large amount of dead code inherited from the pvr.iptvsimple fork (zlib/lzma, the unused Providers subsystem, and other leftovers)</news>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-0.11.0.zip</path>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-0.12.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
   </extension>
