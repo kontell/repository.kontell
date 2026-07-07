@@ -448,7 +448,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.0.5" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.1.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.18.0"/>
 	</requires>
@@ -467,8 +467,8 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>[B]2.0.5[/B]
-• Home pictures: drop the Media sources widget and its label by 45px</news>
+    <news>[B]2.1.0[/B]
+• On screen display: new "Hide play speed OSD on tempo change" setting that suppresses the seek bar and play-speed indicator on every tempo change (including returning to normal speed), so an add-on can adjust playback tempo without disturbing the OSD</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Piers</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 22 (Piers).</description>
 		<platform>all</platform>
@@ -478,7 +478,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.0.5.zip</path>
+	    <path>skin.contuary/skin.contuary-2.1.0.zip</path>
   </extension>
 </addon>
 </addons>
