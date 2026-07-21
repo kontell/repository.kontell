@@ -2,6 +2,7 @@
 
 Kodi addon repository for:
 
+- [Kofin](https://github.com/kontell/plugin.video.kofin) - a Jellyfin client with native Kodi integration (browse, play and library sync);
 - [Kofin PVR](https://github.com/kontell/pvr.kofin) - a Kodi PVR client for Jellyfin Live TV;
 - [Koshelf](https://github.com/kontell/KoShelf) - A client for AudioBookShelf;
 - [InputStream.Tempo](https://github.com/kontell/inputstream.tempo) - A fork of inputstream.ffmpegdirect which provides tempo (playback speed) adjustment for audio only playback;
