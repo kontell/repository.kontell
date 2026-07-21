@@ -1,0 +1,21 @@
+[
+    {
+        "guid": "eed3be84-d5cc-4f3b-b346-ba80c81cbec9",
+        "category": "General",
+        "name": "Kofin Sync Queue",
+        "overview": "Typed change queue for the Kofin Kodi client",
+        "description": "Companion plugin for plugin.video.kofin: records library and user-data changes as typed records (change reason, series/season parents), serves them with query-time Etags and an in-band retention cutoff, so offline Kodi boxes catch up with minimal traffic.",
+        "owner": "kontell",
+        "imageUrl": "",
+        "versions": [
+            {
+                "version": "1.0.0.0",
+                "changelog": "",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_1.0.0.0.zip",
+                "checksum": "3c17070a771ebc2d4b8ec79a03d4ac59",
+                "timestamp": "2026-07-20T12:50:16Z"
+            }
+        ]
+    }
+]
