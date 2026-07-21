@@ -28,3 +28,16 @@ Kodi addon repository for:
 4.  Go to: Add-ons → Install from repository → Kontell Repository
 
 The repository provides the correct build for your platform and Kodi version automatically.
+
+## Jellyfin server plugins
+
+This site also hosts a **Jellyfin plugin repository** — a separate manifest for
+Jellyfin *servers*, unrelated to the Kodi add-ons above:
+
+- [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kofin/Kodi boxes catch up with minimal traffic. Requires Jellyfin 10.11+.
+
+To install:
+
+1.  In Jellyfin, go to: Dashboard → Plugins → Repositories → **+**
+2.  Add a repository with the URL: `https://repository.kontell.workers.dev/jellyfin/manifest.json`
+3.  Go to: Dashboard → Plugins → Catalog, install **Kofin Sync Queue**, and restart the server.
