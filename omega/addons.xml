@@ -190,7 +190,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.1.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.2.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -203,6 +203,13 @@
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="kodi.context.item">
     <menu id="kodi.core.main">
+      <item library="context_manage.py">
+        <label>30502</label>
+        <!-- Jellyfin actions (favorites/delete/settings). kofin browse items
+             carry kofin.id; synced video-library items resolve through
+             kofin.db. Declared first so it sits above Play with transcoding. -->
+        <visible>!String.IsEmpty(ListItem.Property(kofin.id)) | String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,set)</visible>
+      </item>
       <item library="context_play.py">
         <label>30010</label>
         <!-- kofin browse items carry kofin.id; synced library items are
@@ -222,11 +229,11 @@
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
     <summary lang="en_GB">Jellyfin client with native Kodi integration</summary>
-    <description lang="en_GB">Browse and play media from a Jellyfin server. Library sync, SyncPlay and segment skipping arrive in later phases.</description>
+    <description lang="en_GB">Play media from a Jellyfin server.</description>
     <assets>
       <icon>resources/media/icon.png</icon>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.1.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.2.0.zip</path>
   </extension>
 </addon>
 <addon
