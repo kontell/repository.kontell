@@ -190,11 +190,16 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.6.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.6.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
     <import addon="script.module.websocket" version="1.6.4"/>
+    <!-- Renders the lyrics kofin publishes. Not optional: Kodi does not
+         install optional dependencies, and lyrics are meant to work without
+         the viewer hunting for a second addon. Served from the same
+         repository as kofin, so it resolves. -->
+    <import addon="script.kofin.lyrics" version="0.1.0"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video audio image</provides>
@@ -233,8 +238,9 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.6.0
-- Song lyrics held on your Jellyfin server are now handed to Kodi the moment a track starts, so a lyrics addon shows the copy from your own library instead of searching the internet and sometimes settling on the wrong song. Lyrics that carry timings scroll along with the music. This needs an addon that displays lyrics, such as CU LRC Lyrics, because Kodi's own skins do not show them; it can be switched off on the Playback tab</news>
+    <news>v0.6.1
+- Song lyrics are now drawn by the new Kofin Lyrics add-on, installed alongside Kofin. It shows them in its own window on any skin, and lets a skin that draws lyrics itself do it instead - Contuary 2.2.0 does. Kofin's part is fetching them from the server as each track starts
+- Lyrics settings moved to a choice: off, shown by Kofin Lyrics, or handed to whatever lyrics add-on you already use</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
@@ -243,7 +249,7 @@
     <assets>
       <icon>resources/media/icon.png</icon>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.6.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.6.1.zip</path>
   </extension>
 </addon>
 <addon
