@@ -190,7 +190,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.6.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.7.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -229,6 +229,30 @@
              simply never appearing. -->
         <visible>[!String.IsEmpty(ListItem.Property(kofin.id)) | String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo)] + !String.IsEmpty(Window(Home).Property(kofin.context.bitrates))</visible>
       </item>
+      <!-- Stream selection for the item currently playing. Three declarations
+           of one handler, because a context item's <label> is a fixed string
+           id and this entry has to name what the item actually offers. The
+           service publishes which of audio/subtitle/both applies when it
+           claims the playback (core/state.py); an empty property hides all
+           three, which is also how a SyncPlay group withdraws the entry.
+
+           ListItem.IsPlaying is what makes this an in-playback menu: fullscreen
+           video has no context menu at all, but Back leaves it without
+           stopping playback, and the played item stays focused with this true.
+           Square brackets for grouping — parentheses fail to parse (see the
+           note on "Play with transcoding" below). -->
+      <item library="context_streams.py">
+        <label>30613</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),both)</visible>
+      </item>
+      <item library="context_streams.py">
+        <label>30614</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),audio)</visible>
+      </item>
+      <item library="context_streams.py">
+        <label>30615</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
+      </item>
       <item library="context_extras.py">
         <label>30501</label>
         <!-- TV extras are a plugin browse (no native Kodi TV extras);
@@ -238,9 +262,14 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.6.1
-- Song lyrics are now drawn by the new Kofin Lyrics add-on, installed alongside Kofin. It shows them in its own window on any skin, and lets a skin that draws lyrics itself do it instead - Contuary 2.2.0 does. Kofin's part is fetching them from the server as each track starts
-- Lyrics settings moved to a choice: off, shown by Kofin Lyrics, or handed to whatever lyrics add-on you already use</news>
+    <news>v0.7.0
+- Music is no longer re-encoded by the server when "Force remux" or "Force transcode" is on. Those two settings describe video, but they were quietly taking music with them, so every song was transcoded whatever the music settings said
+- Your Jellyfin music playlists now keep themselves up to date under Music - Playlists - Kofin. Kofin re-reads them from the server every fifteen minutes, so a playlist you change on the server shows the change in Kodi without waiting for a full sync. Tracks now carry their real length and "01. Artist - Title" naming, and still play as library songs, with play counts going back to the server
+- Films your server holds in more than one version now appear as one entry with its versions listed under it, the way Kodi's own video versions work
+- Audio and subtitle tracks can now be changed during a transcode, from the context menu on the playing item - press Back to leave fullscreen and playback keeps going with the item still focused. Changing audio restarts the stream where you were, which takes a few seconds, because Jellyfin bakes one audio track into a transcode. Picture-based subtitles (PGS, VobSub) can be burned in from the same menu
+- The transcode context item now offers the resume prompt, and re-encodes the video instead of copying the original
+- Movie extras now show their own running time instead of the film's
+- The "Who's watching" choice survives a Kodi restart</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
@@ -249,7 +278,7 @@
     <assets>
       <icon>resources/media/icon.png</icon>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.6.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.7.0.zip</path>
   </extension>
 </addon>
 <addon
