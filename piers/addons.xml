@@ -190,7 +190,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.7.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.8.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -240,16 +240,25 @@
            video has no context menu at all, but Back leaves it without
            stopping playback, and the played item stays focused with this true.
            Square brackets for grouping — parentheses fail to parse (see the
-           note on "Play with transcoding" below). -->
-      <item library="context_streams.py">
+           note on "Play with transcoding" below).
+
+           The args are what keep the three declarations three: Kodi loads addon
+           context items through CContextMenuManager::ReloadAddonItems, which
+           drops any item already in the list, and CContextMenuItem::operator==
+           compares parent, library, addon id and args — neither the label nor
+           the visible condition. Without them only the first declaration
+           survives, so a playback offering just audio or just subtitles showed
+           no entry at all. Nothing reads the value; the handler takes what to
+           offer from the same window property the conditions test. -->
+      <item library="context_streams.py" args="both">
         <label>30613</label>
         <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),both)</visible>
       </item>
-      <item library="context_streams.py">
+      <item library="context_streams.py" args="audio">
         <label>30614</label>
         <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),audio)</visible>
       </item>
-      <item library="context_streams.py">
+      <item library="context_streams.py" args="subtitle">
         <label>30615</label>
         <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
       </item>
@@ -262,14 +271,11 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.7.0
-- Music is no longer re-encoded by the server when "Force remux" or "Force transcode" is on. Those two settings describe video, but they were quietly taking music with them, so every song was transcoded whatever the music settings said
-- Your Jellyfin music playlists now keep themselves up to date under Music - Playlists - Kofin. Kofin re-reads them from the server every fifteen minutes, so a playlist you change on the server shows the change in Kodi without waiting for a full sync. Tracks now carry their real length and "01. Artist - Title" naming, and still play as library songs, with play counts going back to the server
-- Films your server holds in more than one version now appear as one entry with its versions listed under it, the way Kodi's own video versions work
-- Audio and subtitle tracks can now be changed during a transcode, from the context menu on the playing item - press Back to leave fullscreen and playback keeps going with the item still focused. Changing audio restarts the stream where you were, which takes a few seconds, because Jellyfin bakes one audio track into a transcode. Picture-based subtitles (PGS, VobSub) can be burned in from the same menu
-- The transcode context item now offers the resume prompt, and re-encodes the video instead of copying the original
-- Movie extras now show their own running time instead of the film's
-- The "Who's watching" choice survives a Kodi restart</news>
+    <news>v0.8.0
+- Continue watching now leads the addon's own listing, the way it does in Jellyfin's web client: everything you are part-way through, across every library, most recently played first
+- The audio and subtitle chooser now appears for every transcode that has something to offer. It only ever showed up when the item had both a second audio track and subtitles to switch to, so a film with three subtitle tracks and one audio track offered nothing at all
+- "Mark as watched on Jellyfin" no longer sits beside Kodi's own "Mark as watched" on items in a synced library. Kodi's already reaches the server there; the Jellyfin one stays on items browsed straight from the server, where nothing else does
+- Music playlists now show artist, album and title, and report to the Jellyfin dashboard, on installs whose music library was synced with "Transcode music" off. Their tracks were written as plain server links, which Kodi cannot match back to the song in its own library, so it showed the bare playlist line and Kofin never saw the playback</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
@@ -278,7 +284,7 @@
     <assets>
       <icon>resources/media/icon.png</icon>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.7.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.8.0.zip</path>
   </extension>
 </addon>
 <addon
