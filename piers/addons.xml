@@ -571,7 +571,7 @@
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.1.1" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.2.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -580,19 +580,20 @@
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>[B]0.1.1[/B]
-• The "Recent queues" button in the skin's music row no longer disappears. It used to hide itself while the history was empty, which relied on the add-on keeping a value alive on the home screen — and on Android that value is lost every time Kodi goes to the background, so the button went missing and stayed missing
-• The button is now shown whenever the add-on is installed. Opening it with nothing recorded says so</news>
+    <news>v0.2.0
+• The "Recent queues" button can now be placed on the skin's home screen from the add-on settings: the running skin is edited so its music categories row gets a button that opens the pop-up directly, with no window change
+• Estuary and Contuary are supported. The edit is reversible from the same settings page, and a skin update that wipes it is put right by running it again
+• When Kodi's bundled skin cannot be edited in place, an editable copy is set up in the user's add-ons and the button added there</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
     <summary lang="en_GB">Bring back a music queue you were part-way through</summary>
-    <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second. Reached from the "Recent queues" button in the skin's music categories row, or by running the addon.</description>
+    <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second. Reached from the "Recent queues" button the add-on can place on the skin's music categories row (Estuary and Contuary, from the add-on settings), or by running the add-on.</description>
     <assets>
       <icon>resources/icon.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.1.1.zip</path>
+      <path>script.music.restore/script.music.restore-0.2.0.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
