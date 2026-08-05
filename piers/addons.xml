@@ -568,6 +568,37 @@
       <path>script.kofin.lyrics/script.kofin.lyrics-0.1.0.zip</path>
   </extension>
 </addon>
+<!-- The script extension point comes first deliberately: an addon's LibPath is
+     taken from its first <extension>, and that is what RunScript resolves when
+     the skin's "Recent queues" widget button fires. -->
+<addon id="script.music.restore" name="Restore Music Queue" version="0.1.0" provider-name="kontell">
+  <requires>
+    <import addon="xbmc.python" version="3.0.1"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>[B]0.1.0[/B]
+• First release. Records the music queue every time it is taken away — when a new album or playlist replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits
+• Each entry remembers which track was playing and how far into it, and restores to exactly that point rather than starting the track again
+• Pick from the "Recent queues" list: album and artist, how many tracks and how many unplayed, how long ago it was played and where it stopped
+• Playing the same album twice leaves two entries, and restoring one leaves it on the list, so nothing is lost by choosing the wrong one
+• Reached from the "Recent queues" button in the skin's music row, or by running the add-on
+• Settings for how many queues to keep, whether to restore the last one when Kodi starts, and whether restored queues start playing or wait paused</news>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <source>https://github.com/kontell/script.music.restore</source>
+    <summary lang="en_GB">Bring back a music queue you were part-way through</summary>
+    <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second. Reached from the "Recent queues" button in the skin's music categories row, or by running the addon.</description>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+      <path>script.music.restore/script.music.restore-0.1.0.zip</path>
+  </extension>
+</addon>
 <addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
