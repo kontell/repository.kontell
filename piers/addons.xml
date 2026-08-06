@@ -190,7 +190,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.11.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.11.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -271,15 +271,13 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.0
-- "Clean databases" in Settings / Account removes every trace of Kofin and jellyfin-kodi from Kodi's databases, nodes and playlists - for migrating in or uninstalling cleanly
-- Critic ratings are imported from the server, and can replace the community rating as the one Kodi shows
-- Media segment skipping is now off by default. Turn it on in Settings / Playback
-- The stream menu marks the track actually playing and opens on it, a burned-in subtitle included, and can turn one off again; changing audio during direct playback no longer restarts the film
-- Subtitle files beside your media now show their language instead of "(External)"
-- Kofin's generated playlists moved into a "Kofin" folder in both the music and video playlist lists, with the add-on's icon on it
-- The add-on's own fanart no longer sits behind recordings and other items that have no artwork of their own
-- Moved off the Jellyfin API routes 10.11 no longer documents, before a future release stops answering them</news>
+    <news>v0.11.1
+- The subtitle your Jellyfin profile asks for is the one that plays. Where your media has a subtitle file beside it every built-in track was numbered one place along, so a profile asking for Norwegian played Korean
+- "Play with transcoding" now starts while something else is already playing. With music on, the film resolved and then died with a stream error
+- Shows that live in more than one library are filed under the right one. The wrong library was stamped once and never corrected, costing a library update on every boot that fixed nothing
+- A film in two collections no longer leaves one of them permanently reading as out of date, which had a collections pass running on every start that could never settle
+- Library nodes still generate when the server answers incompletely. A library missing from the server's sorted list used to abort the whole tree and rebuild it from scratch on every start, forever
+- A library that fails to sync notifies once rather than on every retry, and the retries back off instead of running hourly for good</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
@@ -295,7 +293,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.png</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.11.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.11.1.zip</path>
   </extension>
 </addon>
 <addon
