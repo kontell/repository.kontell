@@ -190,7 +190,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.11.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.12.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -202,7 +202,7 @@
     <import addon="script.kofin.lyrics" version="0.1.0"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
-    <provides>video audio image</provides>
+    <provides>video audio</provides>
     <reuselanguageinvoker>true</reuselanguageinvoker>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
@@ -262,27 +262,23 @@
         <label>30615</label>
         <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
       </item>
-      <item library="context_extras.py">
-        <label>30501</label>
-        <!-- TV extras are a plugin browse (no native Kodi TV extras);
-             library shows/seasons resolve through kofin.db. -->
-        <visible>String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)</visible>
-      </item>
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.11.1
-- The subtitle your Jellyfin profile asks for is the one that plays. Where your media has a subtitle file beside it every built-in track was numbered one place along, so a profile asking for Norwegian played Korean
-- "Play with transcoding" now starts while something else is already playing. With music on, the film resolved and then died with a stream error
-- Shows that live in more than one library are filed under the right one. The wrong library was stamped once and never corrected, costing a library update on every boot that fixed nothing
-- A film in two collections no longer leaves one of them permanently reading as out of date, which had a collections pass running on every start that could never settle
-- Library nodes still generate when the server answers incompletely. A library missing from the server's sorted list used to abort the whole tree and rebuild it from scratch on every start, forever
-- A library that fails to sync notifies once rather than on every retry, and the retries back off instead of running hourly for good</news>
+    <news>v0.12.0
+- Browsing large libraries is around nine times faster, and the cast list in the info dialog opens instantly
+- Playback starts sooner, and a transcode with subtitles no longer stalls for over a minute first
+- Library nodes are grouped by type, favourites after them, and the music "Recently added" icon is back
+- Delete is offered only to accounts the server actually lets delete
+- Extras moved into Jellyfin actions, and appear only for shows that have some
+- Resume offset moved to Settings / Playback
+- The image setting that never did anything is gone
+- A slow or unreachable server no longer removes libraries, stalls shutdown, or leaves sync stuck</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
-    <summary lang="en_GB">Jellyfin client with native Kodi integration</summary>
-    <description lang="en_GB">Play media from a Jellyfin server.</description>
+    <summary lang="en_GB">Jellyfin client for seamless Kodi integration</summary>
+    <description lang="en_GB">Play movies, shows &amp; music from a Jellyfin server.</description>
     <!-- fanart.png is the *live* backdrop: service/backdrop.py rewrites it in
          place when the server-splashscreen setting is on, and restores it from
          a copy it captures into addon_data. The asset path has to stay fixed
@@ -293,7 +289,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.png</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.11.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.12.0.zip</path>
   </extension>
 </addon>
 <addon
