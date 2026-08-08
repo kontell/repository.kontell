@@ -162,18 +162,38 @@ def parse_dual(name, addon_id):
 def parse_binary(name, addon_id):
     """(version, platform, channel) for a binary asset, or None.
 
-    Handles both naming schemes on purpose. Before the Kodi-numbering migration
-    the channel is an explicit -kodi<N> suffix; afterwards it is the version's
-    major, and the suffix is gone because carrying both invites them to disagree.
+    Handles both naming schemes on purpose, because the archive holds both.
+
+    Pre-renumbering names carry the channel as an explicit ``-kodi<N>`` suffix and
+    a 0.x version that says nothing about Kodi, so there the suffix is the only
+    source. Post-renumbering the version's major is authoritative and the suffix
+    is gone — it was dropped precisely because two fields that must agree
+    eventually will not.
+
+    The transitional shape, a 21/22.x version *and* a suffix, exists for the first
+    releases cut under the new numbering. Those are required to agree: the version
+    wins, and a disagreement is refused rather than resolved, since guessing which
+    field is right is how a Kodi 21 build reaches a Kodi 22 box.
     """
     m = re.fullmatch(
         rf"{re.escape(addon_id)}-{VERSION}-{ARCH}-kodi(?P<kodi>\d+)\.zip", name
     )
     if m:
-        channel = CHANNEL_BY_KODI.get(m.group("kodi"))
-        if channel is None:
+        version = m.group("version")
+        suffix_channel = CHANNEL_BY_KODI.get(m.group("kodi"))
+        if suffix_channel is None:
             return None
-        return m.group("version"), f"{m.group('os')}-{m.group('arch')}", channel
+        version_channel = CHANNEL_BY_KODI.get(version.split(".")[0])
+        if version_channel is not None and version_channel != suffix_channel:
+            raise Problem(
+                f"{name} disagrees with itself: version {version} means "
+                f"{version_channel} but the -kodi{m.group('kodi')} suffix means "
+                f"{suffix_channel}. Refusing to guess — one of them would put the "
+                f"build on the wrong Kodi."
+            )
+        # The version is authoritative where it carries a channel; the suffix is
+        # only consulted for the older 0.x names that have nothing else.
+        return version, f"{m.group('os')}-{m.group('arch')}", version_channel or suffix_channel
 
     m = re.fullmatch(rf"{re.escape(addon_id)}-{VERSION}-{ARCH}\.zip", name)
     if m:
