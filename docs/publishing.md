@@ -52,38 +52,57 @@ in full before anything is placed.
 
 Until this is done the forwarders are **inert**: each logs a notice saying so and
 succeeds, and the 30-minute reconcile keeps the repository correct. Instant
-publishing is the only thing missing.
+publishing is the only thing missing, so none of this is urgent.
 
-A GitHub App is used rather than a personal access token: it is scoped to this one
-repository, and there is no expiry to re-issue.
+**`kontell` is a user account, not an organisation.** That matters here: there are
+no organisation-level secrets to share one credential across repositories, so the
+pair has to be set on **each add-on repo** that carries a `notify-repo.yml`. Nine
+of them, at the time of writing. `tools/set-dispatch-credentials.sh` does that in
+one pass.
 
-1. **Create the App** — <https://github.com/organizations/kontell/settings/apps/new>
+A GitHub App is still preferred over a personal access token: the token it mints is
+short-lived, scoped to `repository.kontell` alone, and there is no expiry to
+re-issue. The cost is two values per repo instead of one.
+
+1. **Create the App** — <https://github.com/settings/apps/new>
+   (a user account's App settings; there is no `/organizations/kontell/` path).
    - Name: `Kontell repository dispatch`; Homepage: this repo's URL.
    - Uncheck **Webhook → Active**.
    - Repository permissions: **Contents: Read and write**. Nothing else.
    - "Only on this account".
 2. **Note the App ID**, then **Generate a private key** and download the `.pem`.
+   Keep it out of any repository and out of your shell history.
 3. **Install it** — the App's *Install App* tab → `kontell` → **Only select
-   repositories** → `repository.kontell`.
-4. **Add the credentials as organisation-level values** so all add-on repos share
-   one pair, at <https://github.com/organizations/kontell/settings/secrets/actions>:
-   - Variable `REPO_DISPATCH_APP_ID` = the App ID.
-   - Secret `REPO_DISPATCH_APP_PRIVATE_KEY` = the whole `.pem`, including the
-     `-----BEGIN…` and `-----END…` lines.
-
-   Or with the CLI:
+   repositories** → `repository.kontell`. Nothing else needs it: the App only ever
+   writes to this repo, and the reconcile reads the add-on releases with the
+   default token because every source repo is public.
+4. **Place the credentials** in every repo with a forwarder:
 
    ```bash
-   gh variable set REPO_DISPATCH_APP_ID --org kontell --body '<app-id>'
-   gh secret   set REPO_DISPATCH_APP_PRIVATE_KEY --org kontell < key.pem
+   tools/set-dispatch-credentials.sh <app-id> /path/to/key.pem
    ```
 
-   Scope them to the add-on repositories that need them (the org UI's
-   "Repository access", or `--visibility`).
+   It pipes the key from the file rather than taking it as an argument, so the key
+   never reaches your shell history or a process listing. Per repo it sets:
+   - variable `REPO_DISPATCH_APP_ID`
+   - secret `REPO_DISPATCH_APP_PRIVATE_KEY`
 5. **Check it** — run *Notify repository* by hand (`workflow_dispatch`) from any
    add-on repo. It should mint a token and dispatch; this repo's *Publish* run
-   then appears within seconds.
+   appears within seconds. Before step 4 the same run reports "not configured" and
+   succeeds, which is the difference to look for.
 
-Nothing here grants access to the add-on repos themselves: the App writes only to
-`repository.kontell`, and the reconcile reads releases with the default token
-because every source repo is public.
+#### If you would rather not
+
+Two smaller options, both legitimate:
+
+- **Do nothing.** The scheduled reconcile already keeps the repository correct
+  within 30 minutes of a release being published, needs no credentials anywhere,
+  and is the fallback even when the App *is* configured.
+- **A fine-grained PAT** scoped to `repository.kontell` with Contents: write — one
+  secret per repo instead of two values, but it expires and has to be rotated. The
+  forwarder would need its `create-github-app-token` step swapped for a plain
+  `GH_TOKEN: ${{ secrets.REPO_DISPATCH_TOKEN }}`.
+
+Whichever you choose, remember that a release published by a workflow using the
+default `GITHUB_TOKEN` raises no `release` event, so the draft has to be published
+by a human or with your own credentials for the forwarder to fire at all.
