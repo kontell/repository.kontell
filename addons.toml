@@ -78,25 +78,13 @@ platforms = [
 id = "inputstream.tempo"
 repo = "kontell/inputstream.tempo"
 model = "binary"
-# windows-x86_64 is NOT listed, and that is a bug being tracked, not a decision.
-# release.yml builds it and the Windows jobs report success, but they upload zero
-# files: actions/upload-artifact defaults to `if-no-files-found: warn`, so a
-# platform that produces no zip goes green and is silently absent from the
-# release. The v0.3.11 run attached 10 assets from 12 green jobs, and
-# piers/inputstream.tempo+windows-x86_64 has never existed in the served tree
-# (pvr.kofin's does — its Windows build genuinely works).
-#
-# Listing windows here would make the completeness check block every tempo
-# update until that is fixed, which trades a missing platform for no updates at
-# all. Add it back once the Windows build actually attaches a zip; the
-# `if-no-files-found: error` added to both binary repos is what will make the
-# failure visible in the first place.
 platforms = [
   "linux-x86_64",
   "linux-armv7",
   "linux-aarch64",
   "android-armv7",
   "android-aarch64",
+  "windows-x86_64",
 ]
 
 [[addon]]
