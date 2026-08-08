@@ -308,6 +308,16 @@ def stage_repo_addon(pages_dir, version):
         dest_dir = os.path.join(pages_dir, version_dir, "repository.kontell")
         os.makedirs(dest_dir, exist_ok=True)
         _write_repo_zip(os.path.join(dest_dir, zip_name))
+        # This function owns the directory outright -- it is the only writer, and
+        # addons.xml advertises exactly one version. Superseded copies used to be
+        # cleared by the global --prune, which the automated publisher no longer
+        # passes (it prunes only directories it wrote into, so a run that fails
+        # elsewhere cannot empty an unrelated one). Clearing them here keeps that
+        # narrower prune correct without leaving these to pile up on every bump.
+        for stale in os.listdir(dest_dir):
+            if stale.endswith(".zip") and stale != zip_name:
+                os.remove(os.path.join(dest_dir, stale))
+                print(f"    {version_dir}: removed superseded {stale}")
         print(f"  {version_dir}: staged repository.kontell {version} (self-update)")
 
 
