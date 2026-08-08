@@ -1,0 +1,107 @@
+# What the Kontell repository serves, and where each thing comes from.
+#
+# This replaces seven near-identical update-*.sh scripts. They had drifted from
+# each other in ways that only matter once nobody is watching the output: some
+# looked at the newest 5 releases and some at 20, and several *fell back to the
+# latest draft* when no published release existed — reasonable for a human at a
+# terminal, wrong for a cron job. tools/update.py reads this file and applies one
+# code path to every entry.
+#
+# model = how an addon maps releases onto the served tree:
+#
+#   shared    Pure Python, one zip that works on both Kodi versions. Copied into
+#             omega/<id>/ and piers/<id>/ unchanged.
+#   dual      Per-channel releases, tagged omega/vX.Y.Z and piers/vX.Y.Z, whose
+#             assets carry a -omega / -piers suffix. Each goes to its own channel.
+#   binary    Compiled per platform. Assets land in <channel>/<id>+<os>-<arch>/.
+#             The channel comes from the asset's -kodi<N> suffix where present,
+#             otherwise from the version's major (21 -> omega, 22 -> piers), so
+#             this works before and after the Kodi-numbering migration.
+#   jellyfin  A Jellyfin *server* plugin, not a Kodi addon. Served from the same
+#             site under jellyfin/ with its own manifest.json.
+#
+# platforms = the full set a binary release must produce. update.py refuses to
+# place a partial set: a half-published release leaves some platforms on an older
+# build while addons.xml advertises the new version for the rest, and the whole
+# point of automating this is that nobody is reading the output.
+
+[[addon]]
+id = "plugin.video.kofin"
+repo = "kontell/plugin.video.kofin"
+model = "shared"
+
+[[addon]]
+id = "script.kofin.lyrics"
+repo = "kontell/script.kofin.lyrics"
+model = "shared"
+
+[[addon]]
+id = "script.music.restore"
+repo = "kontell/script.music.restore"
+model = "shared"
+
+[[addon]]
+id = "script.skin.contuary"
+repo = "kontell/script.skin.contuary"
+model = "shared"
+
+[[addon]]
+id = "plugin.timeshiftsaver"
+repo = "kontell/plugin.timeshiftsaver"
+model = "shared"
+
+[[addon]]
+id = "plugin.audio.koshelf"
+# The GitHub repo is "KoShelf"; the addon id is not derivable from it.
+repo = "kontell/KoShelf"
+model = "shared"
+
+[[addon]]
+id = "skin.contuary"
+repo = "kontell/skin.contuary"
+model = "dual"
+
+[[addon]]
+id = "pvr.kofin"
+repo = "kontell/pvr.kofin"
+model = "binary"
+platforms = [
+  "linux-x86_64",
+  "linux-armv7",
+  "linux-aarch64",
+  "android-armv7",
+  "android-aarch64",
+  "windows-x86_64",
+]
+
+[[addon]]
+id = "inputstream.tempo"
+repo = "kontell/inputstream.tempo"
+model = "binary"
+# windows-x86_64 is NOT listed, and that is a bug being tracked, not a decision.
+# release.yml builds it and the Windows jobs report success, but they upload zero
+# files: actions/upload-artifact defaults to `if-no-files-found: warn`, so a
+# platform that produces no zip goes green and is silently absent from the
+# release. The v0.3.11 run attached 10 assets from 12 green jobs, and
+# piers/inputstream.tempo+windows-x86_64 has never existed in the served tree
+# (pvr.kofin's does — its Windows build genuinely works).
+#
+# Listing windows here would make the completeness check block every tempo
+# update until that is fixed, which trades a missing platform for no updates at
+# all. Add it back once the Windows build actually attaches a zip; the
+# `if-no-files-found: error` added to both binary repos is what will make the
+# failure visible in the first place.
+platforms = [
+  "linux-x86_64",
+  "linux-armv7",
+  "linux-aarch64",
+  "android-armv7",
+  "android-aarch64",
+]
+
+[[addon]]
+id = "kofin-sync-queue"
+repo = "kontell/jellyfin-plugin-kofinsyncqueue"
+model = "jellyfin"
+# Underscore, and a 4-part version, unlike the hyphenated Kodi naming.
+asset_glob = "kofin-sync-queue_*.zip"

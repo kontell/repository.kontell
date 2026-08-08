@@ -1,0 +1,183 @@
+# Reconcile the served repository against every add-on's newest published
+# release, and publish to gh-pages when something moved.
+#
+# Three ways in:
+#
+#   repository_dispatch  an add-on repo fired notify-repo.yml on release:published.
+#                        Instant, and carries which add-on in client_payload.
+#   schedule             the safety net. A dispatch can be dropped, a token can
+#                        expire, an asset can be re-uploaded after the fact — all
+#                        of which become "up to 30 minutes late" rather than
+#                        "silently stale forever".
+#   workflow_dispatch    by hand, optionally for one add-on.
+#
+# Both repository_dispatch and release run only from the default branch, so this
+# file has to live on main. It reads GitHub releases rather than the checked-out
+# tree, so which ref invoked it does not matter.
+name: Publish
+
+on:
+  repository_dispatch:
+    types: [addon-released]
+  schedule:
+    # Every 30 minutes. An unchanged run makes no commit and triggers no Pages
+    # deploy, so the steady-state cost is one gh API sweep.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      addon:
+        description: "Single add-on id from addons.toml (blank = all)"
+        type: string
+        default: ""
+      dry_run:
+        description: "Report what would change, publish nothing"
+        type: boolean
+        default: false
+
+# Only ever writes to this repo's own gh-pages branch.
+permissions:
+  contents: write
+
+# Never let two publishes interleave: both would push to gh-pages and the loser
+# would need a rebase it cannot do unattended.
+concurrency:
+  group: publish-repository
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Checkout gh-pages into _site
+        # Same layout scripts/lib-pages.sh builds locally as a worktree, so
+        # generate_repo.py --pages-dir _site needs no special casing.
+        uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+          path: _site
+
+      - uses: actions/setup-python@v5
+        with:
+          # tomllib is stdlib from 3.11, so the manifest needs no dependency.
+          python-version: "3.11"
+
+      - name: Report what triggered this
+        run: |
+          echo "event: ${{ github.event_name }}"
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            echo "addon:  ${{ github.event.client_payload.addon }}"
+            echo "tag:    ${{ github.event.client_payload.tag }}"
+          fi
+
+      - name: Place release assets
+        id: update
+        env:
+          # Every source repo is public and only releases are read, so the
+          # default token is sufficient — no cross-repo secret needed here. The
+          # cross-repo token is only needed the other way round, for the
+          # forwarders that dispatch *into* this repo.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          args=(--pages-dir _site)
+          # A dispatch names one add-on, but the reconcile still sweeps
+          # everything: it is the same cost and it self-heals anything missed.
+          if [[ -n "${{ github.event.inputs.addon }}" ]]; then
+            args+=("${{ github.event.inputs.addon }}")
+          else
+            args+=(--all)
+          fi
+          if [[ "${{ github.event.inputs.dry_run }}" == "true" ]]; then
+            args+=(--dry-run)
+          fi
+          python3 tools/update.py "${args[@]}"
+
+      - name: Regenerate repository metadata
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          set -euo pipefail
+          python3 generate_repo.py --pages-dir _site
+          python3 generate_jellyfin_repo.py --pages-dir _site
+        # Deliberately no --prune. tools/update.py prunes only the directories it
+        # wrote into, so a directory this run did not touch keeps what it had and
+        # cannot be emptied by a run that went wrong elsewhere.
+
+      - name: Commit and push gh-pages
+        id: push
+        if: steps.update.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        working-directory: _site
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "regeneration produced no net change — nothing to push"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git diff --cached --stat
+          case "${{ github.event_name }}" in
+            repository_dispatch) why="${{ github.event.client_payload.addon }} ${{ github.event.client_payload.tag }}" ;;
+            schedule)            why="scheduled reconcile" ;;
+            *)                   why="manual publish" ;;
+          esac
+          git commit -q -m "Update repository content ($why)"
+          git push origin gh-pages
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          # Read back for the verification step below.
+          {
+            echo "omega_md5=$(cat omega/addons.xml.md5)"
+            echo "piers_md5=$(cat piers/addons.xml.md5)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Verify the published site actually serves the new metadata
+        if: steps.push.outputs.pushed == 'true'
+        run: |
+          set -uo pipefail
+          # Pages builds asynchronously after the push, so a green publish job
+          # has so far proved nothing about what clients can fetch. Poll the
+          # Worker (the URL the repository addon.xml actually points at) until
+          # the checksums match what was just generated.
+          #
+          # The Worker sets Cache-Control: no-store on non-2xx, so a 404 in the
+          # publish -> Pages gap cannot pin at the edge. Nothing, though, told us
+          # when Pages simply failed to deploy. This does.
+          base="https://repository.kontell.workers.dev"
+          declare -A want=(
+            [omega]="${{ steps.push.outputs.omega_md5 }}"
+            [piers]="${{ steps.push.outputs.piers_md5 }}"
+          )
+          deadline=$(( SECONDS + 600 ))
+          for channel in omega piers; do
+            expected="${want[$channel]}"
+            echo "waiting for $channel/addons.xml.md5 == $expected"
+            while :; do
+              got="$(curl -fsS --max-time 20 "$base/$channel/addons.xml.md5" || true)"
+              if [[ "$got" == "$expected" ]]; then
+                echo "  $channel is live"
+                break
+              fi
+              if (( SECONDS >= deadline )); then
+                echo "::error::$channel/addons.xml.md5 is still '$got' after 10 minutes," \
+                     "expected '$expected'. gh-pages has the commit, so either the Pages" \
+                     "deploy failed or the Worker is serving a stale origin."
+                exit 1
+              fi
+              sleep 20
+            done
+          done
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Repository publish"
+            echo
+            echo "- event: \`${{ github.event_name }}\`"
+            echo "- files changed: \`${{ steps.update.outputs.count || 0 }}\`"
+            echo "- pushed: \`${{ steps.push.outputs.pushed || 'false' }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
