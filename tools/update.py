@@ -34,6 +34,7 @@ downloaded and checked, so an interrupted run leaves the tree as it was.
 
 import argparse
 import filecmp
+import fnmatch
 import json
 import os
 import re
@@ -103,10 +104,38 @@ def published_releases(repo, limit=30):
 
 
 def release_assets(repo, tag):
-    data = gh_json(
-        "release", "view", tag, "--repo", repo, "--json", "assets"
-    )
-    return [a["name"] for a in data.get("assets", [])]
+    """[{name, size}] for a release, from the API — nothing is downloaded.
+
+    The size matters as much as the name. Together they are enough to decide
+    whether the served tree is already current, which is what lets the common
+    case skip the download entirely.
+    """
+    data = gh_json("release", "view", tag, "--repo", repo, "--json", "assets")
+    return [{"name": a["name"], "size": a.get("size", 0)} for a in data.get("assets", [])]
+
+
+def already_served(expected, pages):
+    """True when every (relative path, size) in `expected` is already on disk.
+
+    This is the fast exit. Without it a scheduled run downloads every asset of
+    every add-on before discovering nothing changed — measured at ~169 MB per run
+    for four add-ons, of which inputstream.tempo's Android zips are 147 MB. At a
+    30-minute cadence that is several GB a day to learn nothing.
+
+    Name and size come from the release API, which costs one call already being
+    made. Size is what catches a release re-cut at the same version: the filename
+    would match but the bytes would not. Bytes that differ at *identical* size
+    would slip through, which is accepted — a rebuild that lands on the same
+    length is not a case worth paying 169 MB a run to catch, and --force is there
+    for when it is suspected.
+    """
+    for rel, size in expected:
+        path = Path(pages) / rel
+        if not path.exists():
+            return False
+        if size and path.stat().st_size != size:
+            return False
+    return True
 
 
 def download(repo, tag, patterns, dest):
@@ -255,7 +284,7 @@ def apply(placements, pages, dry_run):
 # per-model resolution
 
 
-def resolve_shared(addon, work, from_dir):
+def resolve_shared(addon, work, from_dir, pages):
     addon_id = addon["id"]
     if from_dir:
         zips = sorted(Path(from_dir).glob(f"{addon_id}-*.zip"))
@@ -264,22 +293,27 @@ def resolve_shared(addon, work, from_dir):
         src = zips[-1]
     else:
         releases = published_releases(addon["repo"])
-        chosen = next(
-            (
-                r
-                for r in releases
-                if any(
-                    parse_shared(a, addon_id)
-                    for a in release_assets(addon["repo"], r["tagName"])
-                )
-            ),
-            None,
-        )
+        chosen, chosen_assets = None, []
+        for release in releases:
+            assets = release_assets(addon["repo"], release["tagName"])
+            if any(parse_shared(a["name"], addon_id) for a in assets):
+                chosen, chosen_assets = release, assets
+                break
         if chosen is None:
             raise NotReleasedYet(
                 f"no published release of {addon['repo']} carries a "
                 f"{addon_id}-<version>.zip asset"
             )
+        # Fast exit: the asset name carries the version and the API gave us its
+        # size, so whether the tree is current is answerable without downloading.
+        asset = next(a for a in chosen_assets if parse_shared(a["name"], addon_id))
+        version = parse_shared(asset["name"], addon_id)
+        expected = [
+            (f"{channel}/{addon_id}/{addon_id}-{version}.zip", asset["size"])
+            for channel in CHANNELS
+        ]
+        if already_served(expected, pages):
+            return []
         download(addon["repo"], chosen["tagName"], [f"{addon_id}-*.zip"], work)
         zips = [p for p in work.glob(f"{addon_id}-*.zip") if parse_shared(p.name, addon_id)]
         if len(zips) != 1:
@@ -297,7 +331,7 @@ def resolve_shared(addon, work, from_dir):
     ]
 
 
-def resolve_dual(addon, work, from_dir):
+def resolve_dual(addon, work, from_dir, pages):
     addon_id = addon["id"]
     placements = []
     if from_dir:
@@ -327,6 +361,15 @@ def resolve_dual(addon, work, from_dir):
         if chosen is None:
             print(f"    {channel}: no published release, leaving as-is")
             continue
+        assets = release_assets(addon["repo"], chosen["tagName"])
+        parsed = [(a, parse_dual(a["name"], addon_id)) for a in assets]
+        mine = [(a, pd) for a, pd in parsed if pd and pd[1] == channel]
+        if mine and already_served(
+            [(f"{channel}/{addon_id}/{addon_id}-{pd[0]}.zip", a["size"]) for a, pd in mine],
+            pages,
+        ):
+            print(f"    {channel}: already current")
+            continue
         cdir = work / channel
         download(addon["repo"], chosen["tagName"], [f"{addon_id}-*.zip"], cdir)
         found = False
@@ -352,10 +395,16 @@ def resolve_dual(addon, work, from_dir):
     return placements
 
 
-def resolve_binary(addon, work, from_dir):
+def resolve_binary(addon, work, from_dir, pages):
     addon_id = addon["id"]
-    expected = set(addon.get("platforms", []))
+    required = set(addon.get("platforms", []))
     placements = []
+    # Channels whose served copy already matches the newest release, established
+    # from asset names and sizes alone. They are held apart from by_channel, which
+    # only ever holds material actually downloaded — conflating the two makes a
+    # satisfied channel look like a release with zero platforms, and the
+    # completeness check below then reports every platform missing.
+    satisfied = set()
 
     def collect(paths):
         by_channel = {}
@@ -375,7 +424,8 @@ def resolve_binary(addon, work, from_dir):
         releases = published_releases(addon["repo"])
         by_channel = {}
         for release in releases:
-            names = release_assets(addon["repo"], release["tagName"])
+            assets = release_assets(addon["repo"], release["tagName"])
+            names = [a["name"] for a in assets]
             channels = {
                 parsed[2]
                 for name in names
@@ -384,24 +434,46 @@ def resolve_binary(addon, work, from_dir):
             # Newest-first, so the first release offering a channel wins it. This
             # covers both topologies: one release serving both channels before the
             # migration, and a per-channel tag after it.
-            wanted = channels - set(by_channel)
+            wanted = channels - set(by_channel) - satisfied
             if not wanted:
+                continue
+            # Would this tag's assets change anything? The names carry version and
+            # platform and the API gave sizes, so this is answerable before paying
+            # for the download — which for this add-on is ~150 MB a release.
+            want_dests = {}
+            for name in names:
+                parsed = parse_binary(name, addon_id)
+                if not parsed or parsed[2] not in wanted:
+                    continue
+                version, platform, channel = parsed
+                size = next((a["size"] for a in assets if a["name"] == name), 0)
+                want_dests.setdefault(channel, []).append(
+                    (f"{channel}/{addon_id}+{platform}/{addon_id}-{version}.zip", size)
+                )
+            # Per channel, so one stale channel does not force the other's download.
+            current = {c for c, d in want_dests.items() if already_served(d, pages)}
+            for channel in sorted(current):
+                print(f"    {channel}: already current")
+            satisfied |= current
+            if not (wanted - current):
                 continue
             tagdir = work / release["tagName"].replace("/", "_")
             download(addon["repo"], release["tagName"], [f"{addon_id}-*.zip"], tagdir)
             for channel, platforms in collect(sorted(tagdir.glob("*.zip"))).items():
+                if channel in satisfied:
+                    continue
                 by_channel.setdefault(channel, platforms)
-            if set(by_channel) >= set(CHANNELS):
+            if set(by_channel) | satisfied >= set(CHANNELS):
                 break
-        if not by_channel:
+        if not by_channel and not satisfied:
             raise NotReleasedYet(
                 f"no published release of {addon['repo']} carries recognisable "
                 f"{addon_id} platform zips"
             )
 
     for channel, platforms in sorted(by_channel.items()):
-        if expected:
-            missing = expected - set(platforms)
+        if required:
+            missing = required - set(platforms)
             if missing:
                 raise Problem(
                     f"{addon_id} {channel}: release is incomplete, missing "
@@ -431,6 +503,14 @@ def resolve_jellyfin(addon, work, from_dir, pages, dry_run):
         releases = published_releases(addon["repo"])
         if not releases:
             raise NotReleasedYet(f"no published release of {addon['repo']}")
+        # Same fast exit as the Kodi models: the served filename is the asset's
+        # own name, so name plus size answers "is this current?" for free.
+        assets = release_assets(addon["repo"], releases[0]["tagName"])
+        matching = [a for a in assets if fnmatch.fnmatch(a["name"], glob)]
+        if matching and already_served(
+            [(f"{JELLYFIN_DIR}/{a['name']}", a["size"]) for a in matching], pages
+        ):
+            return []
         download(addon["repo"], releases[0]["tagName"], [glob], work)
         zips = sorted(work.glob(glob))
         if not zips:
@@ -528,7 +608,7 @@ def main(argv=None):
                 resolver = RESOLVERS.get(model)
                 if resolver is None:
                     raise Problem(f"unknown model {model!r}")
-                placements = resolver(addon, work, args.from_dir)
+                placements = resolver(addon, work, args.from_dir, pages)
                 changed = apply(placements, pages, args.dry_run)
                 for placement in changed:
                     print(f"    -> {placement}")
