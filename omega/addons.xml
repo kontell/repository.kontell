@@ -623,7 +623,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.2.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.3.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
 	</requires>
@@ -642,9 +642,8 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>[B]2.2.0[/B]
-• Music visualisation: show song lyrics from a Jellyfin server, supplied by the Kofin Lyrics add-on. Lines scroll in time with the music, starting at the top of the panel and scrolling once the sung line reaches the middle
-• New "Lyrics over track info" setting in the music settings dialog: by default the lyrics panel steps aside while the track info or OSD is on screen, since the two overlap</news>
+    <news>[B]2.3.0[/B]
+• Lists: show a status icon on items the Kofin add-on has downloaded for offline playback, with its own states for part-watched and watched. Shows and seasons are marked when they hold a download</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Omega</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 21 (Omega).</description>
 		<platform>all</platform>
@@ -654,7 +653,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.2.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.3.0.zip</path>
   </extension>
 </addon>
 </addons>
