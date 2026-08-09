@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.13.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.13.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -298,14 +298,12 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.13.0
-- Download for offline playback: movies, episodes and music from the Jellyfin actions menu, kept in your normal libraries with downloaded badges and dedicated views, with progress on Kodi's own library-update bar
-- Downloads play instantly with the server away — watched state and resume are kept and replayed on reconnect, and intro/credits skipping works offline too
-- Optional transcoded downloads convert only what breaks a limit (bitrate, resolution, codec, HDR) and copy every compliant stream; lossless music converts to Opus with tags intact
-- Automatic downloads: keep the next episodes ahead while bingeing, fetch new movies, episodes and albums as they land, subscribe individual shows, and clean up watched automatic downloads
-- Finish watching a download and kofin can offer to remove it, or just do it, your choice
-- Optional NFO and artwork export makes the download folder scannable by other apps
-- Downloaded playbacks report to the server like any other, and show on the dashboard</news>
+    <news>v0.13.1
+- Music downloads are several times faster, and an album now finishes with one notification instead of one per track
+- The whole Downloads settings page appears as soon as you enable downloads, and reads better
+- A downloaded show or album offers Remove download, and the confirmation shows your free space
+- "After watching a download" is now a single toggle covering every download - note it starts off, so switch it back on if you relied on watched automatic downloads being cleaned up
+- Downloaded views appear straight away, with their own icon, and music gets a Kofin node too</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
@@ -321,7 +319,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.png</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.13.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.13.1.zip</path>
   </extension>
 </addon>
 <addon
@@ -661,7 +659,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.2.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.3.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.18.0"/>
 	</requires>
@@ -680,9 +678,8 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>[B]2.2.0[/B]
-• Music visualisation: show song lyrics from a Jellyfin server, supplied by the Kofin Lyrics add-on. Lines scroll in time with the music, starting at the top of the panel and scrolling once the sung line reaches the middle
-• New "Lyrics over track info" setting in the music settings dialog: by default the lyrics panel steps aside while the track info or OSD is on screen, since the two overlap</news>
+    <news>[B]2.3.0[/B]
+• Lists: show a status icon on items the Kofin add-on has downloaded for offline playback, with its own states for part-watched and watched. Shows and seasons are marked when they hold a download</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Piers</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 22 (Piers).</description>
 		<platform>all</platform>
@@ -692,7 +689,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.2.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.3.0.zip</path>
   </extension>
 </addon>
 </addons>
