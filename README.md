@@ -8,7 +8,7 @@ Kodi addon repository for:
 - [InputStream.Tempo](https://github.com/kontell/inputstream.tempo) - A fork of inputstream.ffmpegdirect which provides tempo (playback speed) adjustment for audio only playback;
 - [Contuary](https://github.com/kontell/skin.contuary) - Light mod of default Estuary skin with icons-only main menu;
 - [script.skin.contuary](https://github.com/kontell/script.skin.contuary/) - Helper script for skin.contuary to adjust the res (scales the UI for bigger screens).
-
+- [Restore Music Queue](https://github.com/kontell/script.music.restore) - A program add-on to restore music to previous play states.
 ## Installation
 
 ### Option 1: Add as a file source
