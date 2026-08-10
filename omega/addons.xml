@@ -583,7 +583,7 @@
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.2.0" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -592,20 +592,23 @@
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.2.0
-• The "Recent queues" button can now be placed on the skin's home screen from the add-on settings: the running skin is edited so its music categories row gets a button that opens the pop-up directly, with no window change
-• Estuary and Contuary are supported. The edit is reversible from the same settings page, and a skin update that wipes it is put right by running it again
-• When Kodi's bundled skin cannot be edited in place, an editable copy is set up in the user's add-ons and the button added there</news>
+    <news>v0.3.0
+• The "Recent queues" button is now part of Contuary itself, which shows it on the music row whenever this add-on is enabled. Nothing to switch on, and a skin update no longer takes it away
+• The two settings buttons that edited the skin are gone, along with the editing itself. Running an older version's edit is undone by updating Contuary
+• Stock Estuary no longer gets the button. Run the add-on from Add-ons → Program add-ons instead
+• New "Restore from the start of the track" setting: go back to the right track but play it from the beginning rather than the second it was interrupted at. Off by default
+• The pop-up is now called "Restore queue", after what picking a row does. The button is still "Recent queues"
+• The restoring notification carries the add-on's own icon instead of a generic information symbol, and the icon is now the button's mark</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
     <summary lang="en_GB">Bring back a music queue you were part-way through</summary>
-    <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second. Reached from the "Recent queues" button the add-on can place on the skin's music categories row (Estuary and Contuary, from the add-on settings), or by running the add-on.</description>
+    <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second, or from the start of that track if you prefer. Reached from the "Recent queues" button on Contuary's music row, or by running the add-on.</description>
     <assets>
-      <icon>resources/icon.png</icon>
+      <icon>resources/button.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.2.0.zip</path>
+      <path>script.music.restore/script.music.restore-0.3.0.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
@@ -623,7 +626,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.3.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.4.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
 	</requires>
@@ -642,8 +645,9 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>[B]2.3.0[/B]
-• Lists: show a status icon on items the Kofin add-on has downloaded for offline playback, with its own states for part-watched and watched. Shows and seasons are marked when they hold a download</news>
+    <news>[B]2.4.0[/B]
+• Music home screen: a "Recent queues" button on the categories row, opening the Restore Music Queue add-on's pop-up in place. Shown whenever that add-on is enabled. The add-on used to edit the skin's own files to put it there, and a skin update took it away again
+• Posters: show the Kofin download icon on a downloaded item that has not been played yet. It previously appeared only once the item was part-watched or watched, so a fresh download looked no different from one that was never fetched</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Omega</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 21 (Omega).</description>
 		<platform>all</platform>
@@ -653,7 +657,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.3.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.4.0.zip</path>
   </extension>
 </addon>
 </addons>
