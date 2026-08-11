@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.13.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.14.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -236,7 +236,6 @@
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video audio</provides>
-    <reuselanguageinvoker>true</reuselanguageinvoker>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="kodi.context.item">
@@ -298,28 +297,59 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.13.1
-- Music downloads are several times faster, and an album now finishes with one notification instead of one per track
-- The whole Downloads settings page appears as soon as you enable downloads, and reads better
-- A downloaded show or album offers Remove download, and the confirmation shows your free space
-- "After watching a download" is now a single toggle covering every download - note it starts off, so switch it back on if you relied on watched automatic downloads being cleaned up
-- Downloaded views appear straight away, with their own icon, and music gets a Kofin node too</news>
+    <news>v0.14.0
+- Jellyfin's own audio and subtitle preferences are editable from the Account tab, so changing which tracks a playback starts with no longer means a trip to the web interface
+- The Kofin music node now has a folder per library with Artists, Albums, Songs and Genres, and Downloaded music splits the same way
+- Downloads you never got round to watching can be cleared after a number of days you choose — off by default, and separate from the watched cleanup, because "you never started it" is the case a watched check can never catch
+- Menus and playback respond quicker: kofin no longer rebuilds itself from scratch on every click, taking around half a second off each one, so most listings open about twice as fast
+- The addon's backdrop takes about a fifth of the disk space and cache it used to
+- A queued download starts in seconds rather than half a minute, the out-of-space message fits on screen, and eight further downloader fixes besides
+- Artists no longer collect duplicate or stray discography entries, and removing one stops taking songs on other albums with it
+- Subtitles on a transcode arrive without restarting playback, a repaired library refreshes on screen, and the service now recovers on its own when a background thread dies or a library update stalls</news>
+    <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
+         it in the branch that handles this extension point and nowhere else
+         (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
+         Omega and Piers alike), so declared under xbmc.python.pluginsource —
+         which is where it reads as though it belongs, and where kofin had it
+         through 0.13.1 — it never reaches addon->ExtraInfo(),
+         CScriptRunner::ExecuteScript computes reuseLanguageInvoker=false, and
+         every plugin invocation builds a fresh interpreter. Nothing is logged
+         either way: the addon simply behaves as if the flag were absent, which
+         is how it went unnoticed. The tell in a debug log is a "Thread
+         LanguageInvoker ... terminating" line straight after "script
+         successfully run" (not reusable) rather than the thread parking, and
+         "GetLanguageInvoker - Reusing LanguageInvokerThread <id>" on the next
+         click when it is. -->
+    <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/plugin.video.kofin</source>
     <summary lang="en_GB">Jellyfin client for seamless Kodi integration</summary>
     <description lang="en_GB">Play movies, shows &amp; music from a Jellyfin server.</description>
-    <!-- fanart.png is the *live* backdrop: service/backdrop.py rewrites it in
+    <!-- fanart.webp is the *live* backdrop: service/backdrop.py rewrites it in
          place when the server-splashscreen setting is on, and restores it from
          a copy it captures into addon_data. The asset path has to stay fixed
          because addon.xml is read once at install/scan time, and the file has
          to be present in the zip because Kodi's addon browser fetches assets
-         from the repository before the addon is installed. -->
+         from the repository before the addon is installed.
+
+         WebP, not PNG, because of what Kodi's texture cache does with each:
+         it re-encodes a cached texture to JPEG only when the source carries no
+         alpha channel, and keeps any RGBA source as a PNG of the same size.
+         The server's splashscreen is a 1920x1080 RGBA PNG (opaque, but the
+         channel is there), so as a PNG it costs 3.6MB on disk and another
+         3.6MB in the cache; as WebP it is 698KB on disk and Kodi caches a
+         600KB JPEG. Measured on Omega and Piers alike. Kodi picks the decoder
+         from the *extension* for local files — Omega refuses WebP bytes in a
+         .png outright (Piers sniffs, but that is below ImageFactory and not
+         something to rely on) — so the name has to say webp. Neither version's
+         addon.xml parser validates the extension: AddonInfoBuilder stores the
+         path verbatim. -->
     <assets>
       <icon>resources/media/icon.png</icon>
-      <fanart>resources/media/fanart.png</fanart>
+      <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.13.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.14.0.zip</path>
   </extension>
 </addon>
 <addon
