@@ -9,6 +9,14 @@
         "imageUrl": "",
         "versions": [
             {
+                "version": "10.11.0.1",
+                "changelog": "- Records carry the libraries they belong to, and the feed can be filtered\n  to them, so a client no longer fetches changes from libraries it does not\n  sync. Announced as \"library-scope\" in the Info response's Features list.\n- Records left behind by a deleted library are reaped rather than served\n  until the retention cutoff.\n- Version numbers now track the Jellyfin ABI (10.11.x), so which server a\n  build targets is readable from the version alone.\n- Releases are built and drafted by CI, and announced to the Kontell\n  repository on publish.\n- The plugin catalogue shows these notes: meta.json carries the changelog\n  the repository manifest has been serving empty until now.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_10.11.0.1.zip",
+                "checksum": "3d1146b9fcecb6ea28116971d89c5fec",
+                "timestamp": "2026-08-12T13:32:02Z"
+            },
+            {
                 "version": "1.0.0.0",
                 "changelog": "",
                 "targetAbi": "10.11.0.0",
