@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.14.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.15.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -297,15 +297,14 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.14.0
-- Jellyfin's own audio and subtitle preferences are editable from the Account tab, so changing which tracks a playback starts with no longer means a trip to the web interface
-- The Kofin music node now has a folder per library with Artists, Albums, Songs and Genres, and Downloaded music splits the same way
-- Downloads you never got round to watching can be cleared after a number of days you choose — off by default, and separate from the watched cleanup, because "you never started it" is the case a watched check can never catch
-- Menus and playback respond quicker: kofin no longer rebuilds itself from scratch on every click, taking around half a second off each one, so most listings open about twice as fast
-- The addon's backdrop takes about a fifth of the disk space and cache it used to
-- A queued download starts in seconds rather than half a minute, the out-of-space message fits on screen, and eight further downloader fixes besides
-- Artists no longer collect duplicate or stray discography entries, and removing one stops taking songs on other albums with it
-- Subtitles on a transcode arrive without restarting playback, a repaired library refreshes on screen, and the service now recovers on its own when a background thread dies or a library update stalls</news>
+    <news>v0.15.0
+- The skip prompt shows how much it will skip — "Skip Intro (1:38)" — and steps out of the way part-way through the segment instead of sitting over the opening of what you just chose to watch, adjustable and set to halfway
+- Recap, Preview and Commercial no longer skip by default: only Intro and Credits act out of the box, which is what every other Jellyfin client does — turn the others back on in settings if you relied on them
+- Two intro-detection plugins analysing the same library no longer produce two Skip Intro prompts one after the other
+- Catch-up no longer fetches changes from libraries you have not chosen to sync: a box syncing one library on a server that has several stops doing work it always threw away, and stops announcing new items it was never going to add (needs Kofin Sync Queue 10.11.0.1 on the server; without it nothing changes)
+- Items that could not be added are no longer announced as new content, nor queued for download as though they had been
+- Clean databases now offers to delete your downloaded files as well, and defaults to doing so: the clean removes the record of which files were yours, so keeping them left them on disk with nothing able to manage them afterwards
+- "Delete downloads you have not watched" is now "Delete stale downloads", which is what it always did — anything you are part-way through is kept however long it sits</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -349,7 +348,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.14.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.15.0.zip</path>
   </extension>
 </addon>
 <addon
