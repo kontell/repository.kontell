@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.15.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.15.2" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -297,8 +297,9 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.15.1
-- Updating the addon while Kodi is running no longer leaves the server looking unreachable: SyncPlay and "Who's watching?" refused to open with a server-unavailable error, and library sync restarted itself every few seconds without ever finishing, until Kodi was restarted</news>
+    <news>v0.15.2
+- Films, shows and episodes are stored under every external id the server has for them rather than one hardcoded per media type, so anything that looks an item up that way — skins, other addons, Kodi's own scraper handoff — has something to go on: an item carrying only a TMDB id used to get an empty slot labelled IMDb and lose the id it did have (already-synced items pick theirs up as the server next touches them, or straight away after a repair)
+- Updating the addon while Kodi is running no longer interrupts a library sync that was in progress</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -342,7 +343,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.15.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.15.2.zip</path>
   </extension>
 </addon>
 <addon
