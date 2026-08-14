@@ -25,5 +25,24 @@
                 "timestamp": "2026-07-20T12:50:16Z"
             }
         ]
+    },
+    {
+        "guid": "181f9934-bf71-4941-974e-a5f2cdcccc4e",
+        "category": "General",
+        "name": "SyncPlay v2",
+        "overview": "SyncPlay protocol v2 served from a plugin",
+        "description": "SyncPlay protocol v2: versioned state, snapshots, position beacons, adaptive tolerances, bounded group-waits and robust reconnects — serving stock v1 clients and v2 clients from one group registry, replacing the built-in SyncPlay while installed.",
+        "owner": "kontell",
+        "imageUrl": "",
+        "versions": [
+            {
+                "version": "10.11.0.1",
+                "changelog": "- M1: the full protocol v2 engine (vendored from integration/syncplay-phase1):\n  versioned state, snapshots, position beacons, ping-scaled tolerances,\n  buffering grace, group-wait deadline, 90s disconnect grace with\n  per-version resync. Body-transparent ProtocolVersion negotiation on the\n  stock Join/New routes, POST /SyncPlay/Hello capability probe, dedicated\n  WebSocket time sync at /SyncPlay/TimeSync, enriched /SyncPlay/List.\n  Conformance: 11/12 with the unmodified kit, 12/12 with transport\n  discovery; mixed v1+v2 groups verified via the conformance kit (stock-web\n  wire compatibility proven in the M0 deployment pass).",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_10.11.0.1.zip",
+                "checksum": "53e7c4a160f6f792e1417ca7528cf28e",
+                "timestamp": "2026-08-14T12:39:00Z"
+            }
+        ]
     }
 ]
