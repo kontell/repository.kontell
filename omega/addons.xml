@@ -607,7 +607,7 @@
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.3.0" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -616,23 +616,22 @@
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.3.0
-• The "Recent queues" button is now part of Contuary itself, which shows it on the music row whenever this add-on is enabled. Nothing to switch on, and a skin update no longer takes it away
-• The two settings buttons that edited the skin are gone, along with the editing itself. Running an older version's edit is undone by updating Contuary
-• Stock Estuary no longer gets the button. Run the add-on from Add-ons → Program add-ons instead
-• New "Restore from the start of the track" setting: go back to the right track but play it from the beginning rather than the second it was interrupted at. Off by default
-• The pop-up is now called "Restore queue", after what picking a row does. The button is still "Recent queues"
-• The restoring notification carries the add-on's own icon instead of a generic information symbol, and the icon is now the button's mark</news>
+    <news>v0.3.1
+• A queue that played through to the end restores from the first track, not the last second of the last one
+• A mixed playlist is named for the track that was playing when it stopped, not the first track in the list
+• The restore pop-up opens faster: one Addon handle for the whole list, offscreen ListItems, and the script interpreter is reused between opens
+• After a kofin library repair, restore looks each song up by the Jellyfin id in its URL so Now Playing still names the tracks you actually saved, not whoever reused the old Kodi song ids</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
     <summary lang="en_GB">Bring back a music queue you were part-way through</summary>
     <description lang="en_GB">Records the music queue every time it is taken away — when a new album replaces it, when a video interrupts it, when playback is stopped, and when Kodi quits — along with which track you were on and how far into it. Pick one back off the list and it resumes on the right track at the right second, or from the start of that track if you prefer. Reached from the "Recent queues" button on Contuary's music row, or by running the add-on.</description>
+    <reuselanguageinvoker>true</reuselanguageinvoker>
     <assets>
       <icon>resources/button.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.3.0.zip</path>
+      <path>script.music.restore/script.music.restore-0.3.1.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
