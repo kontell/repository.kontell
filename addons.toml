@@ -93,3 +93,9 @@ repo = "kontell/jellyfin-plugin-kofinsyncqueue"
 model = "jellyfin"
 # Underscore, and a 4-part version, unlike the hyphenated Kodi naming.
 asset_glob = "kofin-sync-queue_*.zip"
+
+[[addon]]
+id = "syncplay-v2"
+repo = "kontell/jellyfin-plugin-syncplayv2"
+model = "jellyfin"
+asset_glob = "syncplay-v2_*.zip"
