@@ -36,6 +36,14 @@
         "imageUrl": "",
         "versions": [
             {
+                "version": "10.11.0.2",
+                "changelog": "- Hot join: a v2 member joining a Playing group no longer pauses anyone.\n  The group keeps playing, the joiner is pushed a snapshot, loads at the\n  live position and rendezvouses via a private scheduled Unpause - with\n  the updated kofin client it arrives with initial-start tightness. v1\n  joiners (web) keep the classic barrier. Config: HotJoin (default on).\n  Conformance: 17/17 fast suite including the new hot_join scenario.\n- M1: the full protocol v2 engine (vendored from integration/syncplay-phase1):\n  versioned state, snapshots, position beacons, ping-scaled tolerances,\n  buffering grace, group-wait deadline, 90s disconnect grace with\n  per-version resync. Body-transparent ProtocolVersion negotiation on the\n  stock Join/New routes, POST /SyncPlay/Hello capability probe, dedicated\n  WebSocket time sync at /SyncPlay/TimeSync, enriched /SyncPlay/List.\n  Conformance: 11/12 with the unmodified kit, 12/12 with transport\n  discovery; mixed v1+v2 groups verified via the conformance kit (stock-web\n  wire compatibility proven in the M0 deployment pass).",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_10.11.0.2.zip",
+                "checksum": "1b657bd1a5dab3f5da252402811395c3",
+                "timestamp": "2026-08-14T14:45:40Z"
+            },
+            {
                 "version": "10.11.0.1",
                 "changelog": "- M1: the full protocol v2 engine (vendored from integration/syncplay-phase1):\n  versioned state, snapshots, position beacons, ping-scaled tolerances,\n  buffering grace, group-wait deadline, 90s disconnect grace with\n  per-version resync. Body-transparent ProtocolVersion negotiation on the\n  stock Join/New routes, POST /SyncPlay/Hello capability probe, dedicated\n  WebSocket time sync at /SyncPlay/TimeSync, enriched /SyncPlay/List.\n  Conformance: 11/12 with the unmodified kit, 12/12 with transport\n  discovery; mixed v1+v2 groups verified via the conformance kit (stock-web\n  wire compatibility proven in the M0 deployment pass).",
                 "targetAbi": "10.11.0.0",
