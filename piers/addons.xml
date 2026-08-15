@@ -617,19 +617,16 @@
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      a skin's lyrics button fires. -->
-<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.1.0" provider-name="kontell">
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.1.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
   <extension point="xbmc.python.lyrics" library="default.py"/>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>[B]0.1.0[/B]
-• First release. Shows the song lyrics stored on a Jellyfin server as a track plays, in time with the music where the server has timings
-• Lines come from the Kofin add-on, which fetches them as playback starts, so there is no second login and nothing is scraped from the internet
-• Skins that draw lyrics themselves are used in preference to this add-on's own window; Contuary 2.2.0 and later does
-• Press the lyrics button on the music OSD to take the lyrics over and scroll them by hand
-• Settings for automatic display, a timing offset, whether to show lyrics that carry no timings, and debug logging</news>
+    <news>[B]0.1.1[/B]
+• Fixed the lyrics panel keeping the previous track's narrow width, which drew the next track's longer lines off the side of the screen where they were cut off
+• Added the add-on icon</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.kofin.lyrics</source>
@@ -638,7 +635,7 @@
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>script.kofin.lyrics/script.kofin.lyrics-0.1.0.zip</path>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.1.1.zip</path>
   </extension>
 </addon>
 <!-- The script extension point comes first deliberately: an addon's LibPath is
