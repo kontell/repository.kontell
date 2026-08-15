@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.16.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.17.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -297,10 +297,14 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.16.0
-- Joining a watch-together group that is already playing no longer pauses it for everyone: the group plays on while the joiner loads, and a private scheduled start drops them in at the exact position the group has reached by then (needs the SyncPlay v2 plugin 10.11.0.2 on the server; joins from the web client and other v1 clients still pause the group as before)
-- A scheduled group start seeks to the exact start position before the clock fires instead of correcting after playback has resumed, which removes the small drift between clients that a pause-and-restart used to leave behind (video; music aligns after the start as before)
-- SyncPlay speaks protocol v2 when the server has the SyncPlay v2 plugin: clock sync runs on its own dedicated connection (about 1ms of measurement noise instead of 20ms), every group update carries a version so a missed or out-of-order message is caught and repaired from a snapshot instead of turning into drift, and waking from sleep or a dropped connection catches up from a snapshot of the group state — without the plugin nothing changes</news>
+    <news>v0.17.0
+- Skins can put SyncPlay and Who's watching? on the home screen: the add-on now publishes whether those root entries are on offer, so the buttons appear and disappear with the same settings that hide them in the add-on
+- The add-on is translated into 26 languages
+- Stopping a watch-together group no longer freezes Kodi
+- In a watch-together group, a downloaded item plays from disk on every client, not just the one that started it
+- "Who's watching?" gains an All row and can be turned off
+- Removing a download no longer asks for confirmation
+- SyncPlay drift correction is off by default</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -344,7 +348,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.16.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.17.0.zip</path>
   </extension>
 </addon>
 <addon
