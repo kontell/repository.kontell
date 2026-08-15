@@ -647,7 +647,7 @@
 	    <path>script.skin.contuary/script.skin.contuary-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.4.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.5.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
 	</requires>
@@ -666,9 +666,8 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>[B]2.4.0[/B]
-• Music home screen: a "Recent queues" button on the categories row, opening the Restore Music Queue add-on's pop-up in place. Shown whenever that add-on is enabled. The add-on used to edit the skin's own files to put it there, and a skin update took it away again
-• Posters: show the Kofin download icon on a downloaded item that has not been played yet. It previously appeared only once the item was part-watched or watched, so a fresh download looked no different from one that was never fetched</news>
+    <news>v2.5.0
+• Movies home screen: SyncPlay and Who's watching? buttons on the categories row, opening the Kofin dialogs in place. Shown only when those entries are visible in the add-on itself</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Omega</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 21 (Omega).</description>
 		<platform>all</platform>
@@ -678,7 +677,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.4.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.5.0.zip</path>
   </extension>
 </addon>
 </addons>
