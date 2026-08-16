@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.17.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.18.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -297,14 +297,15 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.17.0
-- Skins can put SyncPlay and Who's watching? on the home screen: the add-on now publishes whether those root entries are on offer, so the buttons appear and disappear with the same settings that hide them in the add-on
-- The add-on is translated into 26 languages
-- Stopping a watch-together group no longer freezes Kodi
-- In a watch-together group, a downloaded item plays from disk on every client, not just the one that started it
-- "Who's watching?" gains an All row and can be turned off
-- Removing a download no longer asks for confirmation
-- SyncPlay drift correction is off by default</news>
+    <news>v0.18.0
+- Search your Jellyfin server from the add-on: films, shows, episodes, albums, songs and people, with a person's results leading to everything they appear in. The search term is part of the path, so a skin's own search box can point straight at it
+- More ways into a library: Years, Tags and A-Z on films and shows, Unwatched on shows, Album artists, Last played and Top 100 songs on music, Genres and A-Z on music videos. A tag list too long to read is grouped by initial
+- Playlists show a playlist icon instead of a blank status square
+- A library node or widget built on a kofin path no longer comes up empty when the path ends in a slash, which is how Kodi writes them
+- Syncing a music library no longer hides Kodi's own Genres, Artists, Albums and Songs categories
+- Kodi 22 beta builds sync again: the video database version they ship changed, and the add-on refused to write anything until it had been checked against a real one
+- Each library appears on the home screen as it finishes rather than when the whole sync does, so films show up while the shows and music are still going. On a Raspberry Pi that is minutes instead of the best part of an hour
+- A first sync no longer leaves a library's home screen row blank when it finished after another one had already been shown</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -348,7 +349,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.17.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.18.0.zip</path>
   </extension>
 </addon>
 <addon
