@@ -576,6 +576,74 @@
       <path>repository.kontell/repository.kontell-1.0.2.zip</path>
   </extension>
 </addon>
+<!--
+  The id stays `script.embuary.info` on purpose, and it is load-bearing three
+  times over:
+
+    * `context.embuary.info` declares `<import addon="script.embuary.info"/>`,
+      a hard dependency Kodi enforces at install time;
+    * skin.contuary references the id ~28 times across its XML;
+    * it is what lets Kodi upgrade an existing install in place, for users who
+      have set "Update official add-ons from" to "Any repositories".
+
+  That last one is the whole distribution story. `script.embuary.info` 2.0.8 is
+  in repository.xbmc.org, so Kodi's AddonRepos::DoAddonUpdateCheck checks
+  official repos first, finds nothing above 2.0.8, and only then falls through
+  to private repos — and only when addons.updatemode == ANY_REPOSITORY. Users on
+  the default setting keep upstream 2.0.8 and never see this build.
+
+  Version 2.1.0 clears both upstream's released 2.0.8 and the unreleased 2.0.10
+  on its matrix branch, which is what this fork is based on. If upstream ever
+  revives above 2.1.0 the official repo reclaims the add-on, which is the right
+  failsafe rather than a problem to engineer around.
+
+  The display name says (Kontell) so nobody files our bugs against sualfred.
+-->
+<addon id="script.embuary.info" name="Embuary Info (Kontell)" version="2.1.0" provider-name="kontell">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.requests" version="2.9.1"/>
+        <import addon="script.module.arrow" version="0.10.0"/>
+        <import addon="script.module.simplecache" version="2.0.2" />
+        <import addon="script.module.routing" version="0.2.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="plugin.py">
+      <provides>video</provides>
+    </extension>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py" />
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <license>Apache-2.0</license>
+        <source>https://github.com/kontell/script.embuary.info</source>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.jpg</fanart>
+        </assets>
+        <news>v2.1.0
+- Fork of sualfred's Embuary Info, based on the unreleased upstream 2.0.10.
+- Fixed the memory growth that could push Kodi into an out-of-memory kill on
+  memory-constrained devices: browsing many pages in one session kept every
+  dialog resident. Measured on an Android TV box, seven pages held 983 MB of
+  GPU memory and 2.1 GB total; the stack is now bounded.
+- Artwork is requested at a size the display can use instead of TMDb's
+  "original": 4.0 MB to open a page instead of 20.0 MB.
+- Faster page loads: connection reuse, parallel trailer checks, and indexed
+  local-library matching instead of a linear scan per item.
+</news>
+        <summary lang="en_GB">Embuary Info Script (Kontell fork)</summary>
+        <summary lang="de_DE">Embuary Info Script (Kontell-Fork)</summary>
+        <description lang="en_GB">Helper script to provide The Movie DB informations for persons, shows and movies. Works best with a skin integration.
+
+Kontell fork of sualfred's Embuary Info, maintained at https://github.com/kontell/script.embuary.info — please report issues there rather than to the original author. Fixes unbounded memory growth when browsing many pages in one session, and reduces artwork bandwidth and page-load time.</description>
+        <description lang="de_DE">Helfer Script das Abfragen von The Movie DB informationen für Personen, Serien und Filme zu ermöglichen. Funktioniert am besten mit einer Skin Integration.
+
+Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/kontell/script.embuary.info — Fehler bitte dort melden, nicht beim ursprünglichen Autor.</description>
+        <path>script.embuary.info/script.embuary.info-2.1.0.zip</path>
+  </extension>
+</addon>
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      a skin's lyrics button fires. -->
