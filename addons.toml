@@ -57,6 +57,30 @@ repo = "kontell/KoShelf"
 model = "shared"
 
 [[addon]]
+# The one entry here whose id is not ours. This is a fork of sualfred's
+# Embuary Info, which is abandoned upstream (last commit May 2022) and which
+# ships a defect that can push Kodi into an out-of-memory kill on a TV box.
+#
+# Keeping the upstream id is what makes this useful rather than a curiosity.
+# Kodi's AddonRepos::DoAddonUpdateCheck consults official repositories first,
+# finds nothing above the 2.0.8 in repository.xbmc.org, and only then looks at
+# private repositories -- and only for users who set "Update official add-ons
+# from" (addons.updatemode) to "Any repositories". Those users get this build
+# as an in-place upgrade; everyone else keeps upstream and never sees it. The
+# id is also what context.embuary.info imports and what skin.contuary calls.
+#
+# Kodi's own help text for that setting names this exact case, so it is the
+# sanctioned mechanism rather than a trick: "For cases such as updating from an
+# add-ons beta repository this option can be switched to [Any repositories]".
+#
+# The version must stay ahead of both the released 2.0.8 and the unreleased
+# 2.0.10 on upstream's matrix branch. If upstream ever ships above ours, the
+# official repository reclaims the add-on -- which is the right failsafe.
+id = "script.embuary.info"
+repo = "kontell/script.embuary.info"
+model = "shared"
+
+[[addon]]
 id = "skin.contuary"
 repo = "kontell/skin.contuary"
 model = "dual"
