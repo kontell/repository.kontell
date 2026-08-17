@@ -5,10 +5,11 @@
 #
 #   repository_dispatch  an add-on repo fired notify-repo.yml on release:published.
 #                        Instant, and carries which add-on in client_payload.
-#   schedule             the safety net. A dispatch can be dropped, a token can
-#                        expire, an asset can be re-uploaded after the fact — all
-#                        of which become "up to 30 minutes late" rather than
-#                        "silently stale forever".
+#   schedule             DISABLED — was the safety net. A dispatch can be dropped,
+#                        a token can expire, an asset can be re-uploaded after the
+#                        fact; with no periodic sweep those now stay stale until
+#                        someone runs this by hand. Re-enable the cron below to
+#                        restore the 30-minute reconcile.
 #   workflow_dispatch    by hand, optionally for one add-on.
 #
 # Both repository_dispatch and release run only from the default branch, so this
@@ -19,10 +20,10 @@ name: Publish
 on:
   repository_dispatch:
     types: [addon-released]
-  schedule:
-    # Every 30 minutes. An unchanged run makes no commit and triggers no Pages
-    # deploy, so the steady-state cost is one gh API sweep.
-    - cron: "*/30 * * * *"
+  # Disabled: publishing is manual for now. An unchanged run made no commit and
+  # triggered no Pages deploy, so the steady-state cost was one gh API sweep.
+  # schedule:
+  #   - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:
       addon:
