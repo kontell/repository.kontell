@@ -707,7 +707,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.3.1" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.2" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -716,11 +716,8 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.3.1
-• A queue that played through to the end restores from the first track, not the last second of the last one
-• A mixed playlist is named for the track that was playing when it stopped, not the first track in the list
-• The restore pop-up opens faster: one Addon handle for the whole list, offscreen ListItems, and the script interpreter is reused between opens
-• After a kofin library repair, restore looks each song up by the Jellyfin id in its URL so Now Playing still names the tracks you actually saved, not whoever reused the old Kodi song ids</news>
+    <news>v0.3.2
+• A restored queue shows the artist backdrop and logo again. Kodi does not fill library art in for a track that streams over http, so the art is now put on the restored item directly — taken from the library where the song is still there, and from the record where it is not</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
@@ -731,7 +728,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
       <icon>resources/button.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.3.1.zip</path>
+      <path>script.music.restore/script.music.restore-0.3.2.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.0.0" name="Contuary Skin Helper" provider-name="Kontell">
