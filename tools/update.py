@@ -492,13 +492,23 @@ def resolve_binary(addon, work, from_dir, pages):
 
 
 def resolve_jellyfin(addon, work, from_dir, pages, dry_run):
-    """A Jellyfin server plugin: one zip into jellyfin/, manifest built after."""
+    """A Jellyfin server plugin: every zip in the release into jellyfin/.
+
+    *Every* zip, not the newest one. A plugin built for more than one server
+    line ships one zip per ABI in a single release — syncplay-v2_10.11.0.3.zip
+    and syncplay-v2_12.0.0.3.zip — because Jellyfin serves one manifest in which
+    each entry carries its own targetAbi and the server picks the highest it can
+    run. Taking only the last of a sorted list would place 12.0.0.3 and drop the
+    10.11 build, and the shape of that failure is what makes it worth spelling
+    out: nothing raises. already_served correctly sees the set as incomplete and
+    re-downloads every run, one zip lands, the run reports success, and the
+    manifest quietly stops offering the line most servers are actually on.
+    """
     glob = addon.get("asset_glob", f"{addon['id']}_*.zip")
     if from_dir:
         zips = sorted(Path(from_dir).glob(glob))
         if not zips:
             raise Problem(f"no {glob} in {from_dir}")
-        src = zips[-1]
     else:
         releases = published_releases(addon["repo"])
         if not releases:
@@ -515,20 +525,25 @@ def resolve_jellyfin(addon, work, from_dir, pages, dry_run):
         zips = sorted(work.glob(glob))
         if not zips:
             raise Problem(f"{releases[0]['tagName']} has no {glob} asset")
-        src = zips[-1]
 
-    # Validated by its own meta.json, not addon.xml — Jellyfin, not Kodi.
-    with zipfile.ZipFile(src) as archive:
-        if "meta.json" not in archive.namelist():
-            raise Problem(f"{src.name} has no meta.json at its root")
+    # Validate the whole set before placing any of it, so a release with one bad
+    # zip does not leave half its ABIs served and half not.
+    for src in zips:
+        # Validated by its own meta.json, not addon.xml — Jellyfin, not Kodi.
+        with zipfile.ZipFile(src) as archive:
+            if "meta.json" not in archive.namelist():
+                raise Problem(f"{src.name} has no meta.json at its root")
 
-    dest = Path(pages) / JELLYFIN_DIR / src.name
-    if dest.exists() and filecmp.cmp(dest, src, shallow=False):
-        return []
-    if not dry_run:
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dest)
-    return [f"{JELLYFIN_DIR}/{src.name}"]
+    placed = []
+    for src in zips:
+        dest = Path(pages) / JELLYFIN_DIR / src.name
+        if dest.exists() and filecmp.cmp(dest, src, shallow=False):
+            continue
+        if not dry_run:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dest)
+        placed.append(f"{JELLYFIN_DIR}/{src.name}")
+    return placed
 
 
 RESOLVERS = {
