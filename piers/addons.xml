@@ -223,7 +223,7 @@
       <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.18.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.19.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -297,8 +297,14 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.18.1
-- Unticking AV1 in the transcoding settings now really turns it off. The add-on was still offering AV1 to the server as something it could transcode to, so an AV1 film came back as AV1 anyway — on a device with no AV1 hardware that meant a software decode, stutter, or no picture at all. The same slip let an HDR AV1 film through untouched on a device set to SDR only</news>
+    <news>v0.19.0
+- SyncPlay holds a group together far better. A group that started, paused, resumed or seeked could leave a member behind — sometimes minutes behind, sometimes paused for good while everyone else played on. Starting a film together now lands every member within about a fifth of a second, and pausing or resuming keeps them there
+- Drift correction is gone, and the SyncPlay setting now says why. It could only work while Kodi's "Sync playback to display" was on, and that setting ties playback to the panel's refresh rate: measured across three devices, a film whose frame rate is not a whole multiple of the refresh rate ran up to 4.3% fast, which is 2.6 minutes an hour and far beyond anything the correction could pull back. Leave that Kodi setting off and a group stays together on its own
+- A member watching a transcoded stream is no longer stranded by a group seek. It used to be corrected over and over while everyone waited, then play on out of step; it now reloads at the target and rejoins
+- A member no longer silently drops out of its group after a seek. A stale internal timer could decide a perfectly healthy reload had failed and leave the group without saying so
+- A sync that fails at startup no longer buries the screen in error toasts. A dead sync manager was rebuilt every second, and every attempt raised the same toast — Kodi queues them, so the wall of messages outlived the problem
+- Music libraries start syncing sooner. Reconciling a large music library took nearly 13 seconds of every startup on a slower box, in front of everything else; it is now done in the database in a fraction of that
+- Waking from sleep no longer runs the same catch-up twice</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -342,7 +348,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.18.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.19.0.zip</path>
   </extension>
 </addon>
 <addon
@@ -736,16 +742,15 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      a skin's lyrics button fires. -->
-<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.1.1" provider-name="kontell">
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.1.2" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
   <extension point="xbmc.python.lyrics" library="default.py"/>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>[B]0.1.1[/B]
-• Fixed the lyrics panel keeping the previous track's narrow width, which drew the next track's longer lines off the side of the screen where they were cut off
-• Added the add-on icon</news>
+    <news>v0.1.2
+• Fixed the add-on's own lyrics window sizing to the longest line: the panel now measures how wide the lines really draw and fits itself to the widest one, growing up to half again wider than before so long lines show whole instead of being cut short or sliding, and shrinking around short-lined songs instead of sitting at full width with empty margins</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.kofin.lyrics</source>
@@ -754,13 +759,13 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>script.kofin.lyrics/script.kofin.lyrics-0.1.1.zip</path>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.1.2.zip</path>
   </extension>
 </addon>
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.3.2" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.3" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -769,8 +774,8 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.3.2
-• A restored queue shows the artist backdrop and logo again. Kodi does not fill library art in for a track that streams over http, so the art is now put on the restored item directly — taken from the library where the song is still there, and from the record where it is not</news>
+    <news>v0.3.3
+• A queue interrupted by a video is put away on the track you were actually on, rather than the first one. Kodi reports the position of whichever playlist the player has moved to, so a starting video called it track 1 for several seconds while the music was still playing — the track is now taken from the file coming out of the speakers instead</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
@@ -781,7 +786,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
       <icon>resources/button.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.3.2.zip</path>
+      <path>script.music.restore/script.music.restore-0.3.3.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.1.0" name="Contuary Skin Helper" provider-name="Kontell">
