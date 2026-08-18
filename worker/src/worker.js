@@ -15,7 +15,7 @@ export default {
     // GitHub Pages routes by Host, so it must see kontell.github.io.
     let response = await fetch(`${ORIGIN}/${path}${url.search}`);
 
-    if (env.REPO_ANALYTICS) {
+    if (env.REPO_ANALYTICS && !excluded(request, env)) {
       const { dir, addon, platform, version } = classify(path);
       const kind = path.endsWith(".zip") ? "zip"
                  : path.endsWith(".md5") ? "md5" : "meta";
@@ -56,6 +56,29 @@ function classify(path) {
   const [addon, platform = ""] = (parts[1] || "").split("+");
   const vm = (parts.at(-1) || "").match(/-([0-9][0-9.]*)\.zip$/);
   return { dir, addon: addon || "", platform, version: vm ? vm[1] : "" };
+}
+
+// Addresses whose requests are never logged at all -- no data point is written,
+// so this traffic cannot reach the dataset, the rollup, or any report. The
+// maintainer's own machines are the point: development and release testing
+// otherwise land in the stats as installs, active clients and version churn,
+// and there is no way to subtract them afterwards because the raw IP is never
+// stored (see clientId below).
+//
+// Set as a Worker secret rather than a wrangler.toml var, so a home IP is not
+// committed to a public repository:
+//
+//   wrangler secret put ANALYTICS_EXCLUDE_IPS      # comma-separated
+//
+// Proxying is unaffected: excluded clients still get the file, just silently.
+function excluded(request, env) {
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  if (!ip) return false;
+  return (env.ANALYTICS_EXCLUDE_IPS || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .includes(ip);
 }
 
 // Pseudonymous per-install id for distinct-client (active-install) counts:
