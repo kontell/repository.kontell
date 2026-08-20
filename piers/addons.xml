@@ -639,7 +639,7 @@
   the suffix only made the name awkward everywhere it is shown. provider-name
   still says kontell, and Kodi shows that on the add-on's information page.
 -->
-<addon id="script.embuary.info" name="Embuary Info" version="2.3.0" provider-name="kontell">
+<addon id="script.embuary.info" name="Embuary Info" version="2.4.0" provider-name="kontell">
     <!--
       script.module.requests is gone: nothing imports it any more. Its 825 ms
       import was the largest single cost in opening a page, and what it was
@@ -706,19 +706,20 @@
             <icon>resources/icon.png</icon>
             <fanart>resources/fanart.jpg</fanart>
         </assets>
-        <news>v2.3.0
-- The add-on is called "Embuary Info" again rather than "Embuary Info
-  (Kontell)". It is still this fork; the summary and description say so.
-- Archive footage in a person's credits is recognised in any genre. A film cut
-  around old footage of an actor is not a part they played, and until now only
-  documentaries were checked.
-- New setting to hide items TheMovieDB rates below a chosen score, on a 0-10
-  slider. Something nobody has voted on is kept: an unrated item's zero is not
-  a bad score.
-- New setting to hide items with fewer TheMovieDB votes than a chosen number,
-  on a 0-5000 slider. This is the one that hides the obscure.
-- Less work on every launch: the TLS machinery now loads only when a request is
-  actually made, which a fully cached page never does.
+        <news>v2.4.0
+- Settings are three tabs, General, Filters and Skin, with no headings inside
+  them. Filters is new and holds everything that drops an item from a list.
+  Existing settings keep their values.
+- The rating and votes filters start switched on, at 4.0 and 5. Both shipped at
+  zero, which keeps everything, so neither did anything until you found them.
+  New installs only: Kodi keeps a stored value over a changed default.
+- The votes slider is 0-500 in fives, down from 0-5000 in hundreds.
+- Opening an actor no longer asks which person you meant when the answer is
+  obvious, and a name resolved once is remembered. A new button in General
+  forgets them again if one was matched to the wrong person.
+- "Allow items of the next [n] days" sits directly below "Hide upcoming items"
+  and disappears with it rather than greying out.
+- The rating badge on posters sits further in from the corner.
 </news>
         <summary lang="en_GB">Embuary Info Script (Kontell fork)</summary>
         <summary lang="de_DE">Embuary Info Script (Kontell-Fork)</summary>
@@ -728,7 +729,7 @@ Kontell fork of sualfred's Embuary Info, maintained at https://github.com/kontel
         <description lang="de_DE">Helfer Script das Abfragen von The Movie DB informationen für Personen, Serien und Filme zu ermöglichen. Funktioniert am besten mit einer Skin Integration.
 
 Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/kontell/script.embuary.info — Fehler bitte dort melden, nicht beim ursprünglichen Autor.</description>
-        <path>script.embuary.info/script.embuary.info-2.3.0.zip</path>
+        <path>script.embuary.info/script.embuary.info-2.4.0.zip</path>
   </extension>
 </addon>
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
