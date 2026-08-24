@@ -51,9 +51,11 @@ repo = "kontell/plugin.timeshiftsaver"
 model = "shared"
 
 [[addon]]
-id = "plugin.audio.koshelf"
-# The GitHub repo is "KoShelf"; the addon id is not derivable from it.
-repo = "kontell/KoShelf"
+# Was plugin.audio.koshelf / kontell/KoShelf until 1.0.0. The name collided
+# with an unrelated project; the old id is abandoned rather than migrated, so
+# it is simply dropped from here and its served directories removed.
+id = "plugin.audio.kotome"
+repo = "kontell/plugin.audio.kotome"
 model = "shared"
 
 [[addon]]
