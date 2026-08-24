@@ -198,13 +198,12 @@
     <news>v22.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v22.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
   </extension>
 </addon>
-<addon id="plugin.audio.koshelf"
-       name="Koshelf"
-       version="0.20.1"
+<addon id="plugin.audio.kotome"
+       name="Kotome"
+       version="1.0.0"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
-    <import addon="script.module.requests" version="2.31.0"/>
     <import addon="inputstream.tempo" minversion="0.3.10"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="main.py">
@@ -212,15 +211,22 @@
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
+    <!-- Keeps the interpreter alive between invocations, so the import cost
+         is paid once instead of on every folder the user opens. It is parsed
+         here and nowhere else: under xbmc.python.pluginsource, where it reads
+         as though it belongs, it is silently ignored. Requires every route to
+         close its handle — see router() in main.py. -->
+    <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
-    <summary lang="en">AudioBookShelf client for Kodi</summary>
-    <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server.</description>
+    <summary lang="en">AudioBookShelf client with tempo</summary>
+    <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server, at whatever speed you like. Playback speed is adjustable per book with pitch correction, progress syncs back to the server, and a sleep timer fades out and stops on its own.</description>
     <license>MIT</license>
-    <news>v0.20.0 Sleep timer: fix pulsating screensaver; add Screen off (CEC) and Screen off (Android/Google TV) options alongside screensaver modes; numeric keypad for custom duration; last-used custom value shown in presets. Widget URLs with trailing slash now resolve correctly. Remove Comment label from book/episode info dialogs. Podcast and Author items now show info on the i button.</news>
+    <news>v1.0.0 First release as Kotome. This add-on was previously called Koshelf, which is no longer maintained — Kotome installs separately and starts fresh, so sign in and set your preferences once. Uninstall Koshelf whenever you like. Highlights since the last Koshelf release: browsing is around ten times faster, the sort menu works, in-progress books show a real resume point, folders have icons, and your password is no longer stored.</news>
     <assets>
       <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>plugin.audio.koshelf/plugin.audio.koshelf-0.20.1.zip</path>
+      <path>plugin.audio.kotome/plugin.audio.kotome-1.0.0.zip</path>
   </extension>
 </addon>
 <addon id="plugin.video.kofin" name="Kofin" version="0.21.0" provider-name="kontell">
