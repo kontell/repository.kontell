@@ -4,7 +4,7 @@ Kodi addon repository for:
 
 - [Kofin](https://github.com/kontell/plugin.video.kofin) - a Jellyfin client with native Kodi integration (browse, play and library sync);
 - [Kofin PVR](https://github.com/kontell/pvr.kofin) - a Kodi PVR client for Jellyfin Live TV;
-- [Kotome](https://github.cscriub.cll/script.audio.kotome) - A client for AudioBookShelf;
+- [Kotome](https://github.com/kontell/script.audio.kotome) - A client for AudioBookShelf;
 - [InputStream.Tempo](https://github.com/kontell/inputstream.tempo) - A fork of inputstream.ffmpegdirect which provides playback speed adjustment for audio & video;
 - [Contuary](https://github.com/kontell/skin.contuary) - Light mod of default Estuary skin with icons-only main menu;
 - [script.skin.contuary](https://github.com/kontell/script.skin.contuary/) - Helper script for skin.contuary to adjust the res (scales the UI for bigger screens).
