@@ -9,12 +9,28 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-kofinsyncqueue/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.3",
+                "changelog": "- The logo sits inside its tile instead of running to the edges: the mark now\n  has a 600x600 transparent canvas around it, which is the margin Jellyfin's\n  plugin cards assume the image brings with it.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.3.zip",
+                "checksum": "055ec37dd9e881a1ae19c2b10e290b79",
+                "timestamp": "2026-08-26T12:33:21Z"
+            },
+            {
                 "version": "12.0.0.2",
                 "changelog": "- Built for Jellyfin 12.0 as well as 10.11, from one source tree: the release\n  carries a zip per server line, each declaring its own targetAbi, and a\n  server installs the newest one it can run.\n- The plugin has a logo. The catalogue entry and the installed plugin's tile\n  show the Kofin mark instead of a blank placeholder.",
                 "targetAbi": "12.0.0.0",
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.2.zip",
                 "checksum": "9fb5a21ebae4c0e19e0306949648573f",
                 "timestamp": "2026-08-26T12:06:04Z"
+            },
+            {
+                "version": "10.11.0.3",
+                "changelog": "- The logo sits inside its tile instead of running to the edges: the mark now\n  has a 600x600 transparent canvas around it, which is the margin Jellyfin's\n  plugin cards assume the image brings with it.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_10.11.0.3.zip",
+                "checksum": "dd01a9e8bb761c373f85feb506ded33a",
+                "timestamp": "2026-08-26T12:33:16Z"
             },
             {
                 "version": "10.11.0.2",
