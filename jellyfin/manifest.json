@@ -6,8 +6,24 @@
         "overview": "Typed change queue for the Kofin Kodi client",
         "description": "Companion plugin for plugin.video.kofin: records library and user-data changes as typed records (change reason, series/season parents), serves them with query-time Etags and an in-band retention cutoff, so offline Kodi boxes catch up with minimal traffic.",
         "owner": "kontell",
-        "imageUrl": "",
+        "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-kofinsyncqueue/main/logo.png",
         "versions": [
+            {
+                "version": "12.0.0.2",
+                "changelog": "- Built for Jellyfin 12.0 as well as 10.11, from one source tree: the release\n  carries a zip per server line, each declaring its own targetAbi, and a\n  server installs the newest one it can run.\n- The plugin has a logo. The catalogue entry and the installed plugin's tile\n  show the Kofin mark instead of a blank placeholder.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.2.zip",
+                "checksum": "9fb5a21ebae4c0e19e0306949648573f",
+                "timestamp": "2026-08-26T12:06:04Z"
+            },
+            {
+                "version": "10.11.0.2",
+                "changelog": "- Built for Jellyfin 12.0 as well as 10.11, from one source tree: the release\n  carries a zip per server line, each declaring its own targetAbi, and a\n  server installs the newest one it can run.\n- The plugin has a logo. The catalogue entry and the installed plugin's tile\n  show the Kofin mark instead of a blank placeholder.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_10.11.0.2.zip",
+                "checksum": "e87f0083957bd3a98eae4740f1b984e1",
+                "timestamp": "2026-08-26T12:06:06Z"
+            },
             {
                 "version": "10.11.0.1",
                 "changelog": "- Records carry the libraries they belong to, and the feed can be filtered\n  to them, so a client no longer fetches changes from libraries it does not\n  sync. Announced as \"library-scope\" in the Info response's Features list.\n- Records left behind by a deleted library are reaped rather than served\n  until the retention cutoff.\n- Version numbers now track the Jellyfin ABI (10.11.x), so which server a\n  build targets is readable from the version alone.\n- Releases are built and drafted by CI, and announced to the Kontell\n  repository on publish.\n- The plugin catalogue shows these notes: meta.json carries the changelog\n  the repository manifest has been serving empty until now.",
