@@ -81,6 +81,25 @@ def md5_file(path):
     return h.hexdigest()
 
 
+def plugin_fields(meta):
+    """The plugin-level half of a manifest entry, read from one zip's meta.json.
+
+    These describe the *plugin*, not the build, and Jellyfin shows them on the
+    catalogue tile: the name, the blurb, and the logo it renders before anything
+    is installed.
+    """
+    return {
+        "category": meta.get("category", "General"),
+        "name": meta.get("name", ""),
+        "overview": meta.get("overview", ""),
+        "description": meta.get("description", ""),
+        "owner": meta.get("owner", ""),
+        # A plugin that ships no logo leaves this empty, which is what Jellyfin
+        # reads as "no image" -- it is not a placeholder we should invent.
+        "imageUrl": meta.get("imageUrl", ""),
+    }
+
+
 def build_manifest(jellyfin_dir, base_url):
     """Scan jellyfin_dir for plugin zips and return the manifest list.
 
@@ -88,9 +107,18 @@ def build_manifest(jellyfin_dir, base_url):
     (sorted newest-first). Unlike the Kodi side we do NOT prune to the latest
     build -- a Jellyfin manifest is meant to carry the version history so a
     server can pick a build compatible with its ABI.
+
+    The plugin-level fields come from the NEWEST version's meta.json. Nothing
+    here is ever deleted, so the oldest zip a plugin ever shipped stays in this
+    directory forever; taking the description or the logo from whichever
+    filename sorted first would pin the catalogue entry to that first release
+    and silently ignore every later one. It is the shape of failure that does
+    not look like one: the manifest regenerates cleanly, the new versions are
+    all listed, and the tile just never changes.
     """
     zips = sorted(f for f in os.listdir(jellyfin_dir) if f.endswith(".zip"))
     plugins = {}   # guid -> plugin dict
+    newest = {}    # guid -> (version key, meta) of the highest version seen
     order = []     # first-seen guid order, for stable manifest output
 
     for filename in zips:
@@ -116,25 +144,30 @@ def build_manifest(jellyfin_dir, base_url):
 
         if guid not in plugins:
             order.append(guid)
-            plugins[guid] = {
-                "guid": guid,
-                "category": meta.get("category", "General"),
-                "name": meta.get("name", ""),
-                "overview": meta.get("overview", ""),
-                "description": meta.get("description", ""),
-                "owner": meta.get("owner", ""),
-                "imageUrl": meta.get("imageUrl", ""),
-                "versions": [],
-            }
+            plugins[guid] = {"guid": guid, "versions": []}
         plugins[guid]["versions"].append(version_entry)
+
+        key = _version_key(version_entry["version"])
+        if guid not in newest or key > newest[guid][0]:
+            newest[guid] = (key, meta)
+
         print(f"  {filename}: {meta.get('name')} {version_entry['version']} "
               f"(abi {version_entry['targetAbi']}, md5={version_entry['checksum']})")
 
-    for guid in plugins:
-        plugins[guid]["versions"].sort(
+    manifest = []
+    for guid in order:
+        plugin = plugins[guid]
+        plugin["versions"].sort(
             key=lambda v: _version_key(v["version"]), reverse=True)
+        # guid first, then the description, then the version list: the field
+        # order Jellyfin's own manifests use.
+        manifest.append({
+            "guid": guid,
+            **plugin_fields(newest[guid][1]),
+            "versions": plugin["versions"],
+        })
 
-    return [plugins[g] for g in order]
+    return manifest
 
 
 def resolve_pages_dir(explicit):
