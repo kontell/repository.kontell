@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -29,13 +29,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
-      <path>inputstream.tempo+android-aarch64/inputstream.tempo-21.4.3.zip</path>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+android-aarch64/inputstream.tempo-21.4.4.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -62,13 +62,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
-      <path>inputstream.tempo+android-armv7/inputstream.tempo-21.4.3.zip</path>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+android-armv7/inputstream.tempo-21.4.4.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -84,7 +84,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.21.4.3" />
+    library_linux="inputstream.tempo.so.21.4.4" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -95,13 +95,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
-      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-21.4.3.zip</path>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-21.4.4.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -117,7 +117,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.21.4.3" />
+    library_linux="inputstream.tempo.so.21.4.4" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -128,13 +128,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
-      <path>inputstream.tempo+linux-armv7/inputstream.tempo-21.4.3.zip</path>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-armv7/inputstream.tempo-21.4.4.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -150,7 +150,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.21.4.3" />
+    library_linux="inputstream.tempo.so.21.4.4" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -161,13 +161,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
-      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-21.4.3.zip</path>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-21.4.4.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="21.4.3"
+  version="21.4.4"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -190,12 +190,12 @@
       <icon>icon.png</icon>
       <fanart>fanart.jpg</fanart>
     </assets>
-        <path>inputstream.tempo+windows-x86_64/inputstream.tempo-21.4.3.zip</path>
+        <path>inputstream.tempo+windows-x86_64/inputstream.tempo-21.4.4.zip</path>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v21.4.3 Chapter jumps and video seeks land where you asked again. 21.4.2 fixed seeking by undoing the time offset Kodi applies to a seek target, but did it where all three seek entry points meet — and only one of them arrives with that offset applied, so video seeks and chapter jumps were shifted by the tempo offset instead of corrected. Measured on 21.3, a chapter jump landed 139s past the start of the chapter. Audio seeking, which 21.4.2 fixed, is unchanged. v21.4.2 Skipping works again: every seek landed short by the tempo time offset, which grows as you listen — so a small skip could go backwards while a large one looked nearly right. Also, the playback-speed keys work again for add-ons that keep their rate in a file of their own. speed.py read the shared special://temp/inputstream_tempo regardless of what the sentinel named, so PgUp/PgDn wrote a rate nothing was polling and the stream carried on unchanged. It now takes tempo_file and config_file from the sentinel. A sentinel left behind by a previous run is also cleared at startup. v21.4.1 Seeks keep the first packets of the new position: the probe for where a seek landed used to read and free them, so decoders started mid-GOP after every seek (HEVC logged it, a Pixel 7 AV1 decoder wedged on it). v21.4.0 Tempo now covers video: video and subtitle packets are projected through the same content/output time map as the stretched audio, so a video item plays in sync at any rate. Seeks, the OSD and external subtitles follow the map (IPOSTIME is advertised for video items); the audio pipeline follows Kodi's audio-track selection; time is reported at the playing point given the queue depth (queue_secs); tempo changes are polled by wall clock and written back to tempo_file.state; HDR colour metadata is now passed through.</news>
+    <news>v21.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v21.4.3 Chapter jumps and video seeks land on target. v21.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v21.4.1 Seeks keep the first packets of the new position. v21.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
   </extension>
 </addon>
 <addon id="plugin.audio.kotome"
