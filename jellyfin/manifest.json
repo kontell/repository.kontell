@@ -68,6 +68,14 @@
         "imageUrl": "",
         "versions": [
             {
+                "version": "12.0.0.7",
+                "changelog": "- An item deleted while it sits in a group's queue no longer breaks the group\n- An item with no runtime - live TV, external content - no longer zeroes\n  every seek and position report\n- Queue entries the server cannot resolve, for clients that declare they can\n  play them. Capability: ExternalContent\n- A group holding such entries is invisible to clients that cannot play it",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.7.zip",
+                "checksum": "b68225fd3da4b6cb101c6d20f92e9c84",
+                "timestamp": "2026-09-01T13:05:54Z"
+            },
+            {
                 "version": "12.0.0.6",
                 "changelog": "- A member the group gave up on is waited for again when it reports ready\n- A member the group timed out on is no longer recorded as a spectator\n- A v1 member no longer gets a snapshot it cannot read\n- A spectator's choice survives its next report\n- v2-only updates no longer reach a v1 socket\n- A timed-out v2 member is rendezvoused instead of abandoned\n- A member that cannot seek into position no longer holds the group up\n- A v2 member joining a playing group no longer pauses anyone. Setting: HotJoin\n- Protocol v2: versioned state, snapshots, position beacons, ping-scaled\n  tolerances, bounded group-waits, 90s reconnect grace",
                 "targetAbi": "12.0.0.0",
@@ -98,6 +106,14 @@
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.3.zip",
                 "checksum": "3e7484b91902c89f2ce3455dd82f043c",
                 "timestamp": "2026-08-18T10:44:39Z"
+            },
+            {
+                "version": "10.11.0.7",
+                "changelog": "- An item deleted while it sits in a group's queue no longer breaks the group\n- An item with no runtime - live TV, external content - no longer zeroes\n  every seek and position report\n- Queue entries the server cannot resolve, for clients that declare they can\n  play them. Capability: ExternalContent\n- A group holding such entries is invisible to clients that cannot play it",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_10.11.0.7.zip",
+                "checksum": "16f919b5ee9eabfeadf1bd4761a27bd9",
+                "timestamp": "2026-09-01T13:05:56Z"
             },
             {
                 "version": "10.11.0.6",
