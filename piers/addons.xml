@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -29,13 +29,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
-      <path>inputstream.tempo+android-aarch64/inputstream.tempo-22.4.4.zip</path>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+android-aarch64/inputstream.tempo-22.4.5.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -62,13 +62,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
-      <path>inputstream.tempo+android-armv7/inputstream.tempo-22.4.4.zip</path>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+android-armv7/inputstream.tempo-22.4.5.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -84,7 +84,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.22.4.4" />
+    library_linux="inputstream.tempo.so.22.4.5" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -95,13 +95,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
-      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-22.4.4.zip</path>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-aarch64/inputstream.tempo-22.4.5.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -117,7 +117,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.22.4.4" />
+    library_linux="inputstream.tempo.so.22.4.5" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -128,13 +128,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
-      <path>inputstream.tempo+linux-armv7/inputstream.tempo-22.4.4.zip</path>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-armv7/inputstream.tempo-22.4.5.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -150,7 +150,7 @@
     extension=""
     tags="true"
     listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id|tempo|tempo_file|start_time|queue_secs|lead_secs"
-    library_linux="inputstream.tempo.so.22.4.4" />
+    library_linux="inputstream.tempo.so.22.4.5" />
   <extension point="xbmc.service" library="resources/lib/runner.py"/>
   <extension point="xbmc.addon.metadata">
     <assets>
@@ -161,13 +161,13 @@
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
-      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-22.4.4.zip</path>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+      <path>inputstream.tempo+linux-x86_64/inputstream.tempo-22.4.5.zip</path>
   </extension>
 </addon>
 <addon
   id="inputstream.tempo"
-  version="22.4.4"
+  version="22.4.5"
   name="Inputstream Tempo"
   provider-name="kontell">
   <requires>
@@ -190,12 +190,12 @@
       <icon>icon.png</icon>
       <fanart>fanart.jpg</fanart>
     </assets>
-        <path>inputstream.tempo+windows-x86_64/inputstream.tempo-22.4.4.zip</path>
+        <path>inputstream.tempo+windows-x86_64/inputstream.tempo-22.4.5.zip</path>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <summary lang="en_GB">InputStream client with tempo control (pitch-corrected playback speed) for audio and video</summary>
     <description lang="en_GB">InputStream client based on FFmpeg with built-in tempo processing. Supports pitch-corrected playback speed from 0.5x to 100x for audiobooks and podcasts, and rate-shifts video and subtitles in step with the audio so the same control works for video. Based on inputstream.ffmpegdirect.</description>
-    <news>v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
+    <news>v22.4.5 Catchup streams no longer jump backward at the live edge. Builds against FFmpeg 9, and the gmp gcc-15 patch now applies on Linux. v22.4.4 Tempo works on streams whose audio format is not in the container header, such as a Jellyfin HLS transcode. v22.4.3 Chapter jumps and video seeks land on target. v22.4.2 Seeks land on target, and the speed keys work for add-ons that keep their rate in a file of their own. v22.4.1 Seeks keep the first packets of the new position. v22.4.0 Tempo covers video: video and subtitles follow the audio's time map, so an item stays in sync at any rate.</news>
   </extension>
 </addon>
 <addon id="plugin.audio.kotome"
@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.22.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.23.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -334,28 +334,15 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.22.0
-- Fine sync works supported for a transcoded stream
-- Add-on refactored
-- A spectator's own playback is no longer driven by the group
-- Kodi's audio/video queue is restored after an interrupted SyncPlay session
-- A library that fails to sync no longer abandons the ones after it
-- An item deleted on the server mid-sync is skipped, not written
-- Removing an episode takes its resume bookmark with it
-- A sync page that fails to fetch is retried, not dropped
-- A whitelisted library kind with no nodes is skipped, not fatal
-- The IPC nonce is no longer written to the log
-- Kodi's "Manage versions" picker no longer lists every film in the library
-- A user whose library access was withdrawn no longer has every synced library deleted from Kodi
-- Cast is written correctly after Kodi's own "Clean library" has run
-- Leaving a SyncPlay group during shutdown no longer holds Kodi past its five-second stop grace when the server has gone away
-- The widget-refresh fingerprint reads kofin's mapping table about forty times faster per row
-- A music library whose item count answers zero no longer crashes its sync
-- Maximum streaming bitrate offers 0.5, 0.75, 1 and 2 Mbit/s, matching the download cap
-- "Jellyfin actions" and "Play with transcoding" no longer appear on other add-ons' listings
-- Deleting a download says so: the item by name, or a count when a season or album goes at once
-- A download that finishes or is deleted updates the widgets, so the downloaded badge appears and clears without waiting for something unrelated to change
-- An artist that arrives after its tracks re-credits them</news>
+    <news>v0.23.0
+- Find servers on the local network
+- Downloads show how much space they take, including artwork and metadata
+- A music download exports artist and album metadata with it
+- SyncPlay groups can follow another add-on's content. Needs the SyncPlay v2 plugin with external-content support
+- Kodi 22.0 beta 2 syncs again
+- A playlist download announces once, not once per album
+- A downloaded song no longer offers to remove itself after playing
+- The Movies, Shows and Music folders stay when their last download is removed</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -399,7 +386,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.22.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.23.0.zip</path>
   </extension>
 </addon>
 <addon
