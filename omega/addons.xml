@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.24.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.25.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -334,11 +334,9 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.24.0
-- SyncPlay tunes live channels and catchup programmes together. Needs pvr.kofin 22.15.0
-- Live channels converge on the broadcast's own clock through Tempo; a member ahead of the group waits for it. Needs inputstream.tempo 22.5.0 or 21.5.0
-- A live channel plays the provider's stream directly when the server allows it
-- A recording played from the Recordings window reloads through Tempo so it can fine sync</news>
+    <news>v0.25.0
+- Force remux now copies the source codecs instead of re-encoding the audio; force transcode re-encodes both and wins when both are set, so force remux greys out
+- A live channel a SyncPlay group starts now plays through the PVR add-on's own channel, with its programme information and live OSD</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -382,7 +380,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.24.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.25.0.zip</path>
   </extension>
 </addon>
 <addon
