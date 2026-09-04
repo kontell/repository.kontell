@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.25.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.25.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -334,9 +334,9 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.25.0
-- Force remux now copies the source codecs instead of re-encoding the audio; force transcode re-encodes both and wins when both are set, so force remux greys out
-- A live channel a SyncPlay group starts now plays through the PVR add-on's own channel, with its programme information and live OSD</news>
+    <news>v0.25.1
+- Various live tv syncplay improvements
+- Default audio stream no longer reselected</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -380,7 +380,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.25.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.25.1.zip</path>
   </extension>
 </addon>
 <addon
