@@ -34,7 +34,7 @@ The repository provides the correct build for your platform and Kodi version aut
 This site also hosts a **Jellyfin plugin repository** — a separate manifest for
 Jellyfin *servers*, unrelated to the Kodi add-ons above:
 
-- [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kofin/Kodi boxes catch up with minimal traffic. Requires Jellyfin 10.11+.
+- [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kodi boxes catch up with minimal traffic. Requires Jellyfin 10.11+.
 - [Jellyfin SyncPlay v2](https://github.com/kontell/jellyfin-plugin-syncplayv2) - backwards compatible SyncPlay enhancement plugin.
 
 To install:
