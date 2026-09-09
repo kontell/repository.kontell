@@ -9,6 +9,8 @@ Kodi addon repository for:
 - [Contuary](https://github.com/kontell/skin.contuary) - Light mod of default Estuary skin with icons-only main menu;
 - [script.skin.contuary](https://github.com/kontell/script.skin.contuary/) - Helper script for skin.contuary to adjust the res (scales the UI for bigger screens).
 - [Restore Music Queue](https://github.com/kontell/script.music.restore) - A program add-on to restore music to previous play states.
+- [script.embuary.info](https://github.com/kontell/script.embuary.info/) - TMDB information provider integrated with estuary/ contuary
+
 ## Installation
 
 ### Option 1: Add as a file source
