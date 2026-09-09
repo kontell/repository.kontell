@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.25.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.25.2" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -334,9 +334,10 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.25.1
-- Various live tv syncplay improvements
-- Default audio stream no longer reselected</news>
+    <news>v0.25.2
+- Fine sync closes a larger slip by speed: default 5s, up to 10s; a pulse can last 40s
+- A leftover empty Singles album is removed with its song
+- A hung sync progress bar no longer stalls catch-up</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -380,12 +381,12 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.25.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.25.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -397,6 +398,7 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
@@ -404,15 +406,16 @@
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -420,12 +423,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-21.14.0.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-21.17.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -437,6 +440,7 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
@@ -444,15 +448,16 @@
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -460,12 +465,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-21.14.0.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-21.17.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -477,22 +482,24 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.14.0"/>
+    library_linux="pvr.kofin.so.21.17.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -500,12 +507,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-21.14.0.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-21.17.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -517,22 +524,24 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.14.0"/>
+    library_linux="pvr.kofin.so.21.17.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -540,12 +549,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-21.14.0.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-21.17.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -557,22 +566,24 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.14.0"/>
+    library_linux="pvr.kofin.so.21.17.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
@@ -580,12 +591,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-21.14.0.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-21.17.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.14.0"
+  version="21.17.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -597,6 +608,7 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="8.2.0" version="8.3.0"/>
     <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.tempo" minversion="21.4.1" optional="true"/>
     <import addon="inputstream.adaptive" minversion="20.0.0"/>
   </requires>
   <extension
@@ -604,21 +616,22 @@
     library_windows="pvr.kofin.dll"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.14.0
-- Fixed live channels failing to play whenever a maximum streaming bitrate was set: the add-on offered the server its own decoding codecs as transcode targets, so the server pinned the output to the source's audio codec and then could not encode it once the bitrate cap ruled out a straight copy
-- "Force transcoding" now states that the video must be re-encoded instead of trying to provoke it by sizing the stream down against the source, so it re-encodes reliably and an unlimited bitrate no longer has its figures rewritten
-- New Advanced setting: turn off SSL certificate verification, for servers with a self-signed certificate. It covers the add-on's own requests (login, guide, timers, recordings); video playback is handled by Kodi and the inputstream add-ons and is unaffected
-- "Reset resume position" now works on recordings. Watched state and resume position are sent to the server as separate, explicit requests rather than told apart by their timing, so resetting a resume point can no longer flip the watched flag by mistake, and finishing a recording now marks it watched even when it had no resume point
-- Notifications now carry the Kofin icon when the add-on is reporting something and Kodi's own warning and error icons when something was refused or went wrong. Every notification is now translatable, and a few that were shown as errors are now warnings
-- A recording you are watching now tells you when it has finished recording
-- Maximum audio channels now defaults to 7.1
-- The add-on now carries the Kofin logo</news>
+    <news>v21.17.0
+- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
+- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server
+- Force remuxing now copies the source video and audio instead of re-encoding the audio: the maximum audio channels and streaming bitrate are no longer applied, because either would refuse the copy. Force transcoding re-encodes both, honours those limits, and wins when both are ticked, so Force remuxing greys out
+- A live channel started by a SyncPlay group now plays through this add-on's own channel like the member who pressed play, so it has the programme information, the live OSD and the timeshift bar; it used to be fetched as a plain stream with none of them
+- Live and catchup playback are no longer mistaken for one another around a programme's end: programme times are read as UTC, as Kodi reports them
+- Catchup inputstream now sits with the in-progress recording setting, and choosing Tempo offers its settings below the timeshift toggle
+- New Inputstream tab choices: catchup and EPG programmes can play through Tempo instead of FFmpeg Direct, and so can live channels. Tempo is the FFmpeg Direct fork with the same timeshift and catchup engine plus the rate control SyncPlay fine sync needs; an install without it keeps its old path. Through Tempo a live channel timeshifts from the local buffer rather than through catchup, which cannot hold a clock across a pause
+- A kofin SyncPlay group now converges live channels and catchup programmes when they play through Tempo: the reporter tells the engine the route only when the stream really runs through it, with Kodi's real queue depth
+- Find Jellyfin servers on the local network, and lead with Quick Connect</news>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-21.14.0.zip</path>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-21.17.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
   </extension>
