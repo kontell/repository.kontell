@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.25.2" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.26.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -334,10 +334,10 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.25.2
-- Fine sync closes a larger slip by speed: default 5s, up to 10s; a pulse can last 40s
-- A leftover empty Singles album is removed with its song
-- A hung sync progress bar no longer stalls catch-up</news>
+    <news>v0.26.0
+- Synced library nodes added for Continue watching &amp; Next up
+- Next up path added to plugin root
+- Listings now set PluginCategory to the place's name so skins show useful path info</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -381,7 +381,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.25.2.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.26.0.zip</path>
   </extension>
 </addon>
 <addon
