@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.0.2.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.27.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.28.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -331,12 +331,24 @@
         <label>30615</label>
         <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
       </item>
+      <item library="context_playlist.py">
+        <label>30841</label>
+        <!-- Basic playlist files in Music/Video → Playlists. Smart playlists
+             (.xsp) are queries, not ordered lists, and are excluded by the
+             extension test. Square brackets for grouping. -->
+        <visible>[String.EndsWith(ListItem.FileNameAndPath,.m3u) | String.EndsWith(ListItem.FileNameAndPath,.m3u8)]</visible>
+      </item>
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.27.0
-- Artist search added
-- Synced show libraries now have season descriptions (v22 only)</news>
+    <news>v0.28.0
+- Changed playlist sync from a poll to use KofinSyncQueue (needs Jellyfin V12)
+- Added syncing of video playlists
+- Added option to disable reuse of language invoker.
+- Added favorite episodes to dynamic library
+- Settings refactor
+- Fix ghost album artist
+- Fixed favorite episodes library node</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -350,7 +362,9 @@
          LanguageInvoker ... terminating" line straight after "script
          successfully run" (not reusable) rather than the thread parking, and
          "GetLanguageInvoker - Reusing LanguageInvokerThread <id>" on the next
-         click when it is. -->
+         click when it is. The Advanced-tab toggle rewrites this element's
+         true/false; the zip always ships true, and a Kodi restart is what
+         makes ExtraInfo() move. -->
     <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
@@ -380,7 +394,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.27.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.28.0.zip</path>
   </extension>
 </addon>
 <addon
