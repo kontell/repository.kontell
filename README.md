@@ -3,14 +3,14 @@
 Kodi addon repository for:
 
 - [Kofin](https://github.com/kontell/plugin.video.kofin) - Jellyfin client for movies, shows & music with seamless Kodi integration;
-- [Kofin Lyrics](https://github.com/kontell/script.kofin.lyrics) - Jellyfin lyrics via Kofin
+- [Kofin Lyrics](https://github.com/kontell/script.kofin.lyrics) - Jellyfin lyrics via Kofin;
 - [Kofin PVR](https://github.com/kontell/pvr.kofin) - PVR client for Jellyfin Live TV;
 - [Kotome](https://github.com/kontell/plugin.audio.kotome) - Client for AudioBookShelf;
 - [InputStream.Tempo](https://github.com/kontell/inputstream.tempo) - Fork of inputstream.ffmpegdirect with playback speed adjustment;
 - [Contuary](https://github.com/kontell/skin.contuary) - Light mod of default Estuary skin with icons-only main menu;
-- [script.skin.contuary](https://github.com/kontell/script.skin.contuary/) - Helper script for skin.contuary to adjust the res (scales the UI for bigger screens).
-- [Restore Music Queue](https://github.com/kontell/script.music.restore) - A program add-on to restore music to previous play states.
-- [script.embuary.info](https://github.com/kontell/script.embuary.info/) - TMDB information provider integrated with estuary/ contuary
+- [script.skin.contuary](https://github.com/kontell/script.skin.contuary/) - Helper script for skin.contuary to adjust the res (scales the UI for bigger screens);
+- [Restore Music Queue](https://github.com/kontell/script.music.restore) - A program add-on to restore music to previous play states;
+- [script.embuary.info](https://github.com/kontell/script.embuary.info/) - TMDB information provider integrated with estuary/ contuary.
 
 ## Installation
 
@@ -35,9 +35,9 @@ The repository provides the correct build for your platform and Kodi version aut
 ## Jellyfin server plugins
 
 This site also hosts a **Jellyfin plugin repository** — a separate manifest for
-Jellyfin *servers*, unrelated to the Kodi add-ons above:
+Jellyfin *servers*:
 
-- [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kodi boxes catch up with minimal traffic. Requires Jellyfin 10.11+.
+- [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kodi boxes catch up with minimal traffic. Requires Jellyfin 10.11+;
 - [Jellyfin SyncPlay v2](https://github.com/kontell/jellyfin-plugin-syncplayv2) - backwards compatible SyncPlay enhancement plugin.
 
 To install:
