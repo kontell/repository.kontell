@@ -84,6 +84,14 @@
         "imageUrl": "",
         "versions": [
             {
+                "version": "12.0.0.8",
+                "changelog": "- More reliable group waits, recovery, reconnects and time sync — thanks @francotosqui\n- Configurable timeouts and dashboard diagnostics",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.8.zip",
+                "checksum": "165c4af6b9c98d5cd1d5778fc1f0fb47",
+                "timestamp": "2026-09-28T14:15:58Z"
+            },
+            {
                 "version": "12.0.0.7",
                 "changelog": "- An item deleted while it sits in a group's queue no longer breaks the group\n- An item with no runtime - live TV, external content - no longer zeroes\n  every seek and position report\n- Queue entries the server cannot resolve, for clients that declare they can\n  play them. Capability: ExternalContent\n- A group holding such entries is invisible to clients that cannot play it",
                 "targetAbi": "12.0.0.0",
@@ -122,6 +130,14 @@
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.3.zip",
                 "checksum": "3e7484b91902c89f2ce3455dd82f043c",
                 "timestamp": "2026-08-18T10:44:39Z"
+            },
+            {
+                "version": "10.11.0.8",
+                "changelog": "- More reliable group waits, recovery, reconnects and time sync — thanks @francotosqui\n- Configurable timeouts and dashboard diagnostics",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_10.11.0.8.zip",
+                "checksum": "e66e5be2cc9dcd54a67d56b078e7063e",
+                "timestamp": "2026-09-28T14:16:32Z"
             },
             {
                 "version": "10.11.0.7",
