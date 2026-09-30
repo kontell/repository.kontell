@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.1.0.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.28.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.29.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -250,6 +250,12 @@
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video audio</provides>
+    <!-- Kodi's video-library cleaner asks the plugin whether its synced files
+         and scraper paths still exist. Without these declarations Kodi never
+         calls kodi_action=check_exists and removes the movie rows outright. -->
+    <medialibraryscanpath content="movies">/</medialibraryscanpath>
+    <medialibraryscanpath content="tvshows">/</medialibraryscanpath>
+    <medialibraryscanpath content="musicvideos">/</medialibraryscanpath>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="kodi.context.item">
@@ -272,7 +278,7 @@
              Container.FolderPath would answer empty on Home, where the
              active window is not a media window (GUIInfoHelper's
              GetMediaWindow), so widget rows would have escaped the test. -->
-        <visible>[!String.IsEmpty(ListItem.Property(kofin.id)) | [!String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,set) | String.IsEqual(ListItem.DBTYPE,song) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,artist)]]]</visible>
+        <visible>[!String.IsEmpty(ListItem.Property(kofin.id)) | [!String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,set) | String.IsEqual(ListItem.DBTYPE,song) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,artist)]] | [String.IsEqual(Container.FolderPath,library://music/kofin/) + String.Contains(ListItem.FileNameAndPath,library://music/kofin/kofinmusic)]]</visible>
       </item>
       <item library="context_play.py">
         <label>30010</label>
@@ -335,20 +341,33 @@
         <label>30841</label>
         <!-- Basic playlist files in Music/Video → Playlists. Smart playlists
              (.xsp) are queries, not ordered lists, and are excluded by the
-             extension test. Square brackets for grouping. -->
-        <visible>[String.EndsWith(ListItem.FileNameAndPath,.m3u) | String.EndsWith(ListItem.FileNameAndPath,.m3u8)]</visible>
+             extension test. The managed Kofin folders are the server's
+             playlists mirrored down; a local edit there is overwritten on
+             the next refresh, so "Save to Jellyfin" is the wrong direction
+             and stays off those paths. Square brackets for grouping. -->
+        <visible>[String.EndsWith(ListItem.FileNameAndPath,.m3u) | String.EndsWith(ListItem.FileNameAndPath,.m3u8)] + !String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/) + !String.Contains(ListItem.FileNameAndPath,playlists/video/Kofin/)</visible>
+      </item>
+      <item library="context_download_playlist.py">
+        <label>30708</label>
+        <visible>String.EndsWith(ListItem.FileNameAndPath,.m3u8) + String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/)</visible>
       </item>
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.28.0
-- Changed playlist sync from a poll to use KofinSyncQueue (needs Jellyfin V12)
-- Added syncing of video playlists
-- Added option to disable reuse of language invoker.
-- Added favorite episodes to dynamic library
-- Settings refactor
-- Fix ghost album artist
-- Fixed favorite episodes library node</news>
+    <news>v0.29.0
+- Music libraries and playlists can be downloaded and kept in sync
+- A transcoded download is sized before it starts
+- A download announces once
+- A short music-library listing is refused, not taken as the whole library
+- Option to hide the library update progress bar
+- Sync playlists and Export NFO files and artwork default on
+- Search lists actors under episodes, and artists under songs
+- Clean library no longer deletes synced videos
+- Play Next highlights the episode that is playing
+- Playback progress is no longer reported against an unrelated item
+- A playlist update keeps its filename
+- Save to Jellyfin is hidden on Kofin's own playlist folders
+- Metadata edits no longer toast as new albums or artists</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -394,7 +413,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.28.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.29.0.zip</path>
   </extension>
 </addon>
 <addon
