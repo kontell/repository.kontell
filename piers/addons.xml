@@ -776,18 +776,15 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      a skin's lyrics button fires. -->
-<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.2.0" provider-name="kontell">
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.3.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
   <extension point="xbmc.python.lyrics" library="default.py"/>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.2.0
-• The add-on's own lyrics window now changes size in one smooth glide per song, instead of jumping to a guess and snapping to the real width moments later
-• Fixed a crash: Kodi can close the lyrics window by itself, and the add-on writing to the closed window could take the whole of Kodi down on the next track change. It now notices and quietly reopens
-• New setting for the lyrics window height, in pixels, anchored to the top of the screen — set it to keep the lyrics clear of whatever the skin draws along the bottom
-• Skins that draw the lyrics themselves can now size their overlay per song: the add-on publishes how wide the song's lines run, and applies the height setting to the skin's overlay where the skin supports it. Contuary 2.7 does both</news>
+    <news>v0.3.0
+- Publish four lyric window widths instead of three</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.kofin.lyrics</source>
@@ -796,7 +793,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>script.kofin.lyrics/script.kofin.lyrics-0.2.0.zip</path>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.3.0.zip</path>
   </extension>
 </addon>
 <!-- The script extension point comes first deliberately: an addon's LibPath is
@@ -826,7 +823,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
       <path>script.music.restore/script.music.restore-0.3.6.zip</path>
   </extension>
 </addon>
-<addon id="script.skin.contuary" version="1.1.0" name="Contuary Skin Helper" provider-name="Kontell">
+<addon id="script.skin.contuary" version="1.2.0" name="Contuary Skin Helper" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 	</requires>
@@ -834,19 +831,19 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 		<provides>executable</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>v1.1.0
-• Home menu: generate one Movies/Shows-style section per Kofin library, bound to that library's synced Kodi nodes or live plugin paths
-• Skin settings entry to add, rename, re-icon, reorder and delete those sections</news>
+    <news>v1.2.0
+• Resolution selector adds the aspect ratios Estuary ships commented out of addon.xml: 4:3, 3:2, 16:10, 17:9, 21:9, 19.5:9 and 18:9. The dialog shows the aspect beside the size. The skin string stays the bare name</news>
 		<summary lang="en_GB">Helper script for the Contuary skin</summary>
 		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options, and generates per-library home main-menu sections from Kofin movies and TV libraries. A resolution change needs a Kodi restart; generated menu sections apply after ReloadSkin.</description>
 		<platform>all</platform>
 		<license>GPL-2.0-or-later</license>
-	    <path>script.skin.contuary/script.skin.contuary-1.1.0.zip</path>
+	    <path>script.skin.contuary/script.skin.contuary-1.2.0.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.8.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.9.0" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.18.0"/>
+		<import addon="script.skin.contuary" version="1.1.0"/>
 	</requires>
 	<extension point="xbmc.gui.skin" debugging="false">
 		<!--
@@ -863,19 +860,17 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>v2.8.0
-- Music OSD: a chapters button, shown while something with chapters is
-  playing. It opens Kodi's chapter list, which until now was reachable only
-  during video playback. Create bookmark and Clear bookmarks are hidden
-  there for audio — they write to Kodi's video database, which means nothing
-  for an audiobook
-- Music OSD: moving right from the transport controls no longer skips the
-  first button of the right-hand group
-- Home: shorten the TMDB search button to "Search TMDB"
-- Removed the "Hide play speed OSD on tempo change" setting. It suppressed
-  the seek bar while an add-on nudged Kodi's play speed to stay in sync;
-  inputstream.tempo handles tempo itself now and no longer touches play
-  speed, so there was nothing left to suppress</news>
+    <news>v2.9.0
+- Synced with Estuary from Kodi 22 RC1. The home screen, colours, and Contuary widgets are unchanged.
+- Media flags now use icons and group the video, audio, and subtitle details.
+- Video information gains a media-details section. Bookmarks show on the seek bar. Player info shows the subtitle codec and language.
+- Skin settings gains Movie title format, next to Resolution.
+- The game OSD matches Estuary's current RetroPlayer menus.
+- Home: a touch can select the first widget row.
+- Artist information: a Filmography button to the right of Choose art.
+- Lyrics: leaving the visualisation slides the overlay off to the right with the rest of the skin.
+- Lyrics: A fourth width sits between the old small and middle sizes, so the panel can sit closer to the longest line.
+- The skin requires the Contuary skin helper, so Kodi installs it with the skin.</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Piers</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 22 (Piers).</description>
 		<platform>all</platform>
@@ -885,7 +880,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.8.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.9.0.zip</path>
   </extension>
 </addon>
 </addons>

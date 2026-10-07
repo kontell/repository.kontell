@@ -818,18 +818,15 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      a skin's lyrics button fires. -->
-<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.2.0" provider-name="kontell">
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.3.0" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
   <extension point="xbmc.python.lyrics" library="default.py"/>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.2.0
-• The add-on's own lyrics window now changes size in one smooth glide per song, instead of jumping to a guess and snapping to the real width moments later
-• Fixed a crash: Kodi can close the lyrics window by itself, and the add-on writing to the closed window could take the whole of Kodi down on the next track change. It now notices and quietly reopens
-• New setting for the lyrics window height, in pixels, anchored to the top of the screen — set it to keep the lyrics clear of whatever the skin draws along the bottom
-• Skins that draw the lyrics themselves can now size their overlay per song: the add-on publishes how wide the song's lines run, and applies the height setting to the skin's overlay where the skin supports it. Contuary 2.7 does both</news>
+    <news>v0.3.0
+- Publish four lyric window widths instead of three</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.kofin.lyrics</source>
@@ -838,7 +835,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
-      <path>script.kofin.lyrics/script.kofin.lyrics-0.2.0.zip</path>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.3.0.zip</path>
   </extension>
 </addon>
 <!-- The script extension point comes first deliberately: an addon's LibPath is
@@ -868,7 +865,7 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
       <path>script.music.restore/script.music.restore-0.3.6.zip</path>
   </extension>
 </addon>
-<addon id="script.skin.contuary" version="1.1.0" name="Contuary Skin Helper" provider-name="Kontell">
+<addon id="script.skin.contuary" version="1.2.0" name="Contuary Skin Helper" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 	</requires>
@@ -876,14 +873,13 @@ Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/konte
 		<provides>executable</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>v1.1.0
-• Home menu: generate one Movies/Shows-style section per Kofin library, bound to that library's synced Kodi nodes or live plugin paths
-• Skin settings entry to add, rename, re-icon, reorder and delete those sections</news>
+    <news>v1.2.0
+• Resolution selector adds the aspect ratios Estuary ships commented out of addon.xml: 4:3, 3:2, 16:10, 17:9, 21:9, 19.5:9 and 18:9. The dialog shows the aspect beside the size. The skin string stays the bare name</news>
 		<summary lang="en_GB">Helper script for the Contuary skin</summary>
 		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options, and generates per-library home main-menu sections from Kofin movies and TV libraries. A resolution change needs a Kodi restart; generated menu sections apply after ReloadSkin.</description>
 		<platform>all</platform>
 		<license>GPL-2.0-or-later</license>
-	    <path>script.skin.contuary/script.skin.contuary-1.1.0.zip</path>
+	    <path>script.skin.contuary/script.skin.contuary-1.2.0.zip</path>
   </extension>
 </addon>
 <addon id="skin.contuary" version="2.5.0" name="Contuary" provider-name="Kontell">
