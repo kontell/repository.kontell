@@ -17,11 +17,16 @@ schedule, and "nothing to do" is the common case.
 Requires the `gh` CLI, authenticated. In Actions the default GITHUB_TOKEN is
 enough — every source repo is public and only releases are read.
 
+Releases are placed in ``omega/`` and ``piers/``. Pre-releases are placed in
+``dev/omega/`` and ``dev/piers/``, which ``repository.kontell.dev`` serves. An
+add-on with no current pre-release loses those dev directories on the run.
+Drafts go to neither tree. Jellyfin plugins stay on the release tree only.
+
 Two guards exist because this runs unattended:
 
-* **Drafts and pre-releases are never published.** The shell scripts fell back to
-  the newest draft when no published release existed. A human doing that has
-  looked at it; a cron job has not.
+* **Drafts are never published.** The shell scripts fell back to the newest
+  draft when no published release existed. A human doing that has looked at it;
+  a cron job has not.
 * **A binary release must be complete.** If the platform set in addons.toml is
   not fully present, nothing is placed for that add-on. A partial placement is
   not corruption — each platform directory carries its own version and Kodi picks
@@ -86,8 +91,18 @@ def gh_json(*args):
     return json.loads(proc.stdout or "[]")
 
 
-def published_releases(repo, limit=30):
-    """Newest-first releases that are neither drafts nor pre-releases."""
+def filter_releases(rows, *, prerelease):
+    """Newest-first. Drafts are dropped. ``prerelease`` selects which maturity remains."""
+    if prerelease:
+        kept = [r for r in rows if r.get("isPrerelease") and not r.get("isDraft")]
+    else:
+        kept = [r for r in rows if not r.get("isDraft") and not r.get("isPrerelease")]
+    kept.sort(key=lambda r: r.get("publishedAt") or "", reverse=True)
+    return kept
+
+
+def published_releases(repo, limit=30, *, prerelease=False):
+    """Newest-first releases of one maturity. Drafts are never returned."""
     rows = gh_json(
         "release",
         "list",
@@ -98,9 +113,7 @@ def published_releases(repo, limit=30):
         "--json",
         "tagName,isDraft,isPrerelease,publishedAt",
     )
-    kept = [r for r in rows if not r.get("isDraft") and not r.get("isPrerelease")]
-    kept.sort(key=lambda r: r.get("publishedAt") or "", reverse=True)
-    return kept
+    return filter_releases(rows, prerelease=prerelease)
 
 
 def release_assets(repo, tag):
@@ -238,20 +251,34 @@ def parse_binary(name, addon_id):
 # placement
 
 
-class Placement:
-    """One zip to copy, and where. Collected first, applied only if complete."""
+def served_name(prefix, channel):
+    """``omega`` for the stable tree, ``dev/omega`` for pre-releases."""
+    return f"{prefix}/{channel}" if prefix else channel
 
-    def __init__(self, src, channel, directory, filename):
+
+class Placement:
+    """One zip to copy, and where. Collected first, applied only if complete.
+
+    ``src`` is None when the served file is already current. Those entries exist
+    so the pre-release pass knows which dev directories to keep.
+    """
+
+    def __init__(self, src, channel, directory, filename, prefix=""):
         self.src = src
         self.channel = channel
         self.directory = directory
         self.filename = filename
+        self.prefix = prefix
+
+    def rel(self):
+        parts = [self.prefix, self.channel, self.directory, self.filename]
+        return "/".join(part for part in parts if part)
 
     def dest(self, pages):
-        return Path(pages) / self.channel / self.directory / self.filename
+        return Path(pages) / self.rel()
 
     def __repr__(self):
-        return f"{self.channel}/{self.directory}/{self.filename}"
+        return self.rel()
 
 
 def apply(placements, pages, dry_run):
@@ -263,6 +290,8 @@ def apply(placements, pages, dry_run):
     """
     changed = []
     for placement in placements:
+        if placement.src is None:
+            continue
         dest = placement.dest(pages)
         # Byte comparison, not size: a re-cut release keeps its version and so its
         # filename, and "same length" is not the same file. filecmp with
@@ -280,11 +309,43 @@ def apply(placements, pages, dry_run):
     return changed
 
 
+def dev_dirs_for(pages, addon_id):
+    """``dev/<channel>/<addon id>`` and ``dev/<channel>/<addon id>+<platform>``."""
+    found = []
+    for channel in CHANNELS:
+        base = Path(pages) / "dev" / channel
+        if not base.is_dir():
+            continue
+        for child in base.iterdir():
+            if child.is_dir() and (
+                child.name == addon_id or child.name.startswith(addon_id + "+")
+            ):
+                found.append(child)
+    return found
+
+
+def clear_unselected_dev(pages, addon_id, placements, dry_run):
+    """Remove dev directories this pre-release pass did not select.
+
+    Promoting a pre-release to a release leaves it selected by the stable pass
+    only. The directory has to go here, or the dev repository keeps serving it.
+    """
+    keep = {placement.dest(pages).parent.resolve() for placement in placements}
+    removed = []
+    for directory in dev_dirs_for(pages, addon_id):
+        if directory.resolve() in keep:
+            continue
+        removed.append(f"remove dev/{directory.parent.name}/{directory.name}")
+        if not dry_run:
+            shutil.rmtree(directory)
+    return removed
+
+
 # --------------------------------------------------------------------------
 # per-model resolution
 
 
-def resolve_shared(addon, work, from_dir, pages):
+def resolve_shared(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
     if from_dir:
         zips = sorted(Path(from_dir).glob(f"{addon_id}-*.zip"))
@@ -292,7 +353,7 @@ def resolve_shared(addon, work, from_dir, pages):
             raise Problem(f"no {addon_id}-*.zip in {from_dir}")
         src = zips[-1]
     else:
-        releases = published_releases(addon["repo"])
+        releases = published_releases(addon["repo"], prerelease=prerelease)
         chosen, chosen_assets = None, []
         for release in releases:
             assets = release_assets(addon["repo"], release["tagName"])
@@ -300,20 +361,24 @@ def resolve_shared(addon, work, from_dir, pages):
                 chosen, chosen_assets = release, assets
                 break
         if chosen is None:
+            kind = "pre-release" if prerelease else "release"
             raise NotReleasedYet(
-                f"no published release of {addon['repo']} carries a "
+                f"no published {kind} of {addon['repo']} carries a "
                 f"{addon_id}-<version>.zip asset"
             )
         # Fast exit: the asset name carries the version and the API gave us its
         # size, so whether the tree is current is answerable without downloading.
         asset = next(a for a in chosen_assets if parse_shared(a["name"], addon_id))
         version = parse_shared(asset["name"], addon_id)
+        filename = f"{addon_id}-{version}.zip"
         expected = [
-            (f"{channel}/{addon_id}/{addon_id}-{version}.zip", asset["size"])
+            (f"{served_name(prefix, channel)}/{addon_id}/{filename}", asset["size"])
             for channel in CHANNELS
         ]
         if already_served(expected, pages):
-            return []
+            return [
+                Placement(None, channel, addon_id, filename, prefix) for channel in CHANNELS
+            ]
         download(addon["repo"], chosen["tagName"], [f"{addon_id}-*.zip"], work)
         zips = [p for p in work.glob(f"{addon_id}-*.zip") if parse_shared(p.name, addon_id)]
         if len(zips) != 1:
@@ -326,12 +391,12 @@ def resolve_shared(addon, work, from_dir, pages):
     verify_kodi_zip(src, addon_id)
     # Pure Python: the same zip serves both Kodi versions.
     return [
-        Placement(src, channel, addon_id, f"{addon_id}-{version}.zip")
+        Placement(src, channel, addon_id, f"{addon_id}-{version}.zip", prefix)
         for channel in CHANNELS
     ]
 
 
-def resolve_dual(addon, work, from_dir, pages):
+def resolve_dual(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
     placements = []
     if from_dir:
@@ -341,7 +406,7 @@ def resolve_dual(addon, work, from_dir, pages):
                 version, channel = parsed
                 verify_kodi_zip(path, addon_id)
                 placements.append(
-                    Placement(path, channel, addon_id, f"{addon_id}-{version}.zip")
+                    Placement(path, channel, addon_id, f"{addon_id}-{version}.zip", prefix)
                 )
         if not placements:
             raise Problem(
@@ -349,26 +414,42 @@ def resolve_dual(addon, work, from_dir, pages):
             )
         return placements
 
-    releases = published_releases(addon["repo"])
+    releases = published_releases(addon["repo"], prerelease=prerelease)
+    kind = "pre-release" if prerelease else "release"
     if not any(r["tagName"].startswith(tuple(f"{c}/" for c in CHANNELS)) for r in releases):
         raise NotReleasedYet(
-            f"no published {'/'.join(CHANNELS)} release of {addon['repo']}"
+            f"no published {'/'.join(CHANNELS)} {kind} of {addon['repo']}"
         )
     for channel in CHANNELS:
         chosen = next(
             (r for r in releases if r["tagName"].startswith(f"{channel}/")), None
         )
         if chosen is None:
-            print(f"    {channel}: no published release, leaving as-is")
+            # Stable keeps whatever that channel already serves. The dev tree
+            # drops a channel that no longer has a pre-release.
+            if not prefix:
+                print(f"    {channel}: no published release, leaving as-is")
             continue
         assets = release_assets(addon["repo"], chosen["tagName"])
         parsed = [(a, parse_dual(a["name"], addon_id)) for a in assets]
         mine = [(a, pd) for a, pd in parsed if pd and pd[1] == channel]
         if mine and already_served(
-            [(f"{channel}/{addon_id}/{addon_id}-{pd[0]}.zip", a["size"]) for a, pd in mine],
+            [
+                (
+                    f"{served_name(prefix, channel)}/{addon_id}/{addon_id}-{pd[0]}.zip",
+                    a["size"],
+                )
+                for a, pd in mine
+            ],
             pages,
         ):
-            print(f"    {channel}: already current")
+            print(f"    {served_name(prefix, channel)}: already current")
+            for _asset, pd in mine:
+                placements.append(
+                    Placement(
+                        None, channel, addon_id, f"{addon_id}-{pd[0]}.zip", prefix
+                    )
+                )
             continue
         cdir = work / channel
         download(addon["repo"], chosen["tagName"], [f"{addon_id}-*.zip"], cdir)
@@ -385,7 +466,7 @@ def resolve_dual(addon, work, from_dir, pages):
                 )
             verify_kodi_zip(path, addon_id)
             placements.append(
-                Placement(path, channel, addon_id, f"{addon_id}-{version}.zip")
+                Placement(path, channel, addon_id, f"{addon_id}-{version}.zip", prefix)
             )
             found = True
         if not found:
@@ -395,7 +476,7 @@ def resolve_dual(addon, work, from_dir, pages):
     return placements
 
 
-def resolve_binary(addon, work, from_dir, pages):
+def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
     required = set(addon.get("platforms", []))
     placements = []
@@ -405,6 +486,9 @@ def resolve_binary(addon, work, from_dir, pages):
     # satisfied channel look like a release with zero platforms, and the
     # completeness check below then reports every platform missing.
     satisfied = set()
+    # Already-current dev directories must be returned so the pre-release pass
+    # does not treat them as unselected and delete them.
+    keepers = []
 
     def collect(paths):
         by_channel = {}
@@ -421,7 +505,7 @@ def resolve_binary(addon, work, from_dir, pages):
         if not by_channel:
             raise Problem(f"no recognisable {addon_id} platform zips in {from_dir}")
     else:
-        releases = published_releases(addon["repo"])
+        releases = published_releases(addon["repo"], prerelease=prerelease)
         by_channel = {}
         for release in releases:
             assets = release_assets(addon["repo"], release["tagName"])
@@ -448,12 +532,29 @@ def resolve_binary(addon, work, from_dir, pages):
                 version, platform, channel = parsed
                 size = next((a["size"] for a in assets if a["name"] == name), 0)
                 want_dests.setdefault(channel, []).append(
-                    (f"{channel}/{addon_id}+{platform}/{addon_id}-{version}.zip", size)
+                    (
+                        f"{served_name(prefix, channel)}/{addon_id}+{platform}/{addon_id}-{version}.zip",
+                        size,
+                        platform,
+                        version,
+                    )
                 )
             # Per channel, so one stale channel does not force the other's download.
-            current = {c for c, d in want_dests.items() if already_served(d, pages)}
+            current = {c for c, d in want_dests.items() if already_served(
+                [(rel, size) for rel, size, _platform, _version in d], pages
+            )}
             for channel in sorted(current):
-                print(f"    {channel}: already current")
+                print(f"    {served_name(prefix, channel)}: already current")
+                for _rel, _size, platform, version in want_dests[channel]:
+                    keepers.append(
+                        Placement(
+                            None,
+                            channel,
+                            f"{addon_id}+{platform}",
+                            f"{addon_id}-{version}.zip",
+                            prefix,
+                        )
+                    )
             satisfied |= current
             if not (wanted - current):
                 continue
@@ -466,8 +567,9 @@ def resolve_binary(addon, work, from_dir, pages):
             if set(by_channel) | satisfied >= set(CHANNELS):
                 break
         if not by_channel and not satisfied:
+            kind = "pre-release" if prerelease else "release"
             raise NotReleasedYet(
-                f"no published release of {addon['repo']} carries recognisable "
+                f"no published {kind} of {addon['repo']} carries recognisable "
                 f"{addon_id} platform zips"
             )
 
@@ -485,10 +587,14 @@ def resolve_binary(addon, work, from_dir, pages):
             verify_kodi_zip(path, addon_id)
             placements.append(
                 Placement(
-                    path, channel, f"{addon_id}+{platform}", f"{addon_id}-{version}.zip"
+                    path,
+                    channel,
+                    f"{addon_id}+{platform}",
+                    f"{addon_id}-{version}.zip",
+                    prefix,
                 )
             )
-    return placements
+    return placements + keepers
 
 
 def resolve_jellyfin(addon, work, from_dir, pages, dry_run):
@@ -551,6 +657,41 @@ RESOLVERS = {
     "dual": resolve_dual,
     "binary": resolve_binary,
 }
+
+
+def reconcile_kodi(addon, work, pages, dry_run, from_dir=None):
+    """Place one Kodi add-on's release, then its pre-release under ``dev/``.
+
+    Returns ``(changed, pending)``. ``pending`` is set when the release tree has
+    nothing to serve. A missing pre-release is not pending: it clears ``dev/``.
+    ``--from-dir`` is a local release zip and does not touch the dev tree.
+    """
+    resolver = RESOLVERS.get(addon["model"])
+    if resolver is None:
+        raise Problem(f"unknown model {addon['model']!r}")
+    changed = []
+    pending = None
+    try:
+        placements = resolver(addon, work / "release", from_dir, pages)
+        changed.extend(apply(placements, pages, dry_run))
+    except NotReleasedYet as exc:
+        pending = str(exc)
+    if from_dir:
+        return changed, pending
+    try:
+        pre = resolver(
+            addon,
+            work / "prerelease",
+            None,
+            pages,
+            prefix="dev",
+            prerelease=True,
+        )
+    except NotReleasedYet:
+        pre = []
+    changed.extend(apply(pre, pages, dry_run))
+    changed.extend(clear_unselected_dev(pages, addon["id"], pre, dry_run))
+    return changed, pending
 
 
 # --------------------------------------------------------------------------
@@ -620,16 +761,17 @@ def main(argv=None):
                         print(f"    -> {item}")
                     all_changed.extend(changed)
                     continue
-                resolver = RESOLVERS.get(model)
-                if resolver is None:
-                    raise Problem(f"unknown model {model!r}")
-                placements = resolver(addon, work, args.from_dir, pages)
-                changed = apply(placements, pages, args.dry_run)
-                for placement in changed:
-                    print(f"    -> {placement}")
-                if not changed:
+                changed, not_yet = reconcile_kodi(
+                    addon, work, pages, args.dry_run, args.from_dir
+                )
+                for item in changed:
+                    print(f"    -> {item}")
+                if not changed and not_yet is None:
                     print("    already current")
-                all_changed.extend(str(p) for p in changed)
+                if not_yet is not None:
+                    print(f"    not released yet: {not_yet}")
+                    pending.append(f"{addon_id}: {not_yet}")
+                all_changed.extend(str(item) for item in changed)
             except NotReleasedYet as exc:
                 print(f"    not released yet: {exc}")
                 pending.append(f"{addon_id}: {exc}")

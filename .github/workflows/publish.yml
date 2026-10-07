@@ -1,5 +1,6 @@
-# Reconcile the served repository against every add-on's newest published
-# release, and publish to gh-pages when something moved.
+# Reconcile the served repository against every add-on's newest release and
+# its newest pre-release (under dev/), and publish to gh-pages when something
+# moved.
 #
 # Three ways in:
 #
@@ -73,6 +74,9 @@ jobs:
             echo "tag:    ${{ github.event.client_payload.tag }}"
           fi
 
+      - name: Check release and pre-release placement
+        run: python3 -m unittest tests.test_prerelease_tree -q
+
       - name: Place release assets
         id: update
         env:
@@ -133,6 +137,8 @@ jobs:
           {
             echo "omega_md5=$(cat omega/addons.xml.md5)"
             echo "piers_md5=$(cat piers/addons.xml.md5)"
+            echo "dev_omega_md5=$(cat dev/omega/addons.xml.md5)"
+            echo "dev_piers_md5=$(cat dev/piers/addons.xml.md5)"
           } >> "$GITHUB_OUTPUT"
 
       - name: Verify the published site actually serves the new metadata
@@ -151,9 +157,11 @@ jobs:
           declare -A want=(
             [omega]="${{ steps.push.outputs.omega_md5 }}"
             [piers]="${{ steps.push.outputs.piers_md5 }}"
+            [dev/omega]="${{ steps.push.outputs.dev_omega_md5 }}"
+            [dev/piers]="${{ steps.push.outputs.dev_piers_md5 }}"
           )
           deadline=$(( SECONDS + 600 ))
-          for channel in omega piers; do
+          for channel in omega piers dev/omega dev/piers; do
             expected="${want[$channel]}"
             echo "waiting for $channel/addons.xml.md5 == $expected"
             while :; do
