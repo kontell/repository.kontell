@@ -4,21 +4,19 @@ Generate addons.xml and addons.xml.md5 for the Kontell repository.
 Also creates the repository addon zip.
 
 Directory layout:
-  omega/                           (Kodi 21)
-    pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
-    pvr.kofin+android-armv7/pvr.kofin-0.2.3.zip
-    ...
-    addons.xml
-    addons.xml.md5
-  piers/                           (Kodi 22)
+  omega/                           (Kodi 21, releases)
     pvr.kofin+linux-x86_64/pvr.kofin-0.2.3.zip
     ...
     addons.xml
     addons.xml.md5
+  piers/                           (Kodi 22, releases)
+    ...
+  dev/omega/                       (Kodi 21, pre-releases)
+  dev/piers/                       (Kodi 22, pre-releases)
 
 Each version directory gets its own addons.xml with per-platform entries.
-The repository addon.xml uses <dir> elements with minversion/maxversion
-to route each Kodi version to the correct addons.xml.
+repository.kontell routes Kodi at omega/ and piers/. repository.kontell.dev
+routes the same versions at dev/omega/ and dev/piers/.
 
 When browsing a repository (as opposed to installing a zip directly), Kodi
 fetches an addon's icon/fanart/screenshots over HTTP from the server next to
@@ -29,10 +27,10 @@ changelog.txt when the addon.xml doesn't provide one.
 
 Usage: python3 generate_repo.py [--pages-dir DIR]
 
-The served site (omega/, piers/, the installer zip and index.html) is written
-to --pages-dir, which defaults to ./_site (the gh-pages worktree) when present,
-or the script's own directory otherwise. addon.xml is always read from the
-script's directory (the source).
+The served site (omega/, piers/, dev/, the installer zips and index.html) is
+written to --pages-dir, which defaults to ./_site (the gh-pages worktree) when
+present, or the script's own directory otherwise. The repository addon.xml
+files are read from the script's directory (the source).
 """
 
 import argparse
@@ -48,6 +46,11 @@ from xml.sax.saxutils import escape
 # a legacy all-in-one checkout.
 SOURCE_DIR = os.path.dirname(os.path.abspath(__file__))
 VERSION_DIRS = ["omega", "piers"]
+DEV_VERSION_DIRS = ["dev/omega", "dev/piers"]
+STABLE_ID = "repository.kontell"
+DEV_ID = "repository.kontell.dev"
+STABLE_XML = os.path.join(SOURCE_DIR, "addon.xml")
+DEV_XML = os.path.join(SOURCE_DIR, "repositories", DEV_ID, "addon.xml")
 
 # Art that Kodi recognises by convention at the addon root, used when an
 # addon.xml declares no <assets> block of its own.
@@ -284,65 +287,67 @@ def generate_addons_xml(version_dir, pages_dir, prune=False):
     print(f"  {version_dir}: {len(addon_xmls)} entry/entries, md5={md5}")
 
 
-def read_repo_version():
-    """Read the repository addon version from the source addon.xml."""
-    with open(os.path.join(SOURCE_DIR, "addon.xml"), "r", encoding="utf-8") as f:
+def read_repo_version(addon_xml):
+    """Read the repository addon version from its source addon.xml."""
+    with open(addon_xml, "r", encoding="utf-8") as f:
         content = f.read()
     match = re.search(r'<addon[^>]+version="([^"]+)"', content)
     return match.group(1) if match else "1.0.0"
 
 
-def _write_repo_zip(zip_path):
-    """Write the repository addon zip (it contains only addon.xml) to zip_path."""
-    addon_xml = os.path.join(SOURCE_DIR, "addon.xml")
+def _write_repo_zip(zip_path, addon_xml, addon_id):
+    """Write a repository addon zip (it contains only addon.xml) to zip_path."""
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-        z.write(addon_xml, "repository.kontell/addon.xml")
+        z.write(addon_xml, f"{addon_id}/addon.xml")
 
 
-def stage_repo_addon(pages_dir, version):
-    """Place the repository addon zip under each version dir as a normal addon,
-    so it is listed in that dir's addons.xml and Kodi can self-update the repo
-    addon -- which is how existing installs pick up new <datadir> URLs."""
-    zip_name = f"repository.kontell-{version}.zip"
-    for version_dir in VERSION_DIRS:
-        dest_dir = os.path.join(pages_dir, version_dir, "repository.kontell")
+def stage_repo_addon(pages_dir, version_dirs, addon_xml, addon_id):
+    """Place one repository addon zip under each of its version dirs.
+
+    Listed in that dir's addons.xml, this is how Kodi self-updates the repo
+    addon and picks up new <datadir> URLs. The function owns the directory:
+    addons.xml advertises exactly one version, and superseded copies used to be
+    cleared by the global --prune, which the automated publisher no longer
+    passes.
+    """
+    version = read_repo_version(addon_xml)
+    zip_name = f"{addon_id}-{version}.zip"
+    for version_dir in version_dirs:
+        dest_dir = os.path.join(pages_dir, version_dir, addon_id)
         os.makedirs(dest_dir, exist_ok=True)
-        _write_repo_zip(os.path.join(dest_dir, zip_name))
-        # This function owns the directory outright -- it is the only writer, and
-        # addons.xml advertises exactly one version. Superseded copies used to be
-        # cleared by the global --prune, which the automated publisher no longer
-        # passes (it prunes only directories it wrote into, so a run that fails
-        # elsewhere cannot empty an unrelated one). Clearing them here keeps that
-        # narrower prune correct without leaving these to pile up on every bump.
+        _write_repo_zip(os.path.join(dest_dir, zip_name), addon_xml, addon_id)
         for stale in os.listdir(dest_dir):
             if stale.endswith(".zip") and stale != zip_name:
                 os.remove(os.path.join(dest_dir, stale))
                 print(f"    {version_dir}: removed superseded {stale}")
-        print(f"  {version_dir}: staged repository.kontell {version} (self-update)")
+        print(f"  {version_dir}: staged {addon_id} {version} (self-update)")
+    return version
 
 
-def generate_repo_zip(pages_dir, version):
-    """Create the repository addon installer zip in the published site root."""
-    zip_name = f"repository.kontell-{version}.zip"
-    _write_repo_zip(os.path.join(pages_dir, zip_name))
+def generate_repo_zip(pages_dir, addon_xml, addon_id):
+    """Create one repository addon installer zip in the published site root."""
+    version = read_repo_version(addon_xml)
+    zip_name = f"{addon_id}-{version}.zip"
+    _write_repo_zip(os.path.join(pages_dir, zip_name), addon_xml, addon_id)
     print(f"  Repository zip: {zip_name}")
+    return zip_name
 
 
-def generate_index_html(pages_dir, version):
-    """Write the landing page linking to the installer zip (served at root)."""
-    zip_name = f"repository.kontell-{version}.zip"
+def generate_index_html(pages_dir, zip_names):
+    """Write the landing page linking to the installer zips (served at root)."""
+    links = "\n".join(f'<p><a href="{name}">{name}</a></p>' for name in zip_names)
     html = (
         "<html>\n"
         "<head><title>Kontell Repository</title></head>\n"
         "<body>\n"
         "<h1>Kontell Repository</h1>\n"
-        f'<a href="{zip_name}">{zip_name}</a>\n'
+        f"{links}\n"
         "</body>\n"
         "</html>\n"
     )
     with open(os.path.join(pages_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"  index.html -> {zip_name}")
+    print(f"  index.html -> {', '.join(zip_names)}")
 
 
 def resolve_pages_dir(explicit):
@@ -354,7 +359,7 @@ def resolve_pages_dir(explicit):
     return worktree if os.path.isdir(worktree) else SOURCE_DIR
 
 
-if __name__ == "__main__":
+def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Generate the Kontell Kodi repository metadata and installer.")
     parser.add_argument(
@@ -369,25 +374,32 @@ if __name__ == "__main__":
         help="Delete all but the newest build of each addon (keeps the served "
              "branch lean; old versions remain on the upstream Releases).",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     pages_dir = resolve_pages_dir(args.pages_dir)
 
     print(f"Generating Kontell repository into {pages_dir} ...")
 
-    has_addon_xml = os.path.exists(os.path.join(SOURCE_DIR, "addon.xml"))
-    version = read_repo_version() if has_addon_xml else None
-
-    # Stage the repository addon into each version dir BEFORE building addons.xml
-    # so it is listed there and Kodi can self-update it onto the new URLs.
-    if has_addon_xml:
-        stage_repo_addon(pages_dir, version)
+    # Stage each repository addon into its version dirs BEFORE building
+    # addons.xml, so it is listed there and Kodi can self-update it.
+    zip_names = []
+    if os.path.exists(STABLE_XML):
+        stage_repo_addon(pages_dir, VERSION_DIRS, STABLE_XML, STABLE_ID)
+        zip_names.append(generate_repo_zip(pages_dir, STABLE_XML, STABLE_ID))
+    else:
+        print("  Warning: addon.xml not found, skipping the stable installer")
+    if os.path.exists(DEV_XML):
+        stage_repo_addon(pages_dir, DEV_VERSION_DIRS, DEV_XML, DEV_ID)
+        zip_names.append(generate_repo_zip(pages_dir, DEV_XML, DEV_ID))
 
     for version_dir in VERSION_DIRS:
         generate_addons_xml(version_dir, pages_dir, prune=args.prune)
+    for version_dir in DEV_VERSION_DIRS:
+        generate_addons_xml(version_dir, pages_dir, prune=args.prune)
 
-    if has_addon_xml:
-        generate_repo_zip(pages_dir, version)
-        generate_index_html(pages_dir, version)
-    else:
-        print("  Warning: addon.xml not found, skipping installer zip and index.html")
+    if zip_names:
+        generate_index_html(pages_dir, zip_names)
     print("Done.")
+
+
+if __name__ == "__main__":
+    main()

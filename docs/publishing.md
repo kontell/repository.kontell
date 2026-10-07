@@ -18,8 +18,10 @@ Two things are worth knowing:
   credentials). A release published by a workflow using the default
   `GITHUB_TOKEN` does not raise a `release` event, so the forwarder never fires.
   The scheduled reconcile is the backstop if that happens.
-- **A draft release publishes nothing.** `tools/update.py` ignores drafts and
-  pre-releases outright.
+- **A draft publishes nothing.** A release is placed in `omega/` and `piers/`.
+  A pre-release is placed in `dev/omega/` and `dev/piers/`, which
+  `repository.kontell.dev` serves. Promoting a pre-release moves it on the next
+  publish.
 
 ### Running it by hand
 

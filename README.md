@@ -32,6 +32,12 @@ Kodi addon repository for:
 
 The repository provides the correct build for your platform and Kodi version automatically.
 
+## Development repository
+
+Pre-releases are a second repository, [repository.kontell.dev-1.0.0.zip](https://kontell.github.io/repository.kontell/repository.kontell.dev-1.0.0.zip). Install it the same way. It serves pre-releases only. The repository above serves releases only.
+
+A profile with only the stable repository is offered releases. Installing the development repository as well offers the newest pre-release of each add-on. Kofin has one add-on id, so the two builds are not installed side by side: Kodi offers the higher version.
+
 ## Jellyfin server plugins
 
 This site also hosts a **Jellyfin plugin repository**:
