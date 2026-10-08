@@ -863,43 +863,7 @@
       <path>repository.kontell/repository.kontell-1.0.2.zip</path>
   </extension>
 </addon>
-<!--
-  The id stays `script.embuary.info` on purpose, and it is load-bearing three
-  times over:
-
-    * `context.embuary.info` declares `<import addon="script.embuary.info"/>`,
-      a hard dependency Kodi enforces at install time;
-    * skin.contuary references the id ~28 times across its XML;
-    * it is what lets Kodi upgrade an existing install in place, for users who
-      have set "Update official add-ons from" to "Any repositories".
-
-  That last one is the whole distribution story. `script.embuary.info` 2.0.8 is
-  in repository.xbmc.org, so Kodi's AddonRepos::DoAddonUpdateCheck checks
-  official repos first, finds nothing above 2.0.8, and only then falls through
-  to private repos — and only when addons.updatemode == ANY_REPOSITORY. Users on
-  the default setting keep upstream 2.0.8 and never see this build.
-
-  Version 2.1.0 clears both upstream's released 2.0.8 and the unreleased 2.0.10
-  on its matrix branch, which is what this fork is based on. If upstream ever
-  revives above 2.1.0 the official repo reclaims the add-on, which is the right
-  failsafe rather than a problem to engineer around.
-
-  The display name is plain "Embuary Info". It carried a "(Kontell)" suffix so
-  nobody would file our bugs against sualfred, but that job is done by the
-  summary and description below, which name the fork and where to report to;
-  the suffix only made the name awkward everywhere it is shown. provider-name
-  still says kontell, and Kodi shows that on the add-on's information page.
--->
-<addon id="script.embuary.info" name="Embuary Info" version="2.4.0" provider-name="kontell">
-    <!--
-      script.module.requests is gone: nothing imports it any more. Its 825 ms
-      import was the largest single cost in opening a page, and what it was
-      being used for is four plain GETs and a HEAD; see
-      resources/lib/http_session.py.
-
-      arrow stays, but only widgets.py needs it now, for a locale-aware long
-      date on the plugin path. The info dialog no longer imports it.
-    -->
+<addon id="script.embuary.info" name="Embuary Info" version="2.5.0" provider-name="kontell">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.arrow" version="0.10.0"/>
@@ -914,41 +878,9 @@
     </extension>
     <extension point="xbmc.service" library="service.py" />
     <extension point="xbmc.addon.metadata">
-        <!--
-          Reuse the Python interpreter between invocations instead of tearing
-          it down each time.
-
-          It is parsed only here. Under xbmc.python.pluginsource, where it
-          reads as though it belongs, AddonInfoBuilder never looks at it and
-          nothing is logged either way.
-
-          What it buys, measured on this Kodi 21.3: opening a movie page warm
-          takes 1642 ms, of which 1175 ms is imports and 825 ms of that is
-          `import requests` alone. A parked interpreter keeps sys.modules, so
-          the second and later launches skip all of it.
-
-          Reuse is opportunistic, not guaranteed: Kodi keeps one reusable
-          invoker thread system-wide and gives it up as soon as any other
-          script runs. So the cold path still has to be worth something on its
-          own, and the import cost above is still worth attacking.
-
-          Three things had to be true before this could be turned on, all of
-          them silent failures otherwise:
-
-            * plugin.py refreshes plugin.handle from sys.argv, because
-              script.module.routing captures it at import and run() does not
-              re-read it.
-            * The action routes close their handle. Kodi's wait loop for a
-              script has no timeout, and a parked invoker never reports the
-              script as finished, so a missing endOfDirectory becomes an
-              unbounded hang rather than a harmless omission.
-            * Settings are read per launch rather than into module constants,
-              or a parked module keeps the first launch's values forever.
-
-          One consequence for development: copying new files in does not take
-          effect while an interpreter is parked with the old modules in
-          sys.modules. Disable and re-enable the add-on to discard it.
-        -->
+    <news>v2.5.0
+- Settings option to disable resue of language invoker.
+- Filter by country of orign and language.</news>
         <reuselanguageinvoker>true</reuselanguageinvoker>
         <platform>all</platform>
         <license>Apache-2.0</license>
@@ -957,30 +889,9 @@
             <icon>resources/icon.png</icon>
             <fanart>resources/fanart.jpg</fanart>
         </assets>
-        <news>v2.4.0
-- Settings are three tabs, General, Filters and Skin, with no headings inside
-  them. Filters is new and holds everything that drops an item from a list.
-  Existing settings keep their values.
-- The rating and votes filters start switched on, at 4.0 and 5. Both shipped at
-  zero, which keeps everything, so neither did anything until you found them.
-  New installs only: Kodi keeps a stored value over a changed default.
-- The votes slider is 0-500 in fives, down from 0-5000 in hundreds.
-- Opening an actor no longer asks which person you meant when the answer is
-  obvious, and a name resolved once is remembered. A new button in General
-  forgets them again if one was matched to the wrong person.
-- "Allow items of the next [n] days" sits directly below "Hide upcoming items"
-  and disappears with it rather than greying out.
-- The rating badge on posters sits further in from the corner.
-</news>
         <summary lang="en_GB">Embuary Info Script (Kontell fork)</summary>
-        <summary lang="de_DE">Embuary Info Script (Kontell-Fork)</summary>
-        <description lang="en_GB">Helper script to provide The Movie DB informations for persons, shows and movies. Works best with a skin integration.
-
-Kontell fork of sualfred's Embuary Info, maintained at https://github.com/kontell/script.embuary.info — please report issues there rather than to the original author. Fixes unbounded memory growth when browsing many pages in one session, and reduces artwork bandwidth and page-load time.</description>
-        <description lang="de_DE">Helfer Script das Abfragen von The Movie DB informationen für Personen, Serien und Filme zu ermöglichen. Funktioniert am besten mit einer Skin Integration.
-
-Kontell-Fork von sualfreds Embuary Info, gepflegt unter https://github.com/kontell/script.embuary.info — Fehler bitte dort melden, nicht beim ursprünglichen Autor.</description>
-        <path>script.embuary.info/script.embuary.info-2.4.0.zip</path>
+        <description lang="en_GB">Helper script to provide The Movie DB information for persons, shows and movies.</description>
+        <path>script.embuary.info/script.embuary.info-2.5.0.zip</path>
   </extension>
 </addon>
 <!-- The lyrics extension point comes first deliberately: an addon's LibPath is
