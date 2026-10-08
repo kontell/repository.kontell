@@ -91,6 +91,10 @@ model = "dual"
 id = "pvr.kofin"
 repo = "kontell/pvr.kofin"
 model = "binary"
+# windows-arm64 is absent on purpose. This list applies to every channel, and
+# Kodi 21 has no Windows arm64 build, so requiring it would refuse every Omega
+# release as incomplete. A Piers release carries that zip and it is placed like
+# any other; it is just not one whose absence stops the release.
 platforms = [
   "linux-x86_64",
   "linux-armv7",
@@ -98,6 +102,9 @@ platforms = [
   "android-armv7",
   "android-aarch64",
   "windows-x86_64",
+  "windows-i686",
+  "osx-x86_64",
+  "osx-arm64",
 ]
 
 [[addon]]
