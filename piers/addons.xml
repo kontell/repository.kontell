@@ -418,7 +418,7 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -429,31 +429,38 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-22.17.0.zip</path>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-22.18.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -464,31 +471,38 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
     library_android="pvr.kofin.so"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-22.17.0.zip</path>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+android-armv7/pvr.kofin-22.18.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -499,31 +513,38 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.17.0"/>
+    library_linux="pvr.kofin.so.22.18.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.17.0.zip</path>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.18.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -534,31 +555,38 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.17.0"/>
+    library_linux="pvr.kofin.so.22.18.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-22.17.0.zip</path>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-22.18.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -569,31 +597,38 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.17.0"/>
+    library_linux="pvr.kofin.so.22.18.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.17.0.zip</path>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.18.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.17.0"
+  version="22.18.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -604,26 +639,201 @@
 <import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="inputstream.ffmpegdirect" minversion="20.0.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
     <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
-    <import addon="inputstream.adaptive" minversion="20.0.0"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
+  </requires>
+  <extension
+    point="kodi.pvrclient"
+    library_osx="pvr.kofin.22.18.0.dylib"/>
+  <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
+    <platform>osx-arm64</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
+    </assets>
+    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+osx-arm64/pvr.kofin-22.18.0.zip</path>
+  </extension>
+</addon>
+<addon
+  id="pvr.kofin"
+  version="22.18.0"
+  name="Kofin PVR for Jellyfin"
+  provider-name="Kontell">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
+<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
+    <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
+  </requires>
+  <extension
+    point="kodi.pvrclient"
+    library_osx="pvr.kofin.22.18.0.dylib"/>
+  <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
+    <platform>osx-x86_64</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
+    </assets>
+    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+osx-x86_64/pvr.kofin-22.18.0.zip</path>
+  </extension>
+</addon>
+<addon
+  id="pvr.kofin"
+  version="22.18.0"
+  name="Kofin PVR for Jellyfin"
+  provider-name="Kontell">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
+<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
+    <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
   </requires>
   <extension
     point="kodi.pvrclient"
     library_windows="pvr.kofin.dll"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.17.0
-- Live playback uses a matching reference-playlist streaming URL when present, instead of asking Jellyfin for DirectPlay. Jellyfin 12 no longer DirectPlays HLS/DASH tuner sources; catchup now also requires that URL. Force remuxing and Force transcoding still go through the server. The global Force direct play setting is gone; kofin-force-direct-play remains as a per-channel override
-- Direct play of a playlist URL still reports Now Playing to the Jellyfin dashboard; the tuner is not opened on the server</news>
-    <platform>windows-x86_64</platform>
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
+    <platform>windows-arm64</platform>
     <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-22.17.0.zip</path>
+        <path>pvr.kofin+windows-arm64/pvr.kofin-22.18.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Native Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server with native Kodi UI integration.</description>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+  </extension>
+</addon>
+<addon
+  id="pvr.kofin"
+  version="22.18.0"
+  name="Kofin PVR for Jellyfin"
+  provider-name="Kontell">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
+<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
+    <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
+  </requires>
+  <extension
+    point="kodi.pvrclient"
+    library_windows="pvr.kofin.dll"/>
+  <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
+    <platform>windows-i686</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
+    </assets>
+        <path>pvr.kofin+windows-i686/pvr.kofin-22.18.0.zip</path>
+    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+  </extension>
+</addon>
+<addon
+  id="pvr.kofin"
+  version="22.18.0"
+  name="Kofin PVR for Jellyfin"
+  provider-name="Kontell">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
+<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
+    <import addon="inputstream.ffmpegdirect" minversion="22.0.0"/>
+    <import addon="inputstream.tempo" minversion="22.4.1" optional="true"/>
+    <import addon="inputstream.adaptive" minversion="22.0.0"/>
+  </requires>
+  <extension
+    point="kodi.pvrclient"
+    library_windows="pvr.kofin.dll"/>
+  <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
+  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v22.18.0
+- Fix Quick Connect login on Jellyfin 12
+- Settings buttons no longer depend on install path
+- Translate Quick Connect dialog and timer types
+- Clearer Quick Connect prompt
+- New icon and fanart
+- Move routine log lines to debug</news>
+    <platform>windows-x86_64</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/kontell/pvr.kofin</source>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.png</fanart>
+    </assets>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-22.18.0.zip</path>
+    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
+    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon id="repository.kontell"
