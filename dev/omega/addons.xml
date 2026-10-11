@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.kofin" name="Kofin" version="0.93.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.93.1" provider-name="kontell">
   <requires>
     
     <import addon="xbmc.addon" version="21.90.802" />
@@ -48,15 +48,11 @@
       </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.93.0
-- Movie versions and extras in the API build: a movie's alternate versions and special features are files in its folder. Kodi imports a version as a movie of its own, to be grouped in the Versions Manager, and the extras under the movie.
-- Kodi's "Ignore video extras on scan" is turned off once for the extras import, with a notice.
-- Library nodes and smart playlists for the synced video libraries, and Jellyfin playlists under Videos → Playlists → Kofin and Music → Playlists → Kofin; one setting on the Sync tab switches all of it.
-- Kodi's own Movies and TV shows nodes are kept beside Kofin's, so the home screen's categories rows stay. Restart Kodi once after upgrading.
-- The full cast shows in a movie's information dialog again: every movie folder carries its scraper binding.
-- Downloads in the API build: a downloaded item plays from disk however it is reached, carries the badge and the Kofin Downloads tag, and nothing of Kodi's rows is moved.
-- What the stock interfaces cannot do, grouping a movie's versions, is published as a request document for a companion add-on.
-- Every path that publishes a movie carries its special features, so Clean databases removes only files the server no longer lists.</news>
+    <news>v0.93.1
+- Faster first import of music, movies and TV shows in the API build.
+- Requests for the Kofin Companion add-on: grouped movie versions, retired versions and extras, chapter images, favourite-episode tags, season plots, stream flags and emptied collections.
+- A large video import runs with Kodi's "Download actor thumbnails" off and puts the setting back afterwards.
+- A long import no longer slows other add-ons.</news>
     
     <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
@@ -69,7 +65,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.93.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.93.1.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell.dev"
@@ -97,6 +93,31 @@
     <description>Pre-release builds of Kofin and the other Kontell add-ons. Releases stay in the Kontell Repository.</description>
     <platform>all</platform>
       <path>repository.kontell.dev/repository.kontell.dev-1.0.0.zip</path>
+  </extension>
+</addon>
+<addon id="service.kofin.companion" name="Kofin Companion" version="0.1.0" provider-name="kontell">
+  <requires>
+    <!-- Nothing else is declared on purpose: plugin.video.kofin is the same
+         add-on id for the SQL build (main), which writes these rows itself,
+         so the companion finds the API build through its capability report
+         at run time rather than through a dependency. -->
+    <import addon="xbmc.python" version="3.0.1"/>
+  </requires>
+  <extension point="xbmc.service" library="service.py" start="login"/>
+  <!-- "Reconcile now" and "Show status" from the add-on's settings. -->
+  <extension point="xbmc.python.script" library="default.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v0.1.0
+- First release: the service, the schema gate (MyVideos 149, MyMusic 84, Textures 14), the request document reader, the ledger and the status report.
+- Request kinds served: group_versions, retire_assets, chapter_art, episode_tags, season_plot, stream_flags, remove_set.
+- Upkeep of the gated databases at the first idle reconcile, on one connection each: WAL journal mode, as Kofin's SQL build sets for the ones it writes, and on the video database case-insensitive indexes on actor, tag and studio names, which Kodi's scanner looks up with LIKE and its own BINARY indexes cannot serve.</news>
+    <summary lang="en_GB">Closes what Kodi's public interfaces cannot for Kofin's API build</summary>
+    <description lang="en_GB">Reads the requests Kofin's API build publishes and writes to Kodi's databases what no public interface can: a movie's versions grouped, the server's chapter images in the native chapters dialog, and the rest of the parity ledger. Optional: Kofin works without it and reports which gaps it leaves open.</description>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <source>https://github.com/kontell/service.kofin.companion</source>
+    <reuselanguageinvoker>false</reuselanguageinvoker>
+      <path>service.kofin.companion/service.kofin.companion-0.1.0.zip</path>
   </extension>
 </addon>
 </addons>
