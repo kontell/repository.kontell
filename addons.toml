@@ -83,6 +83,14 @@ repo = "kontell/script.embuary.info"
 model = "shared"
 
 [[addon]]
+# Its release workflow drafts every release as a pre-release, so this is served
+# from dev/ only and each run reports "not released yet" for the stable tree.
+# That is expected until the companion cuts a full release.
+id = "service.kofin.companion"
+repo = "kontell/service.kofin.companion"
+model = "shared"
+
+[[addon]]
 id = "skin.contuary"
 repo = "kontell/skin.contuary"
 model = "dual"
