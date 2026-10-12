@@ -84,6 +84,14 @@
         "imageUrl": "",
         "versions": [
             {
+                "version": "12.0.0.9",
+                "changelog": "- When the last item in a queue ends, the group no longer reloads it\n- Many fixes to waits, stale requests, reconnects and time-sync access — thanks @francotosqui\n- The dashboard shows each group's last 50 events, and which users have next-episode autoplay on",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.9.zip",
+                "checksum": "53f899ca5428449df2fd80aa009359af",
+                "timestamp": "2026-10-12T12:02:26Z"
+            },
+            {
                 "version": "12.0.0.8",
                 "changelog": "- More reliable group waits, recovery, reconnects and time sync — thanks @francotosqui\n- Configurable timeouts and dashboard diagnostics",
                 "targetAbi": "12.0.0.0",
@@ -130,6 +138,14 @@
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_12.0.0.3.zip",
                 "checksum": "3e7484b91902c89f2ce3455dd82f043c",
                 "timestamp": "2026-08-18T10:44:39Z"
+            },
+            {
+                "version": "10.11.0.9",
+                "changelog": "- When the last item in a queue ends, the group no longer reloads it\n- Many fixes to waits, stale requests, reconnects and time-sync access — thanks @francotosqui\n- The dashboard shows each group's last 50 events, and which users have next-episode autoplay on",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/syncplay-v2_10.11.0.9.zip",
+                "checksum": "a2ee04797c66ee6a8164828afb663e3d",
+                "timestamp": "2026-10-12T12:02:31Z"
             },
             {
                 "version": "10.11.0.8",
