@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.kofin" name="Kofin" version="0.93.3" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.93.4" provider-name="kontell">
   <requires>
     
     <import addon="xbmc.addon" version="21.90.802" />
@@ -48,11 +48,9 @@
       </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.93.3
-- Movie sets keep their artwork and plot when a library is imported again.
-- Download badges on shows and seasons; home widgets update when a download finishes or is removed.
-- A play state for an item deleted on the server no longer stalls the sync.
-- Library status: picking a row no longer closes the list.</news>
+    <news>v0.93.4
+- A profile that already has a local library, or another add-on's, can be synced; only an earlier Kofin library has to be removed first.
+- Less load on Kodi during a music import.</news>
     
     <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
@@ -65,7 +63,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.93.3.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.93.4.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell.dev"
