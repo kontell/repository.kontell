@@ -229,7 +229,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.1.0.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.29.1" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.29.2" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.22.0+matrix.1"/>
@@ -354,10 +354,10 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.29.1
-- A sync no longer stalls when new content arrives during a large metadata update
-- Clean databases no longer makes Kodi ask to rescan music tags on every visit
-- Sync is routed through a backend boundary shared with the kofin-or preview; no change in behaviour</news>
+    <news>v0.29.2
+- SyncPlay no longer restarts an item a member stopped or played to the end
+- Kodi no longer crashes when Home is visited often during a large sync
+- A long sync no longer slows other add-ons</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -403,7 +403,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.29.1.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.29.2.zip</path>
   </extension>
 </addon>
 <addon
