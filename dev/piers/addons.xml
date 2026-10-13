@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.kofin" name="Kofin" version="0.93.2" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.93.3" provider-name="kontell">
   <requires>
     
     <import addon="xbmc.addon" version="21.90.802" />
@@ -48,12 +48,11 @@
       </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.93.2
-- Video, audio and subtitle details on movies and episodes in the API build. Run Repair once on video libraries synced by an earlier version.
-- Music and show play counts match the server, and a cast change no longer fills the in-progress widget.
-- Episodes show their own image, album and artist artwork arrives before the video import, and chapter images appear sooner.
-- One progress bar through an update or a library removal, and removing a library no longer rescans the others.
-- Library status dialog in the settings; settings that Force direct play overrides are hidden while it is on.</news>
+    <news>v0.93.3
+- Movie sets keep their artwork and plot when a library is imported again.
+- Download badges on shows and seasons; home widgets update when a download finishes or is removed.
+- A play state for an item deleted on the server no longer stalls the sync.
+- Library status: picking a row no longer closes the list.</news>
     
     <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
@@ -66,7 +65,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.93.2.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.93.3.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell.dev"
@@ -96,7 +95,7 @@
       <path>repository.kontell.dev/repository.kontell.dev-1.0.0.zip</path>
   </extension>
 </addon>
-<addon id="service.kofin.companion" name="Kofin Companion" version="0.1.1" provider-name="kontell">
+<addon id="service.kofin.companion" name="Kofin Companion" version="0.1.2" provider-name="kontell">
   <requires>
     <!-- Nothing else is declared on purpose: plugin.video.kofin is the same
          add-on id for the SQL build (main), which writes these rows itself,
@@ -108,15 +107,15 @@
   <!-- "Reconcile now" and "Show status" from the add-on's settings. -->
   <extension point="xbmc.python.script" library="default.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.1.1
-- Chapter images appear sooner, and are no longer held back by a library scan.</news>
+    <news>v0.1.2
+- A large library removal no longer stalls Kodi's other add-ons.</news>
     <summary lang="en_GB">Closes what Kodi's public interfaces cannot for Kofin's API build</summary>
     <description lang="en_GB">Reads the requests Kofin's API build publishes and writes to Kodi's databases what no public interface can: a movie's versions grouped, the server's chapter images in the native chapters dialog, and the rest of the parity ledger. Optional: Kofin works without it and reports which gaps it leaves open.</description>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/service.kofin.companion</source>
     <reuselanguageinvoker>false</reuselanguageinvoker>
-      <path>service.kofin.companion/service.kofin.companion-0.1.1.zip</path>
+      <path>service.kofin.companion/service.kofin.companion-0.1.2.zip</path>
   </extension>
 </addon>
 </addons>

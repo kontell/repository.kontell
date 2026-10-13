@@ -934,7 +934,7 @@
       <path>script.music.restore/script.music.restore-0.3.6.zip</path>
   </extension>
 </addon>
-<addon id="script.skin.contuary" version="1.2.0" name="Contuary Skin Helper" provider-name="Kontell">
+<addon id="script.skin.contuary" version="1.2.1" name="Contuary Skin Helper" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 	</requires>
@@ -942,16 +942,16 @@
 		<provides>executable</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>v1.2.0
-• Resolution selector adds the aspect ratios Estuary ships commented out of addon.xml: 4:3, 3:2, 16:10, 17:9, 21:9, 19.5:9 and 18:9. The dialog shows the aspect beside the size. The skin string stays the bare name</news>
+    <news>v1.2.1
+• A resolution change applies at once; Kodi no longer has to restart</news>
 		<summary lang="en_GB">Helper script for the Contuary skin</summary>
-		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options, and generates per-library home main-menu sections from Kofin movies and TV libraries. A resolution change needs a Kodi restart; generated menu sections apply after ReloadSkin.</description>
+		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options, and generates per-library home main-menu sections from Kofin movies and TV libraries. A resolution change reloads the skin and needs no restart; generated menu sections apply after ReloadSkin.</description>
 		<platform>all</platform>
 		<license>GPL-2.0-or-later</license>
-	    <path>script.skin.contuary/script.skin.contuary-1.2.0.zip</path>
+	    <path>script.skin.contuary/script.skin.contuary-1.2.1.zip</path>
   </extension>
 </addon>
-<addon id="skin.contuary" version="2.9.0" name="Contuary" provider-name="Kontell">
+<addon id="skin.contuary" version="2.9.1" name="Contuary" provider-name="Kontell">
 	<requires>
 		<import addon="xbmc.gui" version="5.18.0"/>
 		<import addon="script.skin.contuary" version="1.1.0"/>
@@ -971,17 +971,8 @@
 		-->
 	</extension>
 	<extension point="xbmc.addon.metadata">
-    <news>v2.9.0
-- Synced with Estuary from Kodi 22 RC1. The home screen, colours, and Contuary widgets are unchanged.
-- Media flags now use icons and group the video, audio, and subtitle details.
-- Video information gains a media-details section. Bookmarks show on the seek bar. Player info shows the subtitle codec and language.
-- Skin settings gains Movie title format, next to Resolution.
-- The game OSD matches Estuary's current RetroPlayer menus.
-- Home: a touch can select the first widget row.
-- Artist information: a Filmography button to the right of Choose art.
-- Lyrics: leaving the visualisation slides the overlay off to the right with the rest of the skin.
-- Lyrics: A fourth width sits between the old small and middle sizes, so the panel can sit closer to the longest line.
-- The skin requires the Contuary skin helper, so Kodi installs it with the skin.</news>
+    <news>v2.9.1
+- Kofin's download badge shows with its API build (0.9x), in lists and on artwork.</news>
 		<summary lang="en_GB">Contuary - A light mod of Estuary for Kodi Piers</summary>
 		<description lang="en_GB">Contuary is a lightly modified version of the default Estuary skin. Based on Estuary for Kodi 22 (Piers).</description>
 		<platform>all</platform>
@@ -991,7 +982,7 @@
 			<screenshot>resources/screenshot-01.jpg</screenshot>
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 		</assets>
-	    <path>skin.contuary/skin.contuary-2.9.0.zip</path>
+	    <path>skin.contuary/skin.contuary-2.9.1.zip</path>
   </extension>
 </addon>
 </addons>
