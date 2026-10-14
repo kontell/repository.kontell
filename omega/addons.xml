@@ -868,7 +868,7 @@
 <!-- The script extension point comes first deliberately: an addon's LibPath is
      taken from its first <extension>, and that is what RunScript resolves when
      the skin's "Recent queues" widget button fires. -->
-<addon id="script.music.restore" name="Restore Music Queue" version="0.3.6" provider-name="kontell">
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.7" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -877,8 +877,8 @@
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v0.3.6
-- Prevent overlapping music queue restores</news>
+    <news>v0.3.7
+- A queue of kofin songs with plugin paths restores every track, instead of repeating one, and each track plays</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <source>https://github.com/kontell/script.music.restore</source>
@@ -889,7 +889,7 @@
       <icon>resources/button.png</icon>
       <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.music.restore/script.music.restore-0.3.6.zip</path>
+      <path>script.music.restore/script.music.restore-0.3.7.zip</path>
   </extension>
 </addon>
 <addon id="script.skin.contuary" version="1.2.1" name="Contuary Skin Helper" provider-name="Kontell">
