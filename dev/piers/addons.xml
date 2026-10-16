@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.kofin" name="Kofin" version="0.93.5" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.93.6" provider-name="kontell">
   <requires>
     
     <import addon="xbmc.addon" version="21.90.802" />
@@ -48,10 +48,11 @@
       </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.93.5
-- Scheduled full update setting, off by default.
-- Update libraries asks once, then updates every library.
-- Albums are no longer rewritten after every full update.</news>
+    <news>v0.93.6
+- Speed up starting playback of an album
+- Fix toasts for new content
+- Fix movie import looop
+- Settings tidy up</news>
     
     <reuselanguageinvoker>true</reuselanguageinvoker>
     <platform>all</platform>
@@ -64,7 +65,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.93.5.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.93.6.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell.dev"
