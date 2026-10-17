@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon id="plugin.video.kofin" name="Kofin" version="0.95.0" provider-name="kontell">
+  <requires>
+    
+    <import addon="xbmc.addon" version="22.90.701" />
+    <import addon="xbmc.python" version="3.2.0" />
+    <import addon="script.module.requests" version="2.22.0+matrix.1" />
+    <import addon="script.module.websocket" version="1.6.4" />
+    
+    <import addon="script.kofin.lyrics" version="0.1.0" optional="true" />
+    
+    <import addon="inputstream.tempo" version="21.4.1" optional="true" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video audio</provides>
+    
+    <medialibraryscanpath content="movies">/native/</medialibraryscanpath>
+    <medialibraryscanpath content="tvshows">/native/</medialibraryscanpath>
+    <medialibraryscanpath content="musicvideos">/native/</medialibraryscanpath>
+  </extension>
+  <extension point="xbmc.service" library="service.py" start="login" />
+  <extension point="kodi.context.item">
+    <menu id="kodi.core.main">
+      <item library="context_manage.py">
+        <label>30502</label>
+        
+        <visible>[!String.IsEmpty(ListItem.Property(kofin.id)) | [!String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,set) | String.IsEqual(ListItem.DBTYPE,song) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,artist)]] | [String.IsEqual(Container.FolderPath,library://music/kofin/) + String.Contains(ListItem.FileNameAndPath,library://music/kofin/kofinmusic)]]</visible>
+      </item>
+      <item library="context_play.py">
+        <label>30010</label>
+        
+        <visible>[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | [!String.IsEmpty(ListItem.Property(kofin.id)) + String.IsEqual(ListItem.DBTYPE,video)]] + [!String.IsEmpty(ListItem.Property(kofin.id)) | !String.IsEmpty(ListItem.DBID)] + !String.IsEmpty(Window(Home).Property(kofin.context.bitrates))</visible>
+      </item>
+      
+      <item library="context_streams.py" args="both">
+        <label>30613</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),both)</visible>
+      </item>
+      <item library="context_streams.py" args="audio">
+        <label>30614</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),audio)</visible>
+      </item>
+      <item library="context_streams.py" args="subtitle">
+        <label>30615</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
+      </item>
+      <item library="context_playlist.py">
+        <label>30841</label>
+        
+        <visible>[String.EndsWith(ListItem.FileNameAndPath,.m3u) | String.EndsWith(ListItem.FileNameAndPath,.m3u8)] + !String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/) + !String.Contains(ListItem.FileNameAndPath,playlists/video/Kofin/)</visible>
+      </item>
+      <item library="context_download_playlist.py">
+        <label>30708</label>
+        <visible>String.EndsWith(ListItem.FileNameAndPath,.m3u8) + String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/)</visible>
+      </item>
+    </menu>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <news>v0.95.0
+- For Kodi 23 with the kontell/xbmc changes; the companion add-on is no longer used.
+- Movie versions are grouped as one movie, and versions or extras removed on the server leave Kodi.
+- Favourite episodes, season plots and stream flags reach Kodi's library.
+- Chapter images in the chapters dialog.
+- Recently added albums follow the server's order.</news>
+    
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <source>https://github.com/kontell/plugin.video.kofin</source>
+    <summary lang="en_GB">Jellyfin client for seamless Kodi integration</summary>
+    <description lang="en_GB">Play movies, shows &amp; music from a Jellyfin server.</description>
+    
+    <assets>
+      <icon>resources/media/icon.png</icon>
+      <fanart>resources/media/fanart.webp</fanart>
+    </assets>
+      <path>plugin.video.kofin/plugin.video.kofin-0.95.0.zip</path>
+  </extension>
+</addon>
 <addon id="repository.kontell.dev"
        name="Kontell Development Repository"
        version="1.0.1"
