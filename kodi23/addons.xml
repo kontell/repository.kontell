@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+<addon id="plugin.audio.kotome"
+       name="Kotome"
+       version="1.1.0"
+       provider-name="kontell">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="inputstream.tempo" minversion="0.3.10"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>audio</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py" start="login"/>
+  <extension point="xbmc.addon.metadata">
+    <!-- Keeps the interpreter alive between invocations, so the import cost
+         is paid once instead of on every folder the user opens. It is parsed
+         here and nowhere else: under xbmc.python.pluginsource, where it reads
+         as though it belongs, it is silently ignored. Requires every route to
+         close its handle — see router() in main.py. -->
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <platform>all</platform>
+    <summary lang="en">AudioBookShelf client with tempo</summary>
+    <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server, at whatever speed you like. Playback speed is adjustable per book with pitch correction, progress syncs back to the server, and a sleep timer fades out and stops on its own.</description>
+    <license>MIT</license>
+    <news>v1.1.0 Find servers on the local network from Settings, a Recently Added shelf in each book library, and podcast recent episodes that look like Continue Listening — episode title, show cover, no show name in the label. Author photos now appear in the information dialog. Opening the add-on unsigned-in no longer pops a dialog; the root is Settings. New: Reuse language invoker toggle (off if several skin widgets load plugin:// paths at once; needs a Kodi restart).</news>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+      <path>plugin.audio.kotome/plugin.audio.kotome-1.1.0.zip</path>
+  </extension>
+</addon>
+<addon id="repository.kontell"
+       name="Kontell Repository"
+       version="1.0.3"
+       provider-name="kontell">
+  <requires>
+    <import addon="xbmc.addon" version="12.0.0"/>
+  </requires>
+  <extension point="xbmc.addon.repository"
+             name="Kontell Repository">
+    <dir minversion="21.0.0" maxversion="21.9.9">
+      <info compressed="false">https://repository.kontell.workers.dev/omega/addons.xml</info>
+      <checksum>https://repository.kontell.workers.dev/omega/addons.xml.md5</checksum>
+      <datadir zip="true">https://repository.kontell.workers.dev/omega</datadir>
+    </dir>
+    <dir minversion="21.90.0" maxversion="22.9.9">
+      <info compressed="false">https://repository.kontell.workers.dev/piers/addons.xml</info>
+      <checksum>https://repository.kontell.workers.dev/piers/addons.xml.md5</checksum>
+      <datadir zip="true">https://repository.kontell.workers.dev/piers</datadir>
+    </dir>
+    <!-- No maxversion: a Kodi newer than every channel still reaches this
+         repository add-on, and so its next update. Cap it when the next
+         channel is added. -->
+    <dir minversion="22.90.0">
+      <info compressed="false">https://repository.kontell.workers.dev/kodi23/addons.xml</info>
+      <checksum>https://repository.kontell.workers.dev/kodi23/addons.xml.md5</checksum>
+      <datadir zip="true">https://repository.kontell.workers.dev/kodi23</datadir>
+    </dir>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Kontell Kodi Addon Repository</summary>
+    <description>Repository for Kofin PVR and other addons by Kontell.</description>
+    <platform>all</platform>
+      <path>repository.kontell/repository.kontell-1.0.3.zip</path>
+  </extension>
+</addon>
+<addon id="script.embuary.info" name="Embuary Info" version="2.5.0" provider-name="kontell">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.arrow" version="0.10.0"/>
+        <import addon="script.module.simplecache" version="2.0.2" />
+        <import addon="script.module.routing" version="0.2.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="plugin.py">
+      <provides>video</provides>
+    </extension>
+    <extension point="xbmc.python.script" library="default.py">
+        <provides>executable</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py" />
+    <extension point="xbmc.addon.metadata">
+    <news>v2.5.0
+- Settings option to disable resue of language invoker.
+- Filter by country of orign and language.</news>
+        <reuselanguageinvoker>true</reuselanguageinvoker>
+        <platform>all</platform>
+        <license>Apache-2.0</license>
+        <source>https://github.com/kontell/script.embuary.info</source>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.jpg</fanart>
+        </assets>
+        <summary lang="en_GB">Embuary Info Script (Kontell fork)</summary>
+        <description lang="en_GB">Helper script to provide The Movie DB information for persons, shows and movies.</description>
+        <path>script.embuary.info/script.embuary.info-2.5.0.zip</path>
+  </extension>
+</addon>
+<!-- The lyrics extension point comes first deliberately: an addon's LibPath is
+     taken from its first <extension>, and that is what RunScript resolves when
+     a skin's lyrics button fires. -->
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.3.0" provider-name="kontell">
+  <requires>
+    <import addon="xbmc.python" version="3.0.1"/>
+  </requires>
+  <extension point="xbmc.python.lyrics" library="default.py"/>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v0.3.0
+- Publish four lyric window widths instead of three</news>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <source>https://github.com/kontell/script.kofin.lyrics</source>
+    <summary lang="en_GB">Song lyrics from your Jellyfin server</summary>
+    <description lang="en_GB">Shows the lyrics stored on your Jellyfin server as a song plays, in time with the music where the server has timings. Lyrics are supplied by the Kofin addon, so nothing here needs a second login. Skins that draw lyrics themselves are used in preference to this addon's own window.</description>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.3.0.zip</path>
+  </extension>
+</addon>
+<!-- The script extension point comes first deliberately: an addon's LibPath is
+     taken from its first <extension>, and that is what RunScript resolves when
+     the skin's "Recent queues" widget button fires. -->
+<addon id="script.music.restore" name="Restore Music Queue" version="0.3.7" provider-name="kontell">
+  <requires>
+    <import addon="xbmc.python" version="3.0.1"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v0.3.7
+- A queue of kofin songs with plugin paths restores every track, instead of repeating one, and each track plays</news>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <source>https://github.com/kontell/script.music.restore</source>
+    <summary lang="en_GB">Bring back a music queue you were part-way through</summary>
+    <description lang="en_GB">Records the music queue and playback position every time music is stopped. Resume playback from a list of previous queues by running the add-on.</description>
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <assets>
+      <icon>resources/button.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+      <path>script.music.restore/script.music.restore-0.3.7.zip</path>
+  </extension>
+</addon>
+<addon id="script.skin.contuary" version="1.2.1" name="Contuary Skin Helper" provider-name="Kontell">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+	</requires>
+	<extension point="xbmc.python.script" library="default.py">
+		<provides>executable</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+    <news>v1.2.1
+• A resolution change applies at once; Kodi no longer has to restart</news>
+		<summary lang="en_GB">Helper script for the Contuary skin</summary>
+		<description lang="en_GB">Switches the active &lt;res&gt; declaration in skin.contuary's addon.xml between configured resolution options, and generates per-library home main-menu sections from Kofin movies and TV libraries. A resolution change reloads the skin and needs no restart; generated menu sections apply after ReloadSkin.</description>
+		<platform>all</platform>
+		<license>GPL-2.0-or-later</license>
+	    <path>script.skin.contuary/script.skin.contuary-1.2.1.zip</path>
+  </extension>
+</addon>
+</addons>

@@ -786,7 +786,7 @@
 </addon>
 <addon id="repository.kontell"
        name="Kontell Repository"
-       version="1.0.2"
+       version="1.0.3"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.addon" version="12.0.0"/>
@@ -803,12 +803,20 @@
       <checksum>https://repository.kontell.workers.dev/piers/addons.xml.md5</checksum>
       <datadir zip="true">https://repository.kontell.workers.dev/piers</datadir>
     </dir>
+    <!-- No maxversion: a Kodi newer than every channel still reaches this
+         repository add-on, and so its next update. Cap it when the next
+         channel is added. -->
+    <dir minversion="22.90.0">
+      <info compressed="false">https://repository.kontell.workers.dev/kodi23/addons.xml</info>
+      <checksum>https://repository.kontell.workers.dev/kodi23/addons.xml.md5</checksum>
+      <datadir zip="true">https://repository.kontell.workers.dev/kodi23</datadir>
+    </dir>
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>Kontell Kodi Addon Repository</summary>
     <description>Repository for Kofin PVR and other addons by Kontell.</description>
     <platform>all</platform>
-      <path>repository.kontell/repository.kontell-1.0.2.zip</path>
+      <path>repository.kontell/repository.kontell-1.0.3.zip</path>
   </extension>
 </addon>
 <addon id="script.embuary.info" name="Embuary Info" version="2.5.0" provider-name="kontell">
