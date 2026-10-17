@@ -11,12 +11,15 @@ Directory layout:
     addons.xml.md5
   piers/                           (Kodi 22, releases)
     ...
+  kodi23/                          (Kodi 23, releases)
   dev/omega/                       (Kodi 21, pre-releases)
   dev/piers/                       (Kodi 22, pre-releases)
+  dev/kodi23/                      (Kodi 23, pre-releases)
 
 Each version directory gets its own addons.xml with per-platform entries.
-repository.kontell routes Kodi at omega/ and piers/. repository.kontell.dev
-routes the same versions at dev/omega/ and dev/piers/.
+repository.kontell routes Kodi at omega/, piers/ and kodi23/.
+repository.kontell.dev routes the same versions at dev/omega/, dev/piers/ and
+dev/kodi23/.
 
 When browsing a repository (as opposed to installing a zip directly), Kodi
 fetches an addon's icon/fanart/screenshots over HTTP from the server next to
@@ -27,7 +30,7 @@ changelog.txt when the addon.xml doesn't provide one.
 
 Usage: python3 generate_repo.py [--pages-dir DIR]
 
-The served site (omega/, piers/, dev/, the installer zips and index.html) is
+The served site (omega/, piers/, kodi23/, dev/, the installer zips and index.html) is
 written to --pages-dir, which defaults to ./_site (the gh-pages worktree) when
 present, or the script's own directory otherwise. The repository addon.xml
 files are read from the script's directory (the source).
@@ -45,8 +48,9 @@ from xml.sax.saxutils import escape
 # location given by --pages-dir -- the gh-pages worktree. They coincide only in
 # a legacy all-in-one checkout.
 SOURCE_DIR = os.path.dirname(os.path.abspath(__file__))
-VERSION_DIRS = ["omega", "piers"]
-DEV_VERSION_DIRS = ["dev/omega", "dev/piers"]
+# Must match the <dir> entries of the two repository add-ons (a test checks).
+VERSION_DIRS = ["omega", "piers", "kodi23"]
+DEV_VERSION_DIRS = ["dev/omega", "dev/piers", "dev/kodi23"]
 STABLE_ID = "repository.kontell"
 DEV_ID = "repository.kontell.dev"
 STABLE_XML = os.path.join(SOURCE_DIR, "addon.xml")
@@ -228,7 +232,7 @@ def process_addon_zip(zip_path, dest_dir, platform_dir_name):
 
 
 def generate_addons_xml(version_dir, pages_dir, prune=False):
-    """Generate addons.xml for a version directory (omega or piers).
+    """Generate addons.xml for a version directory (omega, piers or kodi23).
 
     With prune=True, deletes all but the newest build of each addon so the
     served branch keeps only the latest (which is all addons.xml advertises).

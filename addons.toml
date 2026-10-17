@@ -9,16 +9,23 @@
 #
 # model = how an addon maps releases onto the served tree:
 #
-#   shared    Pure Python, one zip that works on both Kodi versions. Copied into
-#             omega/<id>/ and piers/<id>/ unchanged.
+#   shared    Pure Python, one zip that works on every Kodi version. Copied into
+#             <channel>/<id>/ for each channel unchanged.
 #   dual      Per-channel releases, tagged omega/vX.Y.Z and piers/vX.Y.Z, whose
 #             assets carry a -omega / -piers suffix. Each goes to its own channel.
 #   binary    Compiled per platform. Assets land in <channel>/<id>+<os>-<arch>/.
 #             The channel comes from the asset's -kodi<N> suffix where present,
-#             otherwise from the version's major (21 -> omega, 22 -> piers), so
+#             otherwise from the version's major (21 -> omega, 22 -> piers, 23 -> kodi23), so
 #             this works before and after the Kodi-numbering migration.
 #   jellyfin  A Jellyfin *server* plugin, not a Kodi addon. Served from the same
 #             site under jellyfin/ with its own manifest.json.
+#   variant   One add-on id built from several branches, each for its own Kodi
+#             versions. `variants` gives each branch a version range, and
+#             `stable` / `dev` name the variant each channel serves.
+#
+# channels = the channels a shared, dual or binary add-on is served in
+# (omega, piers, kodi23). Default: all of them. A channel left out keeps what its
+# stable tree has and loses its dev directory.
 #
 # platforms = the full set a binary release must produce. update.py refuses to
 # place a partial set: a half-published release leaves some platforms on an older
@@ -26,9 +33,20 @@
 # point of automating this is that nobody is reading the output.
 
 [[addon]]
+# Three branches: sql (Omega onwards), api (Piers onwards) and master (Kodi 23
+# alpha onwards). The ranges are also Kodi's upgrade path: a device takes the new
+# channel's kofin after a Kodi upgrade only if its version is higher than the one
+# installed, so sql < api < master has to hold for good.
 id = "plugin.video.kofin"
 repo = "kontell/plugin.video.kofin"
-model = "shared"
+model = "variant"
+variants.sql = { below = "0.90" }
+variants.api = { from = "0.90", below = "0.95" }
+variants.master = { from = "0.95" }
+# Piers stays on sql until api has a full release that sets up a profile the
+# SQL build wrote: every Piers user on this channel reaches it by auto-update.
+stable = { omega = "sql", piers = "sql", kodi23 = "master" }
+dev = { piers = "api", kodi23 = "master" }
 
 [[addon]]
 id = "script.kofin.lyrics"
@@ -85,10 +103,12 @@ model = "shared"
 [[addon]]
 # Its release workflow drafts every release as a pre-release, so this is served
 # from dev/ only and each run reports "not released yet" for the stable tree.
-# That is expected until the companion cuts a full release.
+# That is expected until the companion cuts a full release. Not on Kodi 23,
+# where kofin's master branch has no use for it.
 id = "service.kofin.companion"
 repo = "kontell/service.kofin.companion"
 model = "shared"
+channels = ["omega", "piers"]
 
 [[addon]]
 id = "skin.contuary"

@@ -17,10 +17,15 @@ schedule, and "nothing to do" is the common case.
 Requires the `gh` CLI, authenticated. In Actions the default GITHUB_TOKEN is
 enough — every source repo is public and only releases are read.
 
-Releases are placed in ``omega/`` and ``piers/``. Pre-releases are placed in
-``dev/omega/`` and ``dev/piers/``, which ``repository.kontell.dev`` serves. An
-add-on with no current pre-release loses those dev directories on the run.
-Drafts go to neither tree. Jellyfin plugins stay on the release tree only.
+Releases are placed in ``omega/``, ``piers/`` and ``kodi23/``. Pre-releases are
+placed in ``dev/omega/``, ``dev/piers/`` and ``dev/kodi23/``, which
+``repository.kontell.dev`` serves. An add-on with no current pre-release loses
+those dev directories on the run. Drafts go to neither tree. Jellyfin plugins
+stay on the release tree only.
+
+A bumped repository add-on (``addon.xml``, ``repositories/*/addon.xml``) counts
+as a change until its zip is staged in every channel, so the workflow
+regenerates for it even when no release moved.
 
 Two guards exist because this runs unattended:
 
@@ -48,6 +53,7 @@ import subprocess
 import sys
 import tempfile
 import tomllib
+import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
 
@@ -56,8 +62,14 @@ MANIFEST = ROOT / "addons.toml"
 
 # Kodi major -> served directory. The repository addon.xml routes each Kodi
 # version at one of these via <dir minversion/maxversion>.
-CHANNEL_BY_KODI = {"21": "omega", "22": "piers"}
-CHANNELS = ("omega", "piers")
+CHANNEL_BY_KODI = {"21": "omega", "22": "piers", "23": "kodi23"}
+CHANNELS = ("omega", "piers", "kodi23")
+
+# The repository add-on that serves each tree, keyed by served_name's prefix.
+REPO_XML = {
+    "": ROOT / "addon.xml",
+    "dev": ROOT / "repositories" / "repository.kontell.dev" / "addon.xml",
+}
 JELLYFIN_DIR = "jellyfin"
 
 VERSION = r"(?P<version>[0-9][0-9.]*)"
@@ -185,6 +197,55 @@ def verify_kodi_zip(path, addon_id):
         raise Problem(f"{path.name} is not a zip: {exc}") from exc
 
 
+def version_key(version):
+    """Kodi orders dotted versions part by part as numbers: 0.94.40 > 0.94.9.
+
+    Trailing zero parts are dropped, so 0.90 and 0.90.0 compare equal.
+    """
+    parts = [int(part) for part in version.split(".") if part]
+    while parts and parts[-1] == 0:
+        parts.pop()
+    return tuple(parts)
+
+
+def xbmc_addon_floor(path, addon_id):
+    """The xbmc.addon version the zip's addon.xml imports, or None."""
+    with zipfile.ZipFile(path) as archive:
+        root = ET.fromstring(archive.read(f"{addon_id}/addon.xml"))
+    for dependency in root.iter("import"):
+        if dependency.get("addon") == "xbmc.addon":
+            return dependency.get("version")
+    return None
+
+
+def channel_ceilings(prefix):
+    """{channel: maxversion or None} from the repository add-on serving ``prefix``.
+
+    Read from the repository add-on itself, because its <dir> ranges are what
+    decide which Kodi reads which channel.
+    """
+    root = ET.parse(REPO_XML[prefix]).getroot()
+    ceilings = {}
+    for entry in root.iter("dir"):
+        datadir = (entry.findtext("datadir") or "").rstrip("/")
+        ceilings[datadir.rsplit("/", 1)[-1]] = entry.get("maxversion")
+    return ceilings
+
+
+def check_installs(path, addon_id, channel, prefix):
+    """Refuse a zip that the Kodi versions reading ``channel`` would not install."""
+    ceilings = channel_ceilings(prefix)
+    where = served_name(prefix, channel)
+    if channel not in ceilings:
+        raise Problem(f"{REPO_XML[prefix].name} has no <dir> for {where}")
+    floor, ceiling = xbmc_addon_floor(path, addon_id), ceilings[channel]
+    if floor and ceiling and version_key(floor) > version_key(ceiling):
+        raise Problem(
+            f"{path.name} needs xbmc.addon {floor}, but {where} is read by Kodi up "
+            f"to {ceiling}: Kodi there would refuse it"
+        )
+
+
 # --------------------------------------------------------------------------
 # asset name parsing
 
@@ -196,9 +257,15 @@ def parse_shared(name, addon_id):
 
 def parse_dual(name, addon_id):
     m = re.fullmatch(
-        rf"{re.escape(addon_id)}-{VERSION}-(?P<channel>omega|piers)\.zip", name
+        rf"{re.escape(addon_id)}-{VERSION}-(?P<channel>{'|'.join(CHANNELS)})\.zip", name
     )
     return (m.group("version"), m.group("channel")) if m else None
+
+
+def parse_tag(tag):
+    """The version a ``vX.Y.Z`` tag names, or None."""
+    m = re.fullmatch(rf"v{VERSION}", tag)
+    return m.group("version") if m else None
 
 
 def parse_binary(name, addon_id):
@@ -345,8 +412,22 @@ def clear_unselected_dev(pages, addon_id, placements, dry_run):
 # per-model resolution
 
 
+def addon_channels(addon):
+    """The channels an add-on is served in: ``channels`` in addons.toml, or all.
+
+    A channel left out keeps whatever its stable tree already has and loses its
+    dev directory, as a channel without a pre-release does.
+    """
+    channels = tuple(addon.get("channels", CHANNELS))
+    unknown = set(channels) - set(CHANNELS)
+    if unknown:
+        raise Problem(f"{addon['id']}: unknown channels {sorted(unknown)}")
+    return channels
+
+
 def resolve_shared(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
+    channels = addon_channels(addon)
     if from_dir:
         zips = sorted(Path(from_dir).glob(f"{addon_id}-*.zip"))
         if not zips:
@@ -373,11 +454,11 @@ def resolve_shared(addon, work, from_dir, pages, *, prefix="", prerelease=False)
         filename = f"{addon_id}-{version}.zip"
         expected = [
             (f"{served_name(prefix, channel)}/{addon_id}/{filename}", asset["size"])
-            for channel in CHANNELS
+            for channel in channels
         ]
         if already_served(expected, pages):
             return [
-                Placement(None, channel, addon_id, filename, prefix) for channel in CHANNELS
+                Placement(None, channel, addon_id, filename, prefix) for channel in channels
             ]
         download(addon["repo"], chosen["tagName"], [f"{addon_id}-*.zip"], work)
         zips = [p for p in work.glob(f"{addon_id}-*.zip") if parse_shared(p.name, addon_id)]
@@ -389,10 +470,10 @@ def resolve_shared(addon, work, from_dir, pages, *, prefix="", prerelease=False)
     if not version:
         raise Problem(f"{src.name} does not match {addon_id}-<version>.zip")
     verify_kodi_zip(src, addon_id)
-    # Pure Python: the same zip serves both Kodi versions.
+    # Pure Python: the same zip serves every Kodi version it is listed for.
     return [
         Placement(src, channel, addon_id, f"{addon_id}-{version}.zip", prefix)
-        for channel in CHANNELS
+        for channel in channels
     ]
 
 
@@ -416,11 +497,12 @@ def resolve_dual(addon, work, from_dir, pages, *, prefix="", prerelease=False):
 
     releases = published_releases(addon["repo"], prerelease=prerelease)
     kind = "pre-release" if prerelease else "release"
-    if not any(r["tagName"].startswith(tuple(f"{c}/" for c in CHANNELS)) for r in releases):
+    channels = addon_channels(addon)
+    if not any(r["tagName"].startswith(tuple(f"{c}/" for c in channels)) for r in releases):
         raise NotReleasedYet(
-            f"no published {'/'.join(CHANNELS)} {kind} of {addon['repo']}"
+            f"no published {'/'.join(channels)} {kind} of {addon['repo']}"
         )
-    for channel in CHANNELS:
+    for channel in channels:
         chosen = next(
             (r for r in releases if r["tagName"].startswith(f"{channel}/")), None
         )
@@ -479,6 +561,7 @@ def resolve_dual(addon, work, from_dir, pages, *, prefix="", prerelease=False):
 def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
     required = set(addon.get("platforms", []))
+    served = set(addon_channels(addon))
     placements = []
     # Channels whose served copy already matches the newest release, established
     # from asset names and sizes alone. They are held apart from by_channel, which
@@ -497,6 +580,8 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
             if not parsed:
                 continue
             version, platform, channel = parsed
+            if channel not in served:
+                continue
             by_channel.setdefault(channel, {})[platform] = (path, version)
         return by_channel
 
@@ -514,7 +599,7 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
                 parsed[2]
                 for name in names
                 if (parsed := parse_binary(name, addon_id))
-            }
+            } & served
             # Newest-first, so the first release offering a channel wins it. This
             # covers both topologies: one release serving both channels before the
             # migration, and a per-channel tag after it.
@@ -564,7 +649,7 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
                 if channel in satisfied:
                     continue
                 by_channel.setdefault(channel, platforms)
-            if set(by_channel) | satisfied >= set(CHANNELS):
+            if set(by_channel) | satisfied >= served:
                 break
         if not by_channel and not satisfied:
             kind = "pre-release" if prerelease else "release"
@@ -595,6 +680,145 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
                 )
             )
     return placements + keepers
+
+
+def variant_ranges(addon):
+    """{variant: (from, below or None)} as version keys, refused if two overlap."""
+    ranges = {}
+    for name, spec in addon.get("variants", {}).items():
+        low = version_key(spec.get("from", "0"))
+        high = version_key(spec["below"]) if "below" in spec else None
+        if high is not None and high <= low:
+            raise Problem(f"{addon['id']}: variant {name} has an empty range")
+        ranges[name] = (low, high)
+    if not ranges:
+        raise Problem(f"{addon['id']}: a variant add-on needs [variants]")
+    ordered = sorted(ranges.items(), key=lambda item: item[1][0])
+    for (lower, (_, lower_high)), (upper, (upper_low, _)) in zip(ordered, ordered[1:]):
+        if lower_high is None or lower_high > upper_low:
+            raise Problem(f"{addon['id']}: variants {lower} and {upper} overlap")
+    return ranges
+
+
+def variant_of(addon, ranges, version):
+    key = version_key(version)
+    for name, (low, high) in ranges.items():
+        if key >= low and (high is None or key < high):
+            return name
+    raise Problem(
+        f"{addon['id']} {version} is in no variant's range. A release between two "
+        f"ranges, or past the last, would be served nowhere; fix the version or "
+        f"[variants] in addons.toml."
+    )
+
+
+def resolve_variant(addon, work, from_dir, pages, *, prefix="", prerelease=False):
+    """One add-on id built from several branches, each for its own Kodi versions.
+
+    ``variants`` gives each branch a version range, ``stable`` and ``dev`` name
+    the variant each channel serves, and a channel takes its variant's highest
+    version of that maturity. The ranges must also stay in Kodi's upgrade order:
+    after a Kodi upgrade a device takes the new channel's build only if its
+    version is higher than the one installed.
+    """
+    addon_id = addon["id"]
+    ranges = variant_ranges(addon)
+    serve = addon.get("dev" if prerelease else "stable", {})
+    for channel, variant in serve.items():
+        if channel not in CHANNELS:
+            raise Problem(f"{addon_id}: unknown channel {channel!r}")
+        if variant not in ranges:
+            raise Problem(f"{addon_id}: {channel} serves unknown variant {variant!r}")
+
+    if from_dir:
+        zips = [
+            (version, path)
+            for path in Path(from_dir).glob(f"{addon_id}-*.zip")
+            if (version := parse_shared(path.name, addon_id))
+        ]
+        if not zips:
+            raise Problem(f"no {addon_id}-<version>.zip in {from_dir}")
+        version, src = max(zips, key=lambda item: version_key(item[0]))
+        variant = variant_of(addon, ranges, version)
+        channels = [channel for channel, wanted in serve.items() if wanted == variant]
+        if not channels:
+            raise Problem(f"{src.name} is the {variant} variant, which no channel serves")
+        verify_kodi_zip(src, addon_id)
+        for channel in channels:
+            check_installs(src, addon_id, channel, prefix)
+        return [
+            Placement(src, channel, addon_id, f"{addon_id}-{version}.zip", prefix)
+            for channel in channels
+        ]
+
+    # Three branches release into one list, so look further back than the other
+    # models do: a quiet branch's newest release must still be in the window.
+    releases = published_releases(addon["repo"], limit=100, prerelease=prerelease)
+    newest = {}
+    for release in releases:
+        version = parse_tag(release["tagName"])
+        if version is None:
+            continue
+        variant = variant_of(addon, ranges, version)
+        if variant not in newest or version_key(version) > version_key(newest[variant][1]):
+            newest[variant] = (release, version)
+    kind = "pre-release" if prerelease else "release"
+    if not any(variant in newest for variant in serve.values()):
+        raise NotReleasedYet(f"no published {kind} of {addon['repo']} for any channel")
+
+    placements, fetched = [], {}
+    for channel, variant in serve.items():
+        if variant not in newest:
+            # As in the dual model: stable keeps what it has, dev is cleared.
+            if not prefix:
+                print(f"    {channel}: no published {variant} {kind}, leaving as-is")
+            continue
+        release, version = newest[variant]
+        tag = release["tagName"]
+        filename = f"{addon_id}-{version}.zip"
+        asset = next(
+            (
+                a
+                for a in release_assets(addon["repo"], tag)
+                if parse_shared(a["name"], addon_id) == version
+            ),
+            None,
+        )
+        if asset is None:
+            raise Problem(f"{tag} has no {filename} asset")
+        rel = f"{served_name(prefix, channel)}/{addon_id}/{filename}"
+        if already_served([(rel, asset["size"])], pages):
+            print(f"    {served_name(prefix, channel)}: already current ({variant} {version})")
+            placements.append(Placement(None, channel, addon_id, filename, prefix))
+            continue
+        if tag not in fetched:
+            tagdir = work / tag
+            download(addon["repo"], tag, [filename], tagdir)
+            src = tagdir / filename
+            if not src.is_file():
+                raise Problem(f"downloading {filename} from {tag} produced nothing")
+            verify_kodi_zip(src, addon_id)
+            fetched[tag] = src
+        check_installs(fetched[tag], addon_id, channel, prefix)
+        placements.append(Placement(fetched[tag], channel, addon_id, filename, prefix))
+    return placements
+
+
+def repository_addons_unstaged(pages):
+    """Repository add-ons whose current version is missing from a channel they serve.
+
+    generate_repo.py stages them, but the workflow runs it only when something
+    changed, so a version bump alone has to count as a change.
+    """
+    unstaged = []
+    for prefix, xml in REPO_XML.items():
+        root = ET.parse(xml).getroot()
+        addon_id, version = root.get("id"), root.get("version")
+        for channel in channel_ceilings(prefix):
+            where = served_name(prefix, channel)
+            if not (Path(pages) / where / addon_id / f"{addon_id}-{version}.zip").is_file():
+                unstaged.append(f"stage {addon_id} {version} in {where}/")
+    return unstaged
 
 
 def resolve_jellyfin(addon, work, from_dir, pages, dry_run):
@@ -656,6 +880,7 @@ RESOLVERS = {
     "shared": resolve_shared,
     "dual": resolve_dual,
     "binary": resolve_binary,
+    "variant": resolve_variant,
 }
 
 
@@ -778,6 +1003,14 @@ def main(argv=None):
             except Problem as exc:
                 print(f"    FAILED: {exc}", file=sys.stderr)
                 failures.append(f"{addon_id}: {exc}")
+
+    if not args.from_dir:
+        unstaged = repository_addons_unstaged(pages)
+        if unstaged:
+            print("\nrepository add-ons")
+            for item in unstaged:
+                print(f"    -> {item}")
+            all_changed.extend(unstaged)
 
     print()
     if all_changed:
