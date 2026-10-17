@@ -18,10 +18,25 @@ Two things are worth knowing:
   credentials). A release published by a workflow using the default
   `GITHUB_TOKEN` does not raise a `release` event, so the forwarder never fires.
   The scheduled reconcile is the backstop if that happens.
-- **A draft publishes nothing.** A release is placed in `omega/` and `piers/`.
-  A pre-release is placed in `dev/omega/` and `dev/piers/`, which
-  `repository.kontell.dev` serves. Promoting a pre-release moves it on the next
-  publish.
+- **A draft publishes nothing.** A release is placed in `omega/`, `piers/` and
+  `kodi23/`. A pre-release is placed in `dev/omega/`, `dev/piers/` and
+  `dev/kodi23/`, which `repository.kontell.dev` serves. Promoting a pre-release
+  moves it on the next publish.
+
+### Channels
+
+Each channel is one `<dir>` of the repository add-ons, chosen by the running
+Kodi's `xbmc.addon` version: `omega` up to 21.9.9, `piers` from 21.90.0 to
+22.9.9, `kodi23` from 22.90.0 with no ceiling. The newest channel has no
+`maxversion` so that a Kodi newer than every channel still reaches the
+repository add-on and its next update; cap it when the next channel is added.
+
+Adding a channel means: a `<dir>` in both repository add-ons and a version bump
+of each, the directory in `generate_repo.py` (`VERSION_DIRS`,
+`DEV_VERSION_DIRS`) and `tools/update.py` (`CHANNELS`, `CHANNEL_BY_KODI`), and
+the README's installer names. The test suite refuses lists that disagree with
+the repository add-ons. A repository add-on bump publishes on the next run by
+itself: `update.py` reports an unstaged version as a change.
 
 ### Running it by hand
 
@@ -46,9 +61,17 @@ for manual use, but the automated path does not pass it.
 
 Adding an add-on is an entry in `addons.toml` plus a `notify-repo.yml` in its
 repo. `model` says how its releases map onto the served tree — `shared` (one zip
-for both Kodi versions), `dual` (per-channel tags), `binary` (per-platform zips),
-or `jellyfin`. Binary add-ons also list the platform set a release must produce
-in full before anything is placed.
+for every Kodi version), `dual` (per-channel tags), `binary` (per-platform zips),
+`variant` (one id from several branches, told apart by version range), or
+`jellyfin`. Binary add-ons also list the platform set a release must produce
+in full before anything is placed, and `channels` limits a shared, dual or
+binary add-on to some channels.
+
+Kofin is the `variant` add-on: `variants` gives each branch a version range,
+and `stable` and `dev` name the variant each channel serves. Moving a channel to
+another variant is an edit of those two tables. A release whose version is in no
+range fails the run, and a zip whose `xbmc.addon` import is above what a
+channel's Kodi reports is refused for that channel.
 
 ### Configuring the dispatch App (one-off)
 

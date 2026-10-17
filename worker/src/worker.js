@@ -21,7 +21,7 @@ export default {
                  : path.endsWith(".md5") ? "md5" : "meta";
       env.REPO_ANALYTICS.writeDataPoint({
         blobs: [
-          dir,                                          // blob1: omega | piers | root
+          dir,                                          // blob1: omega | piers | kodi23 | dev | root
           addon,                                        // blob2: pvr.kofin, ...
           platform,                                     // blob3: linux-x86_64
           version,                                      // blob4: 0.10.1

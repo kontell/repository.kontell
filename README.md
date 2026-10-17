@@ -21,21 +21,21 @@ Kodi addon repository for:
 2.  Enter the URL: `https://kontell.github.io/repository.kontell/`
 3.  Name it (e.g. `Kontell`) and click OK
 4.  Go to: Add-ons → Install from zip file → Kontell
-5.  Select `repository.kontell-1.0.2.zip` and install it
+5.  Select `repository.kontell-1.0.3.zip` and install it
 6.  Go to: Add-ons → Install from repository → Kontell Repository
 
 ### Option 2: Manual download
 
-1.  Download the repository installer: [repository.kontell-1.0.2.zip](https://kontell.github.io/repository.kontell/repository.kontell-1.0.2.zip)
+1.  Download the repository installer: [repository.kontell-1.0.3.zip](https://kontell.github.io/repository.kontell/repository.kontell-1.0.3.zip)
 2.  In Kodi, go to: Add-ons → Install from zip file
 3.  Browse to the downloaded zip and install it
 4.  Go to: Add-ons → Install from repository → Kontell Repository
 
-The repository provides the correct build for your platform and Kodi version automatically.
+The repository provides the correct build for your platform and Kodi version automatically. On Kodi 23, install version 1.0.3 or later of the repository; earlier versions list nothing there.
 
 ### Development repository
 
-[repository.kontell.dev-1.0.0.zip](https://kontell.github.io/repository.kontell/repository.kontell.dev-1.0.0.zip). 
+[repository.kontell.dev-1.0.1.zip](https://kontell.github.io/repository.kontell/repository.kontell.dev-1.0.1.zip). On Kodi 23, use 1.0.1 or later.
 
 ## Jellyfin server plugins
 

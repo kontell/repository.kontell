@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="repository.kontell.dev"
        name="Kontell Development Repository"
-       version="1.0.0"
+       version="1.0.1"
        provider-name="kontell">
   <requires>
     <import addon="xbmc.addon" version="12.0.0"/>
@@ -17,6 +17,14 @@
       <info compressed="false">https://repository.kontell.workers.dev/dev/piers/addons.xml</info>
       <checksum>https://repository.kontell.workers.dev/dev/piers/addons.xml.md5</checksum>
       <datadir zip="true">https://repository.kontell.workers.dev/dev/piers</datadir>
+    </dir>
+    <!-- No maxversion: a Kodi newer than every channel still reaches this
+         repository add-on, and so its next update. Cap it when the next
+         channel is added. -->
+    <dir minversion="22.90.0">
+      <info compressed="false">https://repository.kontell.workers.dev/dev/kodi23/addons.xml</info>
+      <checksum>https://repository.kontell.workers.dev/dev/kodi23/addons.xml.md5</checksum>
+      <datadir zip="true">https://repository.kontell.workers.dev/dev/kodi23</datadir>
     </dir>
   </extension>
   <extension point="xbmc.addon.metadata">
