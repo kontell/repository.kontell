@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon id="plugin.audio.kotome"
+       name="Kotome"
+       version="1.90.0"
+       provider-name="kontell">
+  <requires>
+    <!-- 3.2.0 is the kontell/xbmc consolidated build of Kodi 23, which this
+         line needs: PAPlayer's tempo and chapters come from it. Stock Kodi 23
+         is 3.1.0, so the repository serves this nowhere else. -->
+    <import addon="xbmc.python" version="3.2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="main.py">
+    <provides>audio</provides>
+  </extension>
+  <extension point="xbmc.service" library="service.py" start="login"/>
+  <extension point="xbmc.addon.metadata">
+    <news>v1.90.0
+- Kodi 23 pre-release. Needs the kontell/xbmc consolidated build of Kodi 23;
+  Omega and Piers stay on 1.x.
+- Plays through Kodi's music player, with Kodi's own tempo. inputstream.tempo
+  is no longer needed.
+- New: chapters in the player, on the seek bar and in Kodi's chapter list.
+  Next and Previous go chapter by chapter, then on to the next file.
+- New: books in several files play as one, without a gap between files.
+- New: Chapters, under Now playing, lists the whole book's chapters and goes
+  to any of them, in another file too.
+- New: Play from the start, on the context menu of a book in progress.
+- Speed changed from the player's OSD is remembered for the book.
+- Resume lands where the server says, even 40 hours into a single file.
+- Removed: the speed step, minimum and maximum settings (the range is now
+  Kodi's, 0.5 to 5), and the Koshelf.* window properties.
+- Known: the narrator now leads the description, and author photos appear
+  only as the artist art.</news>
+    <!-- Keeps the interpreter alive between invocations, so the import cost
+         is paid once instead of on every folder the user opens. It is parsed
+         here and nowhere else: under xbmc.python.pluginsource, where it reads
+         as though it belongs, it is silently ignored. Requires every route to
+         close its handle — see router() in main.py. -->
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <platform>all</platform>
+    <summary lang="en">AudioBookShelf client</summary>
+    <description lang="en">Browse and play audiobooks and podcasts from your AudioBookShelf server</description>
+    <license>MIT</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+      <path>plugin.audio.kotome/plugin.audio.kotome-1.90.0.zip</path>
+  </extension>
+</addon>
 <addon id="plugin.video.kofin" name="Kofin" version="0.93.6" provider-name="kontell">
   <requires>
     
