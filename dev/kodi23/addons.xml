@@ -129,7 +129,7 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -149,11 +149,9 @@
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -163,12 +161,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -188,11 +186,9 @@
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -202,12 +198,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -223,15 +219,13 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.23.18.1"/>
+    library_linux="pvr.kofin.so.23.18.2"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -241,12 +235,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -262,15 +256,13 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.23.18.1"/>
+    library_linux="pvr.kofin.so.23.18.2"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -280,12 +272,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -301,15 +293,13 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.23.18.1"/>
+    library_linux="pvr.kofin.so.23.18.2"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -319,12 +309,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -340,15 +330,13 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.23.18.1.dylib"/>
+    library_osx="pvr.kofin.23.18.2.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>osx-arm64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -358,12 +346,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-arm64/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+osx-arm64/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -379,15 +367,13 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.23.18.1.dylib"/>
+    library_osx="pvr.kofin.23.18.2.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>osx-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -397,12 +383,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-x86_64/pvr.kofin-23.18.1.zip</path>
+      <path>pvr.kofin+osx-x86_64/pvr.kofin-23.18.2.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -422,11 +408,9 @@
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>windows-arm64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -434,14 +418,14 @@
       <icon>icon.png</icon>
       <fanart>fanart.png</fanart>
     </assets>
-        <path>pvr.kofin+windows-arm64/pvr.kofin-23.18.1.zip</path>
+        <path>pvr.kofin+windows-arm64/pvr.kofin-23.18.2.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -461,11 +445,9 @@
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>windows-i686</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -473,14 +455,14 @@
       <icon>icon.png</icon>
       <fanart>fanart.png</fanart>
     </assets>
-        <path>pvr.kofin+windows-i686/pvr.kofin-23.18.1.zip</path>
+        <path>pvr.kofin+windows-i686/pvr.kofin-23.18.2.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="23.18.1"
+  version="23.18.2"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -500,11 +482,9 @@
   <extension point="xbmc.service" library="resources/scripts/service.py" start="login"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v23.18.1
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- SyncPlay fine sync waits for Kofin to use Kodi's own tempo</news>
+    <news>v23.18.2
+- Codec and HDR pickers no longer log "Unknown setting type" errors
+- Drop the settings menu hook, which Kodi 23 showed as an Actions tab that broke the dialog</news>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -512,7 +492,7 @@
       <icon>icon.png</icon>
       <fanart>fanart.png</fanart>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-23.18.1.zip</path>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-23.18.2.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
