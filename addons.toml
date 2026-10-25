@@ -73,9 +73,17 @@ model = "shared"
 # Was plugin.audio.koshelf / kontell/KoShelf until 1.0.0. The name collided
 # with an unrelated project; the old id is abandoned rather than migrated, so
 # it is simply dropped from here and its served directories removed.
+#
+# Two branches: main (1.x, Omega and Piers, on inputstream.tempo) and master
+# (1.90 onwards, Kodi 23 with the kontell/xbmc consolidated build). main stays
+# below 1.90 for good, so a device upgraded to Kodi 23 moves on to master.
 id = "plugin.audio.kotome"
 repo = "kontell/plugin.audio.kotome"
-model = "shared"
+model = "variant"
+variants.main = { below = "1.90" }
+variants.master = { from = "1.90" }
+stable = { omega = "main", piers = "main", kodi23 = "master" }
+dev = { kodi23 = "master" }
 
 [[addon]]
 # The one entry here whose id is not ours. This is a fork of sualfred's
