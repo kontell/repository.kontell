@@ -49,7 +49,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.90.0.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.96.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.96.1" provider-name="kontell">
   <requires>
     <!-- One build for Piers (22.0) and Kodi 23: the floors are Piers's
          xbmc.addon and xbmc.python. What a Kodi offers beyond them is read
@@ -179,11 +179,11 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.96.0
-- Runs on Kodi 22 and Kodi 23 in one build. What a Kodi lacks is left out by name, and Library status lists it.
-- The companion add-on is no longer used.
-- On a Kodi without the Kontell changes a movie's default version plays and its other versions are not imported.
-- SyncPlay fine sync needs Kodi 23 with the Kontell changes; elsewhere a member follows the group's commands.</news>
+    <news>v0.96.1
+- New icon.
+- A Downloaded episodes node, on Kodi 23 with the Kontell changes.
+- Library status lists what Kodi cannot import.
+- Kofin's library tag no longer shows in the info dialog or Kodi's tag lists. The first sync after updating takes longer while it is removed.</news>
     <!-- This element only works here, inside xbmc.addon.metadata. Kodi parses
          it in the branch that handles this extension point and nowhere else
          (AddonInfoBuilder.cpp gates the whole block on "xbmc.addon.metadata",
@@ -229,7 +229,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.webp</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.96.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.96.1.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell.dev"
