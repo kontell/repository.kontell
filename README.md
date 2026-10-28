@@ -41,7 +41,8 @@ The repository provides the correct build for your platform and Kodi version aut
 This site also hosts a **Jellyfin plugin repository**:
 
 - [Kofin Sync Queue](https://github.com/kontell/jellyfin-plugin-kofinsyncqueue) - a typed change queue that lets offline Kodi boxes catch up with minimal traffic;
-- [Jellyfin SyncPlay v2](https://github.com/kontell/jellyfin-plugin-syncplayv2) - backwards compatible SyncPlay enhancement plugin.
+- [Jellyfin SyncPlay v2](https://github.com/kontell/jellyfin-plugin-syncplayv2) - backwards compatible SyncPlay enhancement plugin;
+- [Comseg](https://github.com/kontell/jellyfin-plugin-comseg) - commercial breaks in DVR recordings as media segments, found with Comskip while they record and once they finish.
 
 To install:
 
