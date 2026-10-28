@@ -169,3 +169,9 @@ id = "syncplay-v2"
 repo = "kontell/jellyfin-plugin-syncplayv2"
 model = "jellyfin"
 asset_glob = "syncplay-v2_*.zip"
+
+[[addon]]
+id = "comseg"
+repo = "kontell/jellyfin-plugin-comseg"
+model = "jellyfin"
+asset_glob = "comseg_*.zip"
