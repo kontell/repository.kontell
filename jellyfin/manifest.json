@@ -1,5 +1,24 @@
 [
     {
+        "guid": "96262b59-95a6-4283-913c-e20e0967b35c",
+        "category": "General",
+        "name": "Comseg",
+        "overview": "Commercial segments for DVR recordings, detected with Comskip",
+        "description": "Runs Comskip against DVR recordings, while they record and once they finish, and stores the breaks as Jellyfin Commercial media segments for any client that skips them.",
+        "owner": "kontell",
+        "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-comseg/main/logo.png",
+        "versions": [
+            {
+                "version": "12.0.0.1",
+                "changelog": "- First release: live detection on recordings in progress (patched Comskip),\n  full pass on finished recordings, Commercial media segments.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/comseg_12.0.0.1.zip",
+                "checksum": "9af731aa83b341c64fc2414f8a3f1cb9",
+                "timestamp": "2026-10-28T12:54:37Z"
+            }
+        ]
+    },
+    {
         "guid": "eed3be84-d5cc-4f3b-b346-ba80c81cbec9",
         "category": "General",
         "name": "Kofin Sync Queue",
