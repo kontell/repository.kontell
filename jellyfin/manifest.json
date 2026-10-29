@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-comseg/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.2",
+                "changelog": "- The live breaks stay in place while the final pass runs: when Jellyfin\n  clears a recording's segments as the file closes, Comseg puts them\n  straight back.\n- A final pass that never stored its result (a restart, a timeout) is run\n  again by the Media Segment Scan.\n- Only Comseg's own Commercial rows are read or changed; rows from other\n  providers are left alone.\n- Recordings in a library that disables the provider are not analysed.\n- The built-in ini ignores the bottom 15% of the picture rather than 160\n  lines, which keeps the provider watermark out of the logo search on UHD\n  feeds too.\n- Check Comskip says which ini runs use, and the extra recording folders\n  are a plain text field.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/comseg_12.0.0.2.zip",
+                "checksum": "2726e8593634eb26dd419b75ad65df85",
+                "timestamp": "2026-10-29T16:55:30Z"
+            },
+            {
                 "version": "12.0.0.1",
                 "changelog": "- First release: live detection on recordings in progress (patched Comskip),\n  full pass on finished recordings, Commercial media segments.",
                 "targetAbi": "12.0.0.0",
