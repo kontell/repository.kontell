@@ -49,7 +49,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.90.0.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="0.96.3" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="0.96.4" provider-name="kontell">
   <requires>
     <!-- One build for Piers (22.0) and Kodi 23: the floors are Piers's
          xbmc.addon and xbmc.python. The rest is probed at every service start
@@ -152,12 +152,8 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>v0.96.3
-- Library nodes and playlists are off unless switched on.
-- Play counts and watched marks reach the library faster.
-- Downloads no longer slow Kodi down on slow storage.
-- Kodi's "Ignore video extras on scan" setting is left as it is.
-- Settings reorganised.</news>
+    <news>v0.96.4
+- Preview thumbnails when scrubbing through a video, on Kodi 23 with the Kontell changes.</news>
     <!-- Read only here, inside xbmc.addon.metadata (AddonInfoBuilder.cpp
          gates the block on "xbmc.addon.metadata"). Anywhere else Kodi
          ignores it silently and builds a fresh interpreter per invocation. -->
@@ -178,7 +174,7 @@
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.jpeg</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-0.96.3.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-0.96.4.zip</path>
   </extension>
 </addon>
 <addon
