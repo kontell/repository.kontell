@@ -31,6 +31,136 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.1.0.zip</path>
   </extension>
 </addon>
+<addon id="plugin.video.kofin" name="Kofin" version="0.96.5" provider-name="kontell">
+  <requires>
+    <!-- One build for Piers (22.0) and Kodi 23: the floors are Piers's
+         xbmc.addon and xbmc.python. The rest is probed at every service start
+         (sync/backends/api/requirements.json, capabilities.inspect), and a
+         feature a Kodi lacks is off by name, never an error. -->
+    <import addon="xbmc.addon" version="21.90.802"/>
+    <import addon="xbmc.python" version="3.1.0"/>
+    <import addon="script.module.requests" version="2.22.0+matrix.1"/>
+    <import addon="script.module.websocket" version="1.6.4"/>
+    <!-- Renders the lyrics kofin publishes. -->
+    <import addon="script.kofin.lyrics" version="0.1.0" optional="true"/>
+    <!-- Live TV in a SyncPlay group plays through its timeshift buffer, so
+         Kodi can play the stream at a tempo (plugin/play.py, live_timeshift).
+         Optional: without it a live item plays as it does outside a group,
+         on the group's commands alone. -->
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video audio</provides>
+    <!-- Kodi's video-library cleaner asks the plugin whether its synced files
+         and scraper paths still exist. Without these declarations Kodi never
+         calls kodi_action=check_exists and removes the movie rows outright. -->
+    <medialibraryscanpath content="movies">/native/</medialibraryscanpath>
+    <medialibraryscanpath content="tvshows">/native/</medialibraryscanpath>
+    <medialibraryscanpath content="musicvideos">/native/</medialibraryscanpath>
+  </extension>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="kodi.context.item">
+    <menu id="kodi.core.main">
+      <item library="context_manage.py">
+        <label>30502</label>
+        <!-- Jellyfin actions (favorites/delete/settings). kofin browse items
+             carry kofin.id; synced video-library items resolve through
+             kofin.db. Declared first so it sits above Play with transcoding.
+
+             DBTYPE is whatever built the item, so the DBID clause keeps the
+             entry off other add-ons' rows: a library row always has a
+             database id, a foreign plugin row does not. Item-level because
+             Container.FolderPath is empty on Home, where the active window is
+             not a media window (GUIInfoHelper's GetMediaWindow). -->
+        <visible>[!String.IsEmpty(ListItem.Property(kofin.id)) | [!String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season) | String.IsEqual(ListItem.DBTYPE,set) | String.IsEqual(ListItem.DBTYPE,song) | String.IsEqual(ListItem.DBTYPE,album) | String.IsEqual(ListItem.DBTYPE,artist)]] | [String.IsEqual(Container.FolderPath,library://music/kofin/) + String.Contains(ListItem.FileNameAndPath,library://music/kofin/kofinmusic)]]</visible>
+      </item>
+      <item library="context_play.py">
+        <label>30010</label>
+        <!-- Video rows only, told apart by DBTYPE. movie/episode/musicvideo
+             covers a synced library row and a kofin listing row alike, since
+             listitems.build stamps the same media type, and the kofin.id +
+             video pair admits the dynamic-only kinds (trailers, recordings,
+             home videos). The kofin.id-or-DBID clause is the foreign-row
+             guard of Jellyfin actions. The trailing clause hides the item when
+             no context bitrates are configured; the service mirrors that
+             setting into a window property because a visible condition cannot
+             read an addon setting (core/state.py). Grouping is [square
+             brackets]: parentheses are infolabel argument syntax, and the
+             whole expression then fails to parse. -->
+        <visible>[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode) | String.IsEqual(ListItem.DBTYPE,musicvideo) | [!String.IsEmpty(ListItem.Property(kofin.id)) + String.IsEqual(ListItem.DBTYPE,video)]] + [!String.IsEmpty(ListItem.Property(kofin.id)) | !String.IsEmpty(ListItem.DBID)] + !String.IsEmpty(Window(Home).Property(kofin.context.bitrates))</visible>
+      </item>
+      <!-- Stream selection for the item currently playing. Three declarations
+           of one handler, because a context item's <label> is a fixed string
+           id and this entry has to name what the item actually offers. The
+           service publishes which of audio/subtitle/both applies when it
+           claims the playback (core/state.py); an empty property hides all
+           three, which is also how a SyncPlay group withdraws the entry.
+
+           ListItem.IsPlaying is what makes this an in-playback menu: fullscreen
+           video has no context menu at all, but Back leaves it without
+           stopping playback, and the played item stays focused with this true.
+
+           The args keep the three declarations distinct: Kodi drops a context
+           item already in its list (CContextMenuManager::ReloadAddonItems),
+           and CContextMenuItem::operator== compares parent, library, addon id
+           and args, not the label or the visible condition. Nothing reads the
+           value. -->
+      <item library="context_streams.py" args="both">
+        <label>30613</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),both)</visible>
+      </item>
+      <item library="context_streams.py" args="audio">
+        <label>30614</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),audio)</visible>
+      </item>
+      <item library="context_streams.py" args="subtitle">
+        <label>30615</label>
+        <visible>ListItem.IsPlaying + String.IsEqual(Window(Home).Property(kofin.playing.menu),subtitle)</visible>
+      </item>
+      <item library="context_playlist.py">
+        <label>30841</label>
+        <!-- Basic playlist files in Music/Video → Playlists. Smart playlists
+             (.xsp) are queries, not ordered lists, and are excluded by the
+             extension test. The managed Kofin folders are the server's
+             playlists mirrored down; a local edit there is overwritten on
+             the next refresh, so "Save to Jellyfin" is the wrong direction
+             and stays off those paths. -->
+        <visible>[String.EndsWith(ListItem.FileNameAndPath,.m3u) | String.EndsWith(ListItem.FileNameAndPath,.m3u8)] + !String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/) + !String.Contains(ListItem.FileNameAndPath,playlists/video/Kofin/)</visible>
+      </item>
+      <item library="context_download_playlist.py">
+        <label>30708</label>
+        <visible>String.EndsWith(ListItem.FileNameAndPath,.m3u8) + String.Contains(ListItem.FileNameAndPath,playlists/music/Kofin/)</visible>
+      </item>
+    </menu>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <news>v0.96.5
+- Importing music again no longer clears played marks on the server.
+- Library status gives the migration steps when a library from an older Kofin blocks sync.</news>
+    <!-- Read only here, inside xbmc.addon.metadata (AddonInfoBuilder.cpp
+         gates the block on "xbmc.addon.metadata"). Anywhere else Kodi
+         ignores it silently and builds a fresh interpreter per invocation. -->
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <platform>all</platform>
+    <license>GPL-3.0-only</license>
+    <website>https://github.com/kontell/plugin.video.kofin/wiki</website>
+    <source>https://github.com/kontell/plugin.video.kofin</source>
+    <forum>https://forum.kodi.tv/showthread.php?tid=388267</forum>
+    <summary lang="en_GB">Jellyfin client for seamless Kodi integration</summary>
+    <description lang="en_GB">Play movies, shows &amp; music from a Jellyfin server.</description>
+    <!-- The bundled backdrop, behind structural listings that have no art of
+         their own (plugin/browse.py BACKDROP_IMAGE). The server's splashscreen
+         goes to addon_data (service/backdrop.py), never here. A fixed path in
+         the zip, because Kodi's addon browser fetches assets from the
+         repository before the addon is installed. JPEG: no alpha, and a
+         format the official repository's checker accepts for fanart. -->
+    <assets>
+      <icon>resources/media/icon.png</icon>
+      <fanart>resources/media/fanart.jpeg</fanart>
+    </assets>
+      <path>plugin.video.kofin/plugin.video.kofin-0.96.5.zip</path>
+  </extension>
+</addon>
 <addon id="repository.kontell"
        name="Kontell Repository"
        version="1.0.3"
