@@ -73,6 +73,13 @@ another variant is an edit of those two tables. A release whose version is in no
 range fails the run, and a zip whose `xbmc.addon` import is above what a
 channel's Kodi reports is refused for that channel.
 
+A channel can serve a list of variants, as in `piers = ["master", "sql"]`. The
+first is the channel's build and Kodi updates to it. Those after it are older
+branches kept beside it for Kodi's Versions button, and in `dev/` they still
+come from their newest full release, never a pre-release. Dropping one from
+the list leaves its zip served until its directory is next written, so remove
+the zip from `gh-pages` as well.
+
 ### Configuring the dispatch App (one-off)
 
 Until this is done the forwarders are **inert**: each logs a notice saying so and

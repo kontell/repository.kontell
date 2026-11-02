@@ -351,11 +351,15 @@ class Placement:
 def apply(placements, pages, dry_run):
     """Copy each placement in, pruning older zips only from directories written.
 
+    A zip another placement names stays: a channel can serve two branches of an
+    add-on from one directory (``channel_variants``).
+
     Pruning here rather than through generate_repo.py --prune keeps it scoped to
     what this run actually produced: a directory nobody touched keeps whatever it
     had, and cannot be emptied by a run that went wrong somewhere else.
     """
     changed = []
+    keep = {placement.dest(pages) for placement in placements}
     for placement in placements:
         if placement.src is None:
             continue
@@ -371,7 +375,7 @@ def apply(placements, pages, dry_run):
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(placement.src, dest)
         for old in dest.parent.glob("*.zip"):
-            if old != dest:
+            if old not in keep:
                 old.unlink()
     return changed
 
@@ -712,23 +716,49 @@ def variant_of(addon, ranges, version):
     )
 
 
+def channel_variants(wanted):
+    """What a channel serves: a variant, or a list of them.
+
+    The first of a list is the channel's build. Any after it are older branches
+    served beside it so that Kodi's Versions button offers them, which is how a
+    viewer goes back to one. Kodi still updates to the highest version.
+    """
+    return [wanted] if isinstance(wanted, str) else list(wanted)
+
+
+def newest_by_variant(addon, ranges, releases):
+    """{variant: (release, version)} for each variant's highest version."""
+    newest = {}
+    for release in releases:
+        version = parse_tag(release["tagName"])
+        if version is None:
+            continue
+        variant = variant_of(addon, ranges, version)
+        if variant not in newest or version_key(version) > version_key(newest[variant][1]):
+            newest[variant] = (release, version)
+    return newest
+
+
 def resolve_variant(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     """One add-on id built from several branches, each for its own Kodi versions.
 
     ``variants`` gives each branch a version range, ``stable`` and ``dev`` name
-    the variant each channel serves, and a channel takes its variant's highest
-    version of that maturity. The ranges must also stay in Kodi's upgrade order:
-    after a Kodi upgrade a device takes the new channel's build only if its
-    version is higher than the one installed.
+    the variants each channel serves (``channel_variants``), and a channel takes
+    each one's highest version of that maturity. An older branch listed in the
+    dev tree takes its highest full release: a pre-release of it, if it ever had
+    one, is not what a viewer goes back to. The ranges must also stay in Kodi's
+    upgrade order: after a Kodi upgrade a device takes the new channel's build
+    only if its version is higher than the one installed.
     """
     addon_id = addon["id"]
     ranges = variant_ranges(addon)
     serve = addon.get("dev" if prerelease else "stable", {})
-    for channel, variant in serve.items():
+    for channel, wanted in serve.items():
         if channel not in CHANNELS:
             raise Problem(f"{addon_id}: unknown channel {channel!r}")
-        if variant not in ranges:
-            raise Problem(f"{addon_id}: {channel} serves unknown variant {variant!r}")
+        for variant in channel_variants(wanted):
+            if variant not in ranges:
+                raise Problem(f"{addon_id}: {channel} serves unknown variant {variant!r}")
 
     if from_dir:
         zips = [
@@ -740,7 +770,9 @@ def resolve_variant(addon, work, from_dir, pages, *, prefix="", prerelease=False
             raise Problem(f"no {addon_id}-<version>.zip in {from_dir}")
         version, src = max(zips, key=lambda item: version_key(item[0]))
         variant = variant_of(addon, ranges, version)
-        channels = [channel for channel, wanted in serve.items() if wanted == variant]
+        channels = [
+            channel for channel, wanted in serve.items() if variant in channel_variants(wanted)
+        ]
         if not channels:
             raise Problem(f"{src.name} is the {variant} variant, which no channel serves")
         verify_kodi_zip(src, addon_id)
@@ -754,20 +786,29 @@ def resolve_variant(addon, work, from_dir, pages, *, prefix="", prerelease=False
     # Three branches release into one list, so look further back than the other
     # models do: a quiet branch's newest release must still be in the window.
     releases = published_releases(addon["repo"], limit=100, prerelease=prerelease)
-    newest = {}
-    for release in releases:
-        version = parse_tag(release["tagName"])
-        if version is None:
-            continue
-        variant = variant_of(addon, ranges, version)
-        if variant not in newest or version_key(version) > version_key(newest[variant][1]):
-            newest[variant] = (release, version)
+    newest = newest_by_variant(addon, ranges, releases)
     kind = "pre-release" if prerelease else "release"
-    if not any(variant in newest for variant in serve.values()):
+    # A channel's own build decides: an older branch alone is no reason to serve.
+    if not any(channel_variants(wanted)[0] in newest for wanted in serve.values()):
         raise NotReleasedYet(f"no published {kind} of {addon['repo']} for any channel")
+    served = [
+        (channel, variant)
+        for channel, wanted in serve.items()
+        for variant in channel_variants(wanted)
+    ]
+    older = {
+        variant
+        for wanted in serve.values()
+        for variant in channel_variants(wanted)[1:]
+    }
+    if prerelease and older:
+        released = published_releases(addon["repo"], limit=100)
+        for variant, found in newest_by_variant(addon, ranges, released).items():
+            if variant in older:
+                newest[variant] = found
 
     placements, fetched = [], {}
-    for channel, variant in serve.items():
+    for channel, variant in served:
         if variant not in newest:
             # As in the dual model: stable keeps what it has, dev is cleared.
             if not prefix:

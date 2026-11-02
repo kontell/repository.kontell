@@ -371,6 +371,56 @@ class PrereleaseTreeTest(unittest.TestCase):
             changed, _ = update.reconcile_kodi(KOFIN, root / "again", pages, False)
             self.assertEqual((changed, downloaded), ([], []))
 
+    def test_a_channel_lists_an_older_branch_beside_its_own(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pages = root / "pages"
+            kofin = "plugin.video.kofin"
+            addon = dict(KOFIN, dev={"piers": ["master", "sql"], "kodi23": "master"})
+            zips = {
+                "v0.5.0": kodi_zip(root / "z" / f"{kofin}-0.5.0.zip", kofin, "0.5.0"),
+                "v0.29.2": kodi_zip(root / "z" / f"{kofin}-0.29.2.zip", kofin, "0.29.2"),
+                "v0.96.4": kodi_zip(root / "z" / f"{kofin}-0.96.4.zip", kofin, "0.96.4"),
+                "v0.96.5": kodi_zip(root / "z" / f"{kofin}-0.96.5.zip", kofin, "0.96.5"),
+            }
+            # The older branch's own old pre-release is not the one to go back to.
+            releases = [
+                release("v0.96.4", True, 16),
+                release("v0.29.2", False, 15),
+                release("v0.5.0", True, 1),
+            ]
+            fake_github(releases, zips)
+            dev_piers = pages / "dev" / "piers" / kofin
+
+            def listed():
+                return sorted(path.name for path in dev_piers.glob("*.zip"))
+
+            changed, pending = update.reconcile_kodi(addon, root / "w1", pages, False)
+            self.assertIsNone(pending)
+            self.assertEqual(listed(), [f"{kofin}-0.29.2.zip", f"{kofin}-0.96.4.zip"])
+            # Only the channel that lists it.
+            self.assertEqual(
+                [p.name for p in (pages / "dev" / "kodi23" / kofin).glob("*.zip")],
+                [f"{kofin}-0.96.4.zip"],
+            )
+            changed, _ = update.reconcile_kodi(addon, root / "w2", pages, False)
+            self.assertEqual(changed, [])
+
+            # A new build replaces its own branch and leaves the older one.
+            releases.insert(0, release("v0.96.5", True, 17))
+            update.reconcile_kodi(addon, root / "w3", pages, False)
+            self.assertEqual(listed(), [f"{kofin}-0.29.2.zip", f"{kofin}-0.96.5.zip"])
+
+            generate_repo.generate_addons_xml("dev/piers", str(pages))
+            served = (pages / "dev" / "piers" / "addons.xml").read_text(encoding="utf-8")
+            self.assertIn('version="0.29.2"', served)
+            self.assertIn('version="0.96.5"', served)
+
+            # Promoted: the dev tree clears, and the older branch does not hold it.
+            releases[:] = [release("v0.96.5", False, 18), release("v0.29.2", False, 15)]
+            update.reconcile_kodi(addon, root / "w4", pages, False)
+            self.assertFalse(dev_piers.exists())
+
     def test_variant_refuses_a_zip_the_channel_cannot_install(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
