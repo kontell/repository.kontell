@@ -46,8 +46,10 @@ variants.master = { from = "0.95" }
 # Piers stays on sql until master has a full release that sets up a profile the
 # SQL build wrote: every Piers user on this channel reaches it by auto-update.
 # master (0.96.0 and up) is the one build for Piers and Kodi 23; api is retired.
+# dev Piers also lists sql, so Kodi's Versions button can go back to it: a library
+# the SQL build wrote can only be cleaned from the SQL build.
 stable = { omega = "sql", piers = "sql", kodi23 = "master" }
-dev = { piers = "master", kodi23 = "master" }
+dev = { piers = ["master", "sql"], kodi23 = "master" }
 
 [[addon]]
 id = "script.kofin.lyrics"

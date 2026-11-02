@@ -234,8 +234,10 @@ def process_addon_zip(zip_path, dest_dir, platform_dir_name):
 def generate_addons_xml(version_dir, pages_dir, prune=False):
     """Generate addons.xml for a version directory (omega, piers or kodi23).
 
-    With prune=True, deletes all but the newest build of each addon so the
-    served branch keeps only the latest (which is all addons.xml advertises).
+    Every zip in an addon's directory is listed: a channel can serve two
+    branches of an addon (tools/update.py, channel_variants), and Kodi's
+    Versions button offers what addons.xml lists. With prune=True, deletes all
+    but the newest build of each addon so the served branch keeps only that.
     """
     base_dir = os.path.join(pages_dir, version_dir)
     if not os.path.isdir(base_dir):
@@ -267,9 +269,11 @@ def generate_addons_xml(version_dir, pages_dir, prune=False):
                 print(f"    {dir_name}: pruned {old}")
             zips = zips[:1]
 
-        xml = process_addon_zip(os.path.join(dir_path, zips[0]), dir_path, dir_name)
-        if xml:
-            addon_xmls.append(xml)
+        # Oldest first: each writes its art beside the zips, and the newest's stays.
+        for zip_name in reversed(zips):
+            xml = process_addon_zip(os.path.join(dir_path, zip_name), dir_path, dir_name)
+            if xml:
+                addon_xmls.append(xml)
 
     if not addon_xmls:
         print(f"  {version_dir}: no addon entries found")
