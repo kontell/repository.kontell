@@ -421,6 +421,42 @@ class PrereleaseTreeTest(unittest.TestCase):
             update.reconcile_kodi(addon, root / "w4", pages, False)
             self.assertFalse(dev_piers.exists())
 
+    def test_a_stable_channel_gains_its_build_only_at_a_full_release(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pages = root / "pages"
+            kofin = "plugin.video.kofin"
+            addon = dict(
+                KOFIN,
+                stable={"omega": "sql", "piers": ["master", "sql"], "kodi23": "master"},
+                dev={"piers": ["master", "sql"], "kodi23": "master"},
+            )
+            zips = {
+                "v0.29.3": kodi_zip(root / "z" / f"{kofin}-0.29.3.zip", kofin, "0.29.3"),
+                "v0.96.5": kodi_zip(root / "z" / f"{kofin}-0.96.5.zip", kofin, "0.96.5"),
+            }
+            releases = [release("v0.96.5", True, 16), release("v0.29.3", False, 15)]
+            fake_github(releases, zips)
+
+            def listed(channel):
+                folder = pages / channel / kofin
+                return sorted(path.name for path in folder.glob("*.zip"))
+
+            # A pre-release of the channel's build leaves the channel on sql.
+            update.reconcile_kodi(addon, root / "w1", pages, False)
+            self.assertEqual(listed("piers"), [f"{kofin}-0.29.3.zip"])
+            self.assertEqual(listed("omega"), [f"{kofin}-0.29.3.zip"])
+            self.assertEqual(listed("kodi23"), [])
+
+            # Promoted: Piers serves both, Omega stays on sql.
+            releases[0] = release("v0.96.5", False, 16)
+            update.reconcile_kodi(addon, root / "w2", pages, False)
+            self.assertEqual(
+                listed("piers"), [f"{kofin}-0.29.3.zip", f"{kofin}-0.96.5.zip"]
+            )
+            self.assertEqual(listed("omega"), [f"{kofin}-0.29.3.zip"])
+            self.assertEqual(listed("kodi23"), [f"{kofin}-0.96.5.zip"])
+
     def test_variant_refuses_a_zip_the_channel_cannot_install(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
