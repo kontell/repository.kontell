@@ -43,12 +43,12 @@ model = "variant"
 variants.sql = { below = "0.90" }
 variants.api = { from = "0.90", below = "0.95" }
 variants.master = { from = "0.95" }
-# Piers stays on sql until master has a full release that sets up a profile the
-# SQL build wrote: every Piers user on this channel reaches it by auto-update.
 # master (0.96.0 and up) is the one build for Piers and Kodi 23; api is retired.
-# dev Piers also lists sql, so Kodi's Versions button can go back to it: a library
+# Piers lists sql beside it, so Kodi's Versions button can go back to it: a library
 # the SQL build wrote can only be cleaned from the SQL build.
-stable = { omega = "sql", piers = "sql", kodi23 = "master" }
+# The first full release of master reaches every Piers user on this channel by
+# auto-update. Until there is one, Piers serves sql alone.
+stable = { omega = "sql", piers = ["master", "sql"], kodi23 = "master" }
 dev = { piers = ["master", "sql"], kodi23 = "master" }
 
 [[addon]]
