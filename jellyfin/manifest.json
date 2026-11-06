@@ -44,6 +44,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-kofinsyncqueue/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.5",
+                "changelog": "- Fix changes made just before or during a sync never reaching the client.\n- Make the logo a 1920x1080 banner so Jellyfin no longer crops it.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.5.zip",
+                "checksum": "c28b3075f5f512172900d8bcc5d0bfe1",
+                "timestamp": "2026-11-06T12:29:38Z"
+            },
+            {
                 "version": "12.0.0.4",
                 "changelog": "- Playlists are a recorded type (`playlists` / `Playlist`), library-agnostic\n  like boxsets, advertised in Features so a client can ask for them without a\n  protocol bump.",
                 "targetAbi": "12.0.0.0",
@@ -66,6 +74,14 @@
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.2.zip",
                 "checksum": "9fb5a21ebae4c0e19e0306949648573f",
                 "timestamp": "2026-08-26T12:06:04Z"
+            },
+            {
+                "version": "10.11.0.5",
+                "changelog": "- Fix changes made just before or during a sync never reaching the client.\n- Make the logo a 1920x1080 banner so Jellyfin no longer crops it.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_10.11.0.5.zip",
+                "checksum": "817fb775927255099b764f0a09400a91",
+                "timestamp": "2026-11-06T12:29:53Z"
             },
             {
                 "version": "10.11.0.4",
