@@ -410,7 +410,7 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -432,22 +432,11 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -456,12 +445,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -483,22 +472,11 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -507,12 +485,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -530,26 +508,15 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.19.0"/>
+    library_linux="pvr.kofin.so.21.19.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -558,12 +525,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -581,26 +548,15 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.19.0"/>
+    library_linux="pvr.kofin.so.21.19.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -609,12 +565,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -632,26 +588,15 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.21.19.0"/>
+    library_linux="pvr.kofin.so.21.19.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -660,12 +605,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -683,26 +628,15 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.21.19.0.dylib"/>
+    library_osx="pvr.kofin.21.19.1.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>osx-arm64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -711,12 +645,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-arm64/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+osx-arm64/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -734,26 +668,15 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.21.19.0.dylib"/>
+    library_osx="pvr.kofin.21.19.1.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>osx-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -762,12 +685,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-x86_64/pvr.kofin-21.19.0.zip</path>
+      <path>pvr.kofin+osx-x86_64/pvr.kofin-21.19.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -789,36 +712,25 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>windows-i686</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-i686/pvr.kofin-21.19.0.zip</path>
+        <path>pvr.kofin+windows-i686/pvr.kofin-21.19.1.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="21.19.0"
+  version="21.19.1"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -840,29 +752,18 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v21.19.0
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v21.19.1
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel</news>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-21.19.0.zip</path>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-21.19.1.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>

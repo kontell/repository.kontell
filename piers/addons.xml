@@ -538,7 +538,7 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -550,8 +550,8 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
@@ -559,26 +559,17 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>android-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -587,12 +578,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+android-aarch64/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -604,8 +595,8 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
@@ -613,26 +604,17 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>android-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -641,12 +623,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+android-armv7/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -658,35 +640,26 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.19.0"/>
+    library_linux="pvr.kofin.so.22.20.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -695,12 +668,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -712,35 +685,26 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.19.0"/>
+    library_linux="pvr.kofin.so.22.20.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -749,12 +713,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -766,35 +730,26 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.19.0"/>
+    library_linux="pvr.kofin.so.22.20.0"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -803,12 +758,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -820,35 +775,26 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.22.19.0.dylib"/>
+    library_osx="pvr.kofin.22.20.0.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>osx-arm64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -857,12 +803,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-arm64/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+osx-arm64/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -874,35 +820,26 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_osx="pvr.kofin.22.19.0.dylib"/>
+    library_osx="pvr.kofin.22.20.0.dylib"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>osx-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
@@ -911,12 +848,12 @@
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-x86_64/pvr.kofin-22.19.0.zip</path>
+      <path>pvr.kofin+osx-x86_64/pvr.kofin-22.20.0.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -928,8 +865,8 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
@@ -937,40 +874,31 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>windows-arm64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-arm64/pvr.kofin-22.19.0.zip</path>
+        <path>pvr.kofin+windows-arm64/pvr.kofin-22.20.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -982,8 +910,8 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
@@ -991,40 +919,31 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>windows-i686</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-i686/pvr.kofin-22.19.0.zip</path>
+        <path>pvr.kofin+windows-i686/pvr.kofin-22.20.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.19.0"
+  version="22.20.0"
   name="Kofin PVR for Jellyfin"
   provider-name="Kontell">
   <requires>
@@ -1036,8 +955,8 @@
 <import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
 <import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
     <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0"/>
-    <import addon="inputstream.adaptive" version="22.0.0"/>
+    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
+    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
   </requires>
   <extension
     point="kodi.pvrclient"
@@ -1045,33 +964,24 @@
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.19.0
-- Remove the Tempo inputstream option and dependency
-- Settings and playlists that chose Tempo play through FFmpeg Direct
-- Live TV tunes through the timeshift buffer on catchup channels too
-- Drop the SyncPlay provider; Kofin groups no longer follow this add-on's playback
-- Codec and HDR pickers no longer log "Unknown setting type" errors
-- Drop the settings menu hook; the add-on settings open from the add-on browser as before
-- Close live streams on the server when a tune never starts playing
-- Fix a race between reconnecting and requests already in flight
-- Channel changes on the server reach Kodi after a reload or reconnect
-- Retry connecting when the server answers before it can log in
-- Declare the Python dependency of the add-on's scripts
-- Ship the license and the JsonCpp notice in the add-on
-- Kodi reports a timer the server refused, instead of showing it as set
-- Server discovery skips malformed replies instead of stopping
-- Connecting loads the channels once, not twice
-- Kodi keeps its channels and their settings when the first connect fails
-- Another PVR add-on's playback is no longer reported to Jellyfin as this add-on's
-- A channel Kodi plays at startup is reported to Jellyfin
-- The Quick Connect prompt no longer lists example clients</news>
+    <news>v22.20.0
+- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
+- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
+- Setting to turn off notifications
+- Catchup reports a missing FFmpeg Direct
+- Remove the "Verify SSL certificate" setting
+- Fix playback reports with a non-ASCII device name
+- Fix playback with an IPv6 loopback stream URL
+- Send Kodi's User-Agent with playback reports and discovery
+- Fix an old stream's close ending the new stream on the same channel
+- Don't log the user name at sign-in</news>
     <platform>windows-x86_64</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/kontell/pvr.kofin</source>
     <assets>
       <icon>icon.png</icon>
     </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-22.19.0.zip</path>
+        <path>pvr.kofin+windows-x86_64/pvr.kofin-22.20.0.zip</path>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
   </extension>
