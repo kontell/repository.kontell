@@ -44,6 +44,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-kofinsyncqueue/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.6",
+                "changelog": "- Tell Kofin about library changes a few seconds after a scan finds them, not 30 seconds after the library goes quiet.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.6.zip",
+                "checksum": "18040c350017171ec764f016921d1f2f",
+                "timestamp": "2026-11-14T11:33:55Z"
+            },
+            {
                 "version": "12.0.0.5",
                 "changelog": "- Fix changes made just before or during a sync never reaching the client.\n- Make the logo a 1920x1080 banner so Jellyfin no longer crops it.",
                 "targetAbi": "12.0.0.0",
@@ -74,6 +82,14 @@
                 "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_12.0.0.2.zip",
                 "checksum": "9fb5a21ebae4c0e19e0306949648573f",
                 "timestamp": "2026-08-26T12:06:04Z"
+            },
+            {
+                "version": "10.11.0.6",
+                "changelog": "- Tell Kofin about library changes a few seconds after a scan finds them, not 30 seconds after the library goes quiet.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/kofin-sync-queue_10.11.0.6.zip",
+                "checksum": "612aa18968ac4b604134b2f7abd344f1",
+                "timestamp": "2026-11-14T11:34:00Z"
             },
             {
                 "version": "10.11.0.5",
