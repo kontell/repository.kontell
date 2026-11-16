@@ -1046,7 +1046,7 @@
         <path>script.embuary.info/script.embuary.info-2.5.0.zip</path>
   </extension>
 </addon>
-<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.3.2" provider-name="kontell">
+<addon id="script.kofin.lyrics" name="Kofin Lyrics" version="0.3.3" provider-name="kontell">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
   </requires>
@@ -1112,13 +1112,14 @@
     <description lang="uk_UA">Показує тексти пісень із сервера Jellyfin — у вікні, яке малює сам додаток, або передаючи їх скіну.</description>
     <description lang="zh_CN">显示来自 Jellyfin 服务器的歌词，可在本插件绘制的窗口中显示，也可交给皮肤显示。</description>
     <description lang="zh_TW">顯示 Jellyfin 伺服器上的歌詞，可在本外掛繪製的視窗中顯示，或交給外觀佈景顯示。</description>
-    <news>v0.3.2
-• Removed "Some skins ignore this" from two settings tooltips
-• Translated the summary and description</news>
+    <news>v0.3.3
+• Added fanart
+• Tidied the code for the Kodi repository's add-on check</news>
     <assets>
       <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
     </assets>
-      <path>script.kofin.lyrics/script.kofin.lyrics-0.3.2.zip</path>
+      <path>script.kofin.lyrics/script.kofin.lyrics-0.3.3.zip</path>
   </extension>
 </addon>
 <!-- The script extension point comes first deliberately: an addon's LibPath is
