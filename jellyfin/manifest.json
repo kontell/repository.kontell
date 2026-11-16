@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-comseg/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.4",
+                "changelog": "- Detection while a recording is in progress no longer skips parts of\n  the recording. Comskip reopened the growing file every few seconds and\n  could resume past where it had stopped, which put breaks in the\n  programme and missed real ones. Needs the Comseg build of Comskip\n  rebuilt from its current comseg branch; an older build behaves as\n  before.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/comseg_12.0.0.4.zip",
+                "checksum": "dd897d2880fa0acd5cbe84c727bc43b1",
+                "timestamp": "2026-11-16T12:17:51Z"
+            },
+            {
                 "version": "12.0.0.3",
                 "changelog": "- Analysis height: Comskip can read a 720p or 480p copy that Jellyfin's\n  ffmpeg makes on the GPU through VA-API, while the recording runs and\n  for the final pass. Comskip reads it several times faster than the\n  recording.\n- HDR recordings are tone mapped in that copy. Comskip could not find the\n  channel logo in an HDR picture, so it found no breaks on UHD sports\n  feeds.\n- A full pass that finds no breaks no longer erases the breaks found\n  while the recording ran.\n- The built-in ini keeps the channel logo through a long recording's\n  closing filler (with the Comseg build of Comskip).",
                 "targetAbi": "12.0.0.0",
