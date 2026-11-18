@@ -56,7 +56,9 @@ python3 generate_jellyfin_repo.py --pages-dir _site # Jellyfin manifest.json
 ```
 
 `update.py` prunes only the directories it wrote into, so a run that fails
-partway cannot empty an unrelated one. `generate_repo.py --prune` still exists
+partway cannot empty an unrelated one. The one widening: a channel that takes a
+new binary release loses the platform directories that release does not carry,
+in that channel only. `generate_repo.py --prune` still exists
 for manual use, but the automated path does not pass it.
 
 Adding an add-on is an entry in `addons.toml` plus a `notify-repo.yml` in its
@@ -64,8 +66,16 @@ repo. `model` says how its releases map onto the served tree — `shared` (one z
 for every Kodi version), `dual` (per-channel tags), `binary` (per-platform zips),
 `variant` (one id from several branches, told apart by version range), or
 `jellyfin`. Binary add-ons also list the platform set a release must produce
-in full before anything is placed, and `channels` limits a shared, dual or
-binary add-on to some channels.
+in full before anything is placed — one list for every channel, or one per
+channel — and `channels` limits a shared, dual or binary add-on to some channels.
+
+pvr.kofin is the binary add-on that uses both. Team Kodi develops and releases it
+in kodi-pvr, and the official repository ships every platform but Linux, so the
+`kontell/pvr.kofin` fork releases Omega for all nine platforms and Piers for
+Linux only (`platforms.omega`, `platforms.piers`). Kodi 23 has no release of its
+own: `mirror = { kodi23 = "piers" }` places every Piers zip in `kodi23/` as well.
+Its repo has no `notify-repo.yml`, so run `update.py pvr.kofin` (or *Publish*
+for it) after publishing one of its releases.
 
 Kofin is the `variant` add-on: `variants` gives each branch a version range,
 and `stable` and `dev` name the variant each channel serves. Moving a channel to

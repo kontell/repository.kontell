@@ -316,6 +316,120 @@ class PrereleaseTreeTest(unittest.TestCase):
                 (pages / "dev" / "piers" / "bin.addon+linux-x86_64" / "bin.addon-22.1.0.zip").exists()
             )
 
+    def _binary_github(self, root, releases):
+        """Fake gh over {tag: [(asset name, version)]} for the add-on bin.addon."""
+        zips, assets, downloaded = {}, {}, []
+        for tag, names in releases.items():
+            assets[tag] = []
+            for name, version in names:
+                zips[name] = kodi_zip(root / "zips" / name, "bin.addon", version)
+                assets[tag].append({"name": name, "size": zips[name].stat().st_size})
+        rows = [
+            {
+                "tagName": tag,
+                "isDraft": False,
+                "isPrerelease": False,
+                "publishedAt": f"2026-03-{day:02d}T00:00:00Z",
+            }
+            for day, tag in enumerate(releases, start=1)
+        ]
+
+        def gh_json(*args):
+            if args[1] == "list":
+                return rows
+            return {"assets": assets[args[2]]}
+
+        def download(repo, tag, patterns, dest):
+            downloaded.append(tag)
+            dest.mkdir(parents=True, exist_ok=True)
+            for asset in assets[tag]:
+                shutil.copy(zips[asset["name"]], dest / asset["name"])
+
+        update.gh_json = gh_json
+        update.download = download
+        return downloaded
+
+    def test_binary_mirror_platforms_by_channel_and_pruning(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pages = root / "pages"
+            seed = kodi_zip(root / "seed.zip", "bin.addon", "0")
+            # Served before: every platform on piers, a Kodi 23 pre-release, and
+            # an Omega build with no release since.
+            for rel in (
+                "piers/bin.addon+linux-x86_64/bin.addon-22.0.0.zip",
+                "piers/bin.addon+android-armv7/bin.addon-22.0.0.zip",
+                "omega/bin.addon+android-armv7/bin.addon-21.0.0.zip",
+                "dev/kodi23/bin.addon+linux-x86_64/bin.addon-23.0.0.zip",
+            ):
+                (pages / rel).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(seed, pages / rel)
+            downloaded = self._binary_github(
+                root, {"v22.1.0": [("bin.addon-22.1.0-linux-x86_64.zip", "22.1.0")]}
+            )
+            addon = {
+                "id": "bin.addon",
+                "repo": "kontell/bin.addon",
+                "model": "binary",
+                "channels": ["omega", "piers"],
+                "mirror": {"kodi23": "piers"},
+                "platforms": {"omega": ["linux-x86_64", "android-armv7"], "piers": ["linux-x86_64"]},
+            }
+            changed, pending = update.reconcile_kodi(addon, root / "work", pages, False)
+            self.assertIsNone(pending)
+            for channel in ("piers", "kodi23"):
+                self.assertTrue(
+                    (pages / channel / "bin.addon+linux-x86_64" / "bin.addon-22.1.0.zip").is_file()
+                )
+            # A platform the new Piers release does not carry leaves piers.
+            self.assertFalse((pages / "piers" / "bin.addon+android-armv7").exists())
+            self.assertFalse((pages / "piers" / "bin.addon+linux-x86_64" / "bin.addon-22.0.0.zip").exists())
+            # No pre-release, so the Kodi 23 dev build goes; Omega is untouched.
+            self.assertFalse((pages / "dev" / "kodi23" / "bin.addon+linux-x86_64").exists())
+            self.assertTrue((pages / "omega" / "bin.addon+android-armv7" / "bin.addon-21.0.0.zip").is_file())
+            self.assertIn("remove piers/bin.addon+android-armv7", changed)
+
+            # Current in both piers and its mirror: nothing downloaded or changed.
+            downloaded.clear()
+            changed, _ = update.reconcile_kodi(addon, root / "work2", pages, False)
+            self.assertEqual(changed, [])
+            self.assertEqual(downloaded, [])
+
+            # A mirror added after the channel was current is still filled.
+            shutil.rmtree(pages / "kodi23")
+            changed, _ = update.reconcile_kodi(addon, root / "work3", pages, False)
+            self.assertTrue(
+                (pages / "kodi23" / "bin.addon+linux-x86_64" / "bin.addon-22.1.0.zip").is_file()
+            )
+
+    def test_binary_platforms_by_channel_are_each_required(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pages = root / "pages"
+            pages.mkdir()
+            self._binary_github(
+                root, {"v21.1.0": [("bin.addon-21.1.0-linux-x86_64.zip", "21.1.0")]}
+            )
+            addon = {
+                "id": "bin.addon",
+                "repo": "kontell/bin.addon",
+                "model": "binary",
+                "channels": ["omega", "piers"],
+                "platforms": {"omega": ["linux-x86_64", "android-armv7"], "piers": ["linux-x86_64"]},
+            }
+            with self.assertRaisesRegex(update.Problem, "omega: release is incomplete"):
+                update.resolve_binary(addon, root / "work", None, pages)
+            self.assertFalse((pages / "omega").exists())
+
+    def test_mirror_targets_must_be_outside_the_channels(self):
+        base = {"id": "bin.addon", "model": "binary", "channels": ["omega", "piers"]}
+        self.assertEqual(update.addon_mirrors({**base, "mirror": {"kodi23": "piers"}}), {"piers": ["kodi23"]})
+        for mirror in ({"piers": "omega"}, {"kodi23": "kodi23"}, {"kodi24": "piers"}):
+            with self.assertRaises(update.Problem):
+                update.addon_mirrors({**base, "mirror": mirror})
+        with self.assertRaises(update.Problem):
+            update.addon_mirrors({**base, "model": "shared", "mirror": {"kodi23": "piers"}})
+
     def test_variant_serves_each_channel_its_branch(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
