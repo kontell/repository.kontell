@@ -532,9 +532,9 @@
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.20.0"
+  version="22.20.1"
   name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
+  provider-name="Team Kodi, kontell">
   <requires>
 <import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
 <import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
@@ -549,127 +549,30 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_android="pvr.kofin.so"/>
+    library_linux="pvr.kofin.so.22.20.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>android-aarch64</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-aarch64/pvr.kofin-22.20.0.zip</path>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_android="pvr.kofin.so"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>android-armv7</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+android-armv7/pvr.kofin-22.20.0.zip</path>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.20.0"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
+    <news>v22.20.1
+- The add-on is now maintained by Team Kodi and available from the official Kodi add-on repository
+- Translations are now done on Kodi's Weblate</news>
     <platform>linux-aarch64</platform>
     <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
+    <source>https://github.com/kodi-pvr/pvr.kofin</source>
+    <forum>https://forum.kodi.tv/forumdisplay.php?fid=167</forum>
     <assets>
       <icon>icon.png</icon>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.20.0.zip</path>
+      <path>pvr.kofin+linux-aarch64/pvr.kofin-22.20.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.20.0"
+  version="22.20.1"
   name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
+  provider-name="Team Kodi, kontell">
   <requires>
 <import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
 <import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
@@ -684,37 +587,30 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.20.0"/>
+    library_linux="pvr.kofin.so.22.20.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
+    <news>v22.20.1
+- The add-on is now maintained by Team Kodi and available from the official Kodi add-on repository
+- Translations are now done on Kodi's Weblate</news>
     <platform>linux-armv7</platform>
     <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
+    <source>https://github.com/kodi-pvr/pvr.kofin</source>
+    <forum>https://forum.kodi.tv/forumdisplay.php?fid=167</forum>
     <assets>
       <icon>icon.png</icon>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-armv7/pvr.kofin-22.20.0.zip</path>
+      <path>pvr.kofin+linux-armv7/pvr.kofin-22.20.1.zip</path>
   </extension>
 </addon>
 <addon
   id="pvr.kofin"
-  version="22.20.0"
+  version="22.20.1"
   name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
+  provider-name="Team Kodi, kontell">
   <requires>
 <import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
 <import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
@@ -729,255 +625,23 @@
   </requires>
   <extension
     point="kodi.pvrclient"
-    library_linux="pvr.kofin.so.22.20.0"/>
+    library_linux="pvr.kofin.so.22.20.1"/>
   <extension point="xbmc.service" library="resources/scripts/service.py"/>
   <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
   <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
+    <news>v22.20.1
+- The add-on is now maintained by Team Kodi and available from the official Kodi add-on repository
+- Translations are now done on Kodi's Weblate</news>
     <platform>linux-x86_64</platform>
     <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
+    <source>https://github.com/kodi-pvr/pvr.kofin</source>
+    <forum>https://forum.kodi.tv/forumdisplay.php?fid=167</forum>
     <assets>
       <icon>icon.png</icon>
     </assets>
     <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
     <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.20.0.zip</path>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_osx="pvr.kofin.22.20.0.dylib"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>osx-arm64</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-arm64/pvr.kofin-22.20.0.zip</path>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_osx="pvr.kofin.22.20.0.dylib"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>osx-x86_64</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-      <path>pvr.kofin+osx-x86_64/pvr.kofin-22.20.0.zip</path>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_windows="pvr.kofin.dll"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>windows-arm64</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-        <path>pvr.kofin+windows-arm64/pvr.kofin-22.20.0.zip</path>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_windows="pvr.kofin.dll"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>windows-i686</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-        <path>pvr.kofin+windows-i686/pvr.kofin-22.20.0.zip</path>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
-  </extension>
-</addon>
-<addon
-  id="pvr.kofin"
-  version="22.20.0"
-  name="Kofin PVR for Jellyfin"
-  provider-name="Kontell">
-  <requires>
-<import addon="kodi.binary.global.main" minversion="2.0.3" version="2.0.3"/>
-<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
-<import addon="kodi.binary.global.gui" minversion="5.15.0" version="5.15.1"/>
-<import addon="kodi.binary.global.filesystem" minversion="1.1.11" version="1.1.11"/>
-<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
-<import addon="kodi.binary.instance.pvr" minversion="9.2.0" version="9.2.0"/>
-    <import addon="xbmc.python" version="3.0.1"/>
-    <import addon="inputstream.ffmpegdirect" version="22.0.0" optional="true"/>
-    <import addon="inputstream.adaptive" version="22.0.0" optional="true"/>
-  </requires>
-  <extension
-    point="kodi.pvrclient"
-    library_windows="pvr.kofin.dll"/>
-  <extension point="xbmc.service" library="resources/scripts/service.py"/>
-  <extension point="xbmc.python.library" library="resources/scripts/trigger.py"/>
-  <extension point="xbmc.addon.metadata">
-    <news>v22.20.0
-- Skip media segments in recordings (intros, credits, recaps, previews, commercials)
-- Default to Kodi's own FFmpeg; FFmpeg Direct and Adaptive are optional
-- Setting to turn off notifications
-- Catchup reports a missing FFmpeg Direct
-- Remove the "Verify SSL certificate" setting
-- Fix playback reports with a non-ASCII device name
-- Fix playback with an IPv6 loopback stream URL
-- Send Kodi's User-Agent with playback reports and discovery
-- Fix an old stream's close ending the new stream on the same channel
-- Don't log the user name at sign-in</news>
-    <platform>windows-x86_64</platform>
-    <license>GPL-2.0-or-later</license>
-    <source>https://github.com/kontell/pvr.kofin</source>
-    <assets>
-      <icon>icon.png</icon>
-    </assets>
-        <path>pvr.kofin+windows-x86_64/pvr.kofin-22.20.0.zip</path>
-    <summary lang="en_GB">Kodi PVR client for Jellyfin Live TV</summary>
-    <description lang="en_GB">Kodi PVR integration for Jellyfin Live TV. Provides live TV channels, EPG, recordings, and timers from a Jellyfin server.</description>
+      <path>pvr.kofin+linux-x86_64/pvr.kofin-22.20.1.zip</path>
   </extension>
 </addon>
 <addon id="repository.kontell"
