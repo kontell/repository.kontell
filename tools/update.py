@@ -38,6 +38,10 @@ Two guards exist because this runs unattended:
   by platform — but it silently strands some platforms on an older build, and the
   failure is much cheaper to see here than to notice in the wild.
 
+A binary channel that takes a new release also loses the platform directories
+that release does not carry, so dropping a platform from an add-on's releases
+removes it from the repository rather than leaving its last build served.
+
 Nothing is written into the served tree until every asset for an add-on has been
 downloaded and checked, so an interrupted run leaves the tree as it was.
 """
@@ -429,6 +433,78 @@ def addon_channels(addon):
     return channels
 
 
+def required_platforms(addon, channel):
+    """The platforms a binary release must carry for ``channel``.
+
+    ``platforms`` is a list for every channel, or a table of lists by channel when
+    the channels ship different sets. A channel absent from the table requires
+    nothing.
+    """
+    platforms = addon.get("platforms", [])
+    if isinstance(platforms, dict):
+        unknown = set(platforms) - set(CHANNELS)
+        if unknown:
+            raise Problem(f"{addon['id']}: platforms for unknown channels {sorted(unknown)}")
+        return set(platforms.get(channel, []))
+    return set(platforms)
+
+
+def addon_mirrors(addon):
+    """{source channel: [target channels]} from ``mirror`` in addons.toml.
+
+    ``mirror = { kodi23 = "piers" }`` serves kodi23 a copy of whatever piers is
+    placed, for a binary add-on whose builds for one Kodi also install on the
+    next. A target is not resolved from releases of its own, so it cannot also be
+    one of the add-on's ``channels``.
+    """
+    mirror = addon.get("mirror", {})
+    if mirror and addon["model"] != "binary":
+        raise Problem(f"{addon['id']}: mirror is only supported for binary add-ons")
+    channels = set(addon_channels(addon))
+    by_source = {}
+    for target, source in sorted(mirror.items()):
+        if target not in CHANNELS:
+            raise Problem(f"{addon['id']}: mirror into unknown channel {target}")
+        if source not in channels:
+            raise Problem(f"{addon['id']}: mirror source {source} is not one of its channels")
+        if target in channels:
+            raise Problem(
+                f"{addon['id']}: {target} is mirrored from {source}, so it cannot "
+                f"also be in channels"
+            )
+        by_source.setdefault(source, []).append(target)
+    return by_source
+
+
+def prune_platforms(pages, addon_id, placements, dry_run):
+    """Remove platform directories a newly placed binary release does not carry.
+
+    Only channels this run wrote into are touched, and only ``<addon>+<platform>``
+    directories in them. A channel already current keeps what it has: with no new
+    release there is nothing to say which platforms it should have.
+    """
+    written = {(p.prefix, p.channel) for p in placements if p.src is not None}
+    keep = {
+        p.dest(pages).parent.resolve()
+        for p in placements
+        if (p.prefix, p.channel) in written
+    }
+    removed = []
+    for prefix, channel in sorted(written):
+        base = Path(pages) / served_name(prefix, channel)
+        if not base.is_dir():
+            continue
+        for child in sorted(base.iterdir()):
+            if not (child.is_dir() and child.name.startswith(addon_id + "+")):
+                continue
+            if child.resolve() in keep:
+                continue
+            removed.append(f"remove {served_name(prefix, channel)}/{child.name}")
+            if not dry_run:
+                shutil.rmtree(child)
+    return removed
+
+
 def resolve_shared(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
     channels = addon_channels(addon)
@@ -564,8 +640,8 @@ def resolve_dual(addon, work, from_dir, pages, *, prefix="", prerelease=False):
 
 def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False):
     addon_id = addon["id"]
-    required = set(addon.get("platforms", []))
     served = set(addon_channels(addon))
+    mirrors = addon_mirrors(addon)
     placements = []
     # Channels whose served copy already matches the newest release, established
     # from asset names and sizes alone. They are held apart from by_channel, which
@@ -620,25 +696,29 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
                     continue
                 version, platform, channel = parsed
                 size = next((a["size"] for a in assets if a["name"] == name), 0)
-                want_dests.setdefault(channel, []).append(
-                    (
-                        f"{served_name(prefix, channel)}/{addon_id}+{platform}/{addon_id}-{version}.zip",
-                        size,
-                        platform,
-                        version,
+                # A channel is current only once its mirrors are too, so a mirror
+                # added after the channel's last release is still filled.
+                for dest_channel in [channel, *mirrors.get(channel, [])]:
+                    want_dests.setdefault(channel, []).append(
+                        (
+                            f"{served_name(prefix, dest_channel)}/{addon_id}+{platform}/{addon_id}-{version}.zip",
+                            size,
+                            platform,
+                            version,
+                            dest_channel,
+                        )
                     )
-                )
             # Per channel, so one stale channel does not force the other's download.
             current = {c for c, d in want_dests.items() if already_served(
-                [(rel, size) for rel, size, _platform, _version in d], pages
+                [(rel, size) for rel, size, *_rest in d], pages
             )}
             for channel in sorted(current):
                 print(f"    {served_name(prefix, channel)}: already current")
-                for _rel, _size, platform, version in want_dests[channel]:
+                for _rel, _size, platform, version, dest_channel in want_dests[channel]:
                     keepers.append(
                         Placement(
                             None,
-                            channel,
+                            dest_channel,
                             f"{addon_id}+{platform}",
                             f"{addon_id}-{version}.zip",
                             prefix,
@@ -663,6 +743,7 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
             )
 
     for channel, platforms in sorted(by_channel.items()):
+        required = required_platforms(addon, channel)
         if required:
             missing = required - set(platforms)
             if missing:
@@ -674,15 +755,16 @@ def resolve_binary(addon, work, from_dir, pages, *, prefix="", prerelease=False)
                 )
         for platform, (path, version) in sorted(platforms.items()):
             verify_kodi_zip(path, addon_id)
-            placements.append(
-                Placement(
-                    path,
-                    channel,
-                    f"{addon_id}+{platform}",
-                    f"{addon_id}-{version}.zip",
-                    prefix,
+            for dest_channel in [channel, *mirrors.get(channel, [])]:
+                placements.append(
+                    Placement(
+                        path,
+                        dest_channel,
+                        f"{addon_id}+{platform}",
+                        f"{addon_id}-{version}.zip",
+                        prefix,
+                    )
                 )
-            )
     return placements + keepers
 
 
@@ -940,6 +1022,8 @@ def reconcile_kodi(addon, work, pages, dry_run, from_dir=None):
     try:
         placements = resolver(addon, work / "release", from_dir, pages)
         changed.extend(apply(placements, pages, dry_run))
+        if addon["model"] == "binary":
+            changed.extend(prune_platforms(pages, addon["id"], placements, dry_run))
     except NotReleasedYet as exc:
         pending = str(exc)
     if from_dir:
@@ -956,6 +1040,8 @@ def reconcile_kodi(addon, work, pages, dry_run, from_dir=None):
     except NotReleasedYet:
         pre = []
     changed.extend(apply(pre, pages, dry_run))
+    if addon["model"] == "binary":
+        changed.extend(prune_platforms(pages, addon["id"], pre, dry_run))
     changed.extend(clear_unselected_dev(pages, addon["id"], pre, dry_run))
     return changed, pending
 

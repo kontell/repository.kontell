@@ -27,10 +27,16 @@
 # (omega, piers, kodi23). Default: all of them. A channel left out keeps what its
 # stable tree has and loses its dev directory.
 #
-# platforms = the full set a binary release must produce. update.py refuses to
-# place a partial set: a half-published release leaves some platforms on an older
-# build while addons.xml advertises the new version for the rest, and the whole
-# point of automating this is that nobody is reading the output.
+# platforms = the full set a binary release must produce: a list for every
+# channel, or a table of lists by channel. update.py refuses to place a partial
+# set: a half-published release leaves some platforms on an older build while
+# addons.xml advertises the new version for the rest, and the whole point of
+# automating this is that nobody is reading the output. A channel that takes a
+# new binary release loses the platform directories that release does not carry.
+#
+# mirror = { <target> = "<source>" } serves a binary add-on's target channel a
+# copy of whatever its source channel is placed, for builds that install on the
+# next Kodi as well. The target is not one of the add-on's channels.
 
 [[addon]]
 # Three branches: sql (Omega onwards), api (Piers onwards) and master (Kodi 23
@@ -125,6 +131,36 @@ channels = ["omega", "piers"]
 id = "skin.contuary"
 repo = "kontell/skin.contuary"
 model = "dual"
+
+[[addon]]
+# Developed and released by Team Kodi in kodi-pvr/pvr.kofin; the official
+# repository ships every platform but Linux. kontell/pvr.kofin is a fork that
+# releases Omega (v21.*) for every platform and Piers (v22.*, upstream's version)
+# for Linux only. Kodi 23 has no release of its own and is served the Piers build;
+# leaving kodi23 out of channels also clears dev/kodi23. The fork's
+# kontell-drift.yml says when Kodi 23 stops accepting the Piers build.
+id = "pvr.kofin"
+repo = "kontell/pvr.kofin"
+model = "binary"
+channels = ["omega", "piers"]
+mirror = { kodi23 = "piers" }
+# Kodi 21 has no Windows arm64 build, so Omega is nine.
+platforms.omega = [
+  "linux-x86_64",
+  "linux-armv7",
+  "linux-aarch64",
+  "android-armv7",
+  "android-aarch64",
+  "windows-x86_64",
+  "windows-i686",
+  "osx-x86_64",
+  "osx-arm64",
+]
+platforms.piers = [
+  "linux-x86_64",
+  "linux-armv7",
+  "linux-aarch64",
+]
 
 [[addon]]
 id = "inputstream.tempo"
