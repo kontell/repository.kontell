@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-comseg/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.5",
+                "changelog": "- Channel profiles: Comskip settings, analysis height, live detection\n  and audio evidence for the channels a profile names.\n- Audio evidence, in shadow: the plugin keeps each finished recording's\n  audio fingerprint and breaks for its channel, and listens to\n  recordings in progress for adverts, promos and sponsor clips heard\n  before. The status page and the log show what it would publish;\n  nothing published changes unless a profile turns it on.\n- Publish from audio evidence, per channel profile and off by default:\n  on channels whose adverts repeat, a break reaches clients seconds\n  after it starts instead of minutes, and its end no longer runs into\n  the programme while the break is still on air.\n- Catchup: a client can save a programme that has already aired from\n  the IPTV provider's archive into the recordings; its breaks are\n  found as for a recording.\n- With the Comseg build of Comskip from its current comseg branch, an\n  analysis made without the channel logo is noticed, and its breaks\n  wait for the final pass on channels with audio history.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/comseg_12.0.0.5.zip",
+                "checksum": "2d423897c3cc06faef0c0f873e631fe9",
+                "timestamp": "2026-11-20T21:26:16Z"
+            },
+            {
                 "version": "12.0.0.4",
                 "changelog": "- Detection while a recording is in progress no longer skips parts of\n  the recording. Comskip reopened the growing file every few seconds and\n  could resume past where it had stopped, which put breaks in the\n  programme and missed real ones. Needs the Comseg build of Comskip\n  rebuilt from its current comseg branch; an older build behaves as\n  before.",
                 "targetAbi": "12.0.0.0",
