@@ -9,6 +9,14 @@
         "imageUrl": "https://raw.githubusercontent.com/kontell/jellyfin-plugin-comseg/main/logo.png",
         "versions": [
             {
+                "version": "12.0.0.7",
+                "changelog": "- Channel profiles: a new Playlist groups setting applies a profile to\n  every channel in a group of the M3U tuner's playlist (its\n  group-title; \"Sport;Sky Sports\" is in both groups), alongside the\n  channels it lists by name. A recording's groups are noted when it\n  starts, so recordings made before this update go by name alone.",
+                "targetAbi": "12.0.0.0",
+                "sourceUrl": "https://repository.kontell.workers.dev/jellyfin/comseg_12.0.0.7.zip",
+                "checksum": "cbf35dfc98fe8a9012eac357a6e139bf",
+                "timestamp": "2026-11-22T11:48:23Z"
+            },
+            {
                 "version": "12.0.0.6",
                 "changelog": "- Audio evidence: a break that opened on a sponsor clip heard before\n  now also covers adverts the channel has not aired before, up to\n  three minutes past the last one recognised, until its closing clip.\n  New seasonal adverts no longer leave a break's rows short or split.\n- An advert the audio missed no longer counts as programme when it\n  airs again later in the same recording.",
                 "targetAbi": "12.0.0.0",
