@@ -31,7 +31,7 @@
       <path>plugin.audio.kotome/plugin.audio.kotome-1.1.0.zip</path>
   </extension>
 </addon>
-<addon id="plugin.video.kofin" name="Kofin" version="1.0.0" provider-name="kontell">
+<addon id="plugin.video.kofin" name="Kofin" version="1.0.1" provider-name="kontell">
   <requires>
     <import addon="xbmc.addon" version="21.90.802"/>
     <import addon="xbmc.python" version="3.1.0"/>
@@ -139,18 +139,20 @@
     <description lang="uk_UA">Відтворюйте фільми, серіали та музику із сервера Jellyfin.</description>
     <description lang="zh_CN">播放来自 Jellyfin 服务器的电影、电视剧和音乐。</description>
     <description lang="zh_TW">播放 Jellyfin 伺服器上的電影、影集與音樂。</description>
-    <news>v1.0.0
-- The server's certificate is always checked. "Verify SSL certificate" is gone.
-- A certificate authority given to Kodi is trusted, including through a proxy.
-- New and changed items reach Kodi sooner.
-- Home screen widgets show edited titles and artwork straight away.
-- Removing an artist on the server removes its albums from Kodi.
-- Choose which version of a movie or episode to play when Kodi does not offer the choice itself.</news>
+    <news>v1.0.1
+- Artwork is fetched at the size Kodi keeps it, with new 480p and 540p limits for weaker devices.
+- Several new movies or episodes are added faster, with less flicker on the home screen.
+- Pressing Back while something is starting to play no longer freezes Kodi for several seconds.
+- Kofin uses far less of the processor while Kodi sits idle.
+- Refresh on a movie, show or episode asks the server for it again, and Jellyfin actions offers Refresh on an album or an artist.
+- Kofin opened from the Music section lists no video.
+- Adding a favourite in the library no longer reloads the list twice.
+- An item marked unwatched no longer keeps a last-played date.</news>
     <assets>
       <icon>resources/media/icon.png</icon>
       <fanart>resources/media/fanart.jpeg</fanart>
     </assets>
-      <path>plugin.video.kofin/plugin.video.kofin-1.0.0.zip</path>
+      <path>plugin.video.kofin/plugin.video.kofin-1.0.1.zip</path>
   </extension>
 </addon>
 <addon
